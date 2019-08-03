@@ -50,7 +50,7 @@ style='font-size:14.0pt;mso-bidi-font-size:16.0pt;line-height:106%'>Управл
 
 <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
 style='font-size:14.0pt;mso-bidi-font-size:16.0pt;line-height:106%;mso-no-proof:
-yes'<![if !vml]>![](https://aidancraft.000webhostapp.com/AdvanceHtmlBuilder/manual/manual.files/image002.png)<span style='font-size:14.0pt;mso-bidi-font-size:
+yes'<![if !vml]>![](https://aidancraft.000webhostapp.com/AdvanceHtmlBuilder/0001.png)<span style='font-size:14.0pt;mso-bidi-font-size:
 16.0pt;line-height:106%'><o:p></o:p></span></b></p>
 
 <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
@@ -259,7 +259,7 @@ yes'><!--[if gte vml 1]><v:shape id="Рисунок_x0020_4" o:spid="_x0000_i102
  type="#_x0000_t75" style='width:522.75pt;height:115.5pt;visibility:visible;
  mso-wrap-style:square'>
  <v:imagedata src="manual_ru.files/image003.png" o:title=""/>
-</v:shape><![endif]--><![if !vml]>![](https://aidancraft.000webhostapp.com/AdvanceHtmlBuilder/manual/manual.files/image004.phg)<span style='font-size:14.0pt;mso-bidi-font-size:
+</v:shape><![endif]--><![if !vml]>![img2](https://aidancraft.000webhostapp.com/AdvanceHtmlBuilder/0002.png)<span style='font-size:14.0pt;mso-bidi-font-size:
 16.0pt;line-height:106%'><o:p></o:p></span></b></p>
 
 <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
