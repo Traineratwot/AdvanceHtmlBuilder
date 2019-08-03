@@ -1,0 +1,260 @@
+* {
+	user-select: none;
+}
+
+*:focus {
+	outline: none;
+}
+
+html,
+body {
+	height: 100%;
+	min-height: 100%;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	background-color: #f1f9f9;
+}
+
+#app-cover {
+	display: table;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	left: 0;
+	width: 600px;
+	margin: -210px auto 0 auto;
+	counter-reset: button-counter;
+}
+
+.row {
+	display: table-row;
+}
+
+.toggle-button-cover {
+	display: table-cell;
+	position: relative;
+	width: 200px;
+	height: 140px;
+	box-sizing: border-box;
+}
+
+.button-cover {
+	margin: 10px;
+	background-color: #fff;
+	box-shadow: 0 3px 0 #e7efef;
+}
+
+.button-cover:before {
+	counter-increment: button-counter;
+	content: counter(button-counter);
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	color: #e7efef;
+	font-size: 12px;
+	line-height: 1;
+	padding: 5px;
+}
+
+.button-cover,
+.knobs,
+.layer {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.button {
+	position: relative;
+	/* top: 50%; */
+	width: 74px;
+	height: 36px;
+	/* margin: -20px auto 0 auto; */
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.button.r,
+.button.r .layer {
+	border-radius: 100px;
+}
+
+.button.b2 {
+	border-radius: 2px;
+}
+.button.b20 {
+	border-radius: 2px;
+}
+
+.checkbox {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	opacity: 0;
+	cursor: pointer;
+	z-index: 3;
+}
+
+.knobs {
+	z-index: 2;
+}
+
+.layer {
+	width: 100%;
+	background-color: #ebf7fc;
+	transition: 0.3s ease all;
+	z-index: 1;
+}
+
+/* Button 7 */
+#button-70 .knobs:before,
+#button-70 .knobs:after,
+#button-70 .knobs span {
+	position: absolute;
+	top: 4px;
+	width: 20px;
+	height: 10px;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 1;
+	text-align: center;
+	padding: 9px 4px;
+	border-radius: 2px;
+	transition: 0.3s ease all;
+}
+
+#button-70 .knobs:before {
+	content: "";
+	left: 4px;
+	background-color: #03a9f4;
+}
+
+#button-70 .pp:after {
+	content: "\f04c";
+	right: 4px;
+	color: #4e4e4e;
+}
+#button-70 .child_DOM:after {
+	content: "\f015";
+	right: 4px;
+	color: #4e4e4e;
+}
+#button-70 .use_vars:after {
+	content: "\f057";
+	right: 4px;
+	color: #4e4e4e;
+}
+
+#button-70 .knobs span {
+	display: inline-block;
+	left: 4px;
+	color: #fff;
+	z-index: 1;
+}
+
+#button-70 .checkbox:checked + .knobs span {
+	color: #4e4e4e;
+}
+
+#button-70 .checkbox:checked + .knobs:before {
+	left: 42px;
+	background-color: #f44336;
+}
+
+#button-70 .checkbox:checked + .knobs:after {
+	color: #fff;
+}
+
+#button-70 .checkbox:checked ~ .layer {
+	background-color: #fcebeb;
+}
+
+
+.switcher {
+	position: relative;
+	display: inline-block;
+	margin: 1px 10px;
+	height: 20px;
+	width: 58px;
+	z-index: 1;
+}
+
+.switcher-off {
+	left: 1px;
+	width: 33%;
+	height: 100%;
+}
+
+.switcher-neutral {
+	left: 33%;
+	width: 33%;
+	height: 100%;
+}
+
+.switcher-on {
+	right: 1px;
+	width: 33%;
+	height: 100%;
+}
+
+.switcher-label {
+	position: absolute;
+	/* text-indent: -9999px; */
+	z-index: 2;
+}
+
+.switcher input {
+	visibility: hidden;
+	position: absolute;
+}
+
+.switcher-slider {
+	height: 100%;
+	width: 100%;
+	/* border-radius: 10px; */
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1) inset, 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 2px 2px 1px rgba(0, 0, 0, 0.3) inset;
+	transition: background-color 0.2s linear 0s;
+}
+
+.switcher-slider:after {
+	transition: left 0.2s linear 0s, right 0.2s linear 0s;
+	background: linear-gradient(#d0d0d0, #fdfdfd) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	content: "";
+	position: absolute;
+	top: 1px;
+	/* border-radius: 50%; */
+	height: calc(100% - 2px);
+	width: calc(100% / 3 - 1px);
+	box-shadow: 0 0 1px 1px #f4f4f4 inset, 0 0 3px 1px rgba(0, 0, 0, 0.6);
+	left: 33%;
+}
+.switcher-radio-on:checked  ~ .switcher-slider {
+	background-color: #81EA89;
+}
+
+.switcher-radio-neutral:checked  ~ .switcher-slider {
+	background: #ddd;
+}
+
+.switcher-radio-off:checked  ~ .switcher-slider {
+	background-color: #ED8282;
+}
+
+.switcher-radio-on:checked  ~ .switcher-slider:after {
+	left: calc(2*(100%/3));
+}
+
+.switcher-radio-neutral:checked  ~ .switcher-slider:after {
+	left: calc(1px + 100%/3);
+}
+
+.switcher-radio-off:checked  ~ .switcher-slider:after {
+	left: 1px;
+}

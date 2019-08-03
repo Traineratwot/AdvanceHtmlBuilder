@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="stylesheet" href="css.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.js"></script>
+	<script type="text/javascript" src="js/lib/NewCssOOP.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.js"></script>  -->
+	<script type="text/javascript" src="js/lib/url.min.js"></script>
+	<script type="text/javascript" src="js/lib/md5.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
+	<script type="text/javascript" src="js/lib/self.lib.js"></script>
+	<script type="text/javascript" src="js/lib/zclip.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="js/lib/snippet/prism.css" />
+	<title>Продвинутый Html билдер</title>
+</head>
+
+<body>
+	<div id="manual" class="passive">
+		<button id="mnclose" onclick="$('#mnclose_tr').click()"><i class="fas fa-window-close"></i></button>
+		<div class="text" style="height: 100%;width: 100%;">
+			<iframe id="manualframe" src="" frameborder="0"></iframe>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/engine.js"></script>
+	<div class="prew">
+		<div style="display:none;">
+			<style class="style"></style>
+			<style id="div0"></style>
+		</div>
+		<div class="raw"></div>
+		<div class="textarea">
+			<pre class="language-html">
+						<i class="far fa-clipboard clip1" onclick="copytext('.raw')"></i>
+					<code id="prew_html" ondblclick="redact('html')" class="html scrol" ></code>
+				</pre>
+			<pre class="language-css">
+					<i class="far fa-clipboard clip2" onclick="copytext('.style')" id="copy"></i>
+					<code id="prew_css" ondblclick="redact('css')" class="css scrol"></code>
+				</pre>
+		</div>
+	</div>
+	<div class="ctrpanel" id="ctrpanel">
+		<div id="control_panel">
+			<table class="control">
+				<tr>
+					<th>fps</th>
+					<th>bg color</th>
+					<th>clear</th>
+					<th>refresh</th>
+					<th>undo</th>
+					<th>redo</th>
+					<th>gird</th>
+					<th>px or %</th>
+					<th>class/DOM</th>
+					<th>use vars?</th>
+					<th>PP</th>
+					<th>exp</th>
+					<th>imp</th>
+					<th>foto</th>
+					<th>manual</th>
+				</tr>
+				<tr>
+					<td id="fps"></td>
+					<td><input type="color" name="color" id="color"
+							onchange="bg_c(this.value);$('.raw').css({'background-color': this.value})" /></td>
+					<td>
+						<button onclick="clian()"><i class="fas fa-trash-alt"></i></button>
+					</td>
+					<td>
+						<button onclick="update_div(true)"><i class="fas fa-sync"></i></button>
+					</td>
+					<td>
+						<button onclick="undo()"><i class="fas fa-undo"></i></button>
+					</td>
+					<td>
+						<button onclick="redo()"><i class="fas fa-redo"></i></button>
+					</td>
+					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number"
+							title="Grid" min="0" max="100" onmousemove="$(this).focus()"
+							onmouseout="draw();$(this).blur()" value="20" />px</td>
+					<td>
+						<!-- <div class="button b2" id="button-7">
+							<input type="checkbox" class="checkbox help" onchange="update_div()" id="create_type" />
+							<div class="knobs">
+								<span>Px</span>
+							</div>
+							<div class="layer"></div>
+						</div> -->
+						<div class='switcher'>
+							<label class='switcher-label switcher-off' for='off1'>px</label>
+							<input id='off1' class='switcher-radio-off help create_type' type='radio' name='create_type'
+								onchange="update_div()" value='px'>
+
+							<label class='switcher-label switcher-neutral' for='neutral1'>%</label>
+							<input id='neutral1' class='switcher-radio-neutral help create_type' type='radio'
+								name='create_type' onchange="update_div()" value='%' checked>
+
+							<label class='switcher-label switcher-on' for='on1'>m</label>
+							<input id='on1' class='switcher-radio-on help create_type' type='radio' name='create_type'
+								onchange="update_div()" value='m'>
+							<div class='switcher-slider'></div>
+						</div>
+					</td>
+					<td>
+						<div class="button b20" id="button-70">
+							<input type="checkbox" class="checkbox help" id="child_DOM" onchange="update_div(true)" />
+							<div class="knobs fas child_DOM">
+								<span><i class="fas fa-copyright"></i></span>
+							</div>
+							<div class="layer"></div>
+						</div>
+					</td>
+					<td>
+						<div class="button b20" id="button-70">
+							<input type="checkbox" class="checkbox help" id="use_vars" onchange="update_div(true)" />
+							<div class="knobs fas use_vars">
+								<span><i class="fas fa-check-circle"></i></span>
+							</div>
+							<div class="layer"></div>
+						</div>
+					</td>
+					<td>
+						<div class="button b20" id="button-70">
+							<input type="checkbox" class="checkbox help" onchange="pp(this)" id="pp" />
+							<div class="knobs fas pp">
+								<span><i class="fas fa-play"></i></span>
+							</div>
+							<div class="layer"></div>
+						</div>
+					</td>
+					<td>
+						<button id="export_mss" onclick="export_mss()"><i class="fas fa-file-export"></i></button>
+					</td>
+					<td>
+						<button id="import_mss" onclick="import_mss()"><i class="fas fa-file-import"></i></button>
+					</td>
+					<td>
+						<button id="foto" onclick="save('AHB.jpg');"><i class="fas fa-camera"></i></i></button>
+					</td>
+					<td>
+						<button id="mnclose_tr" newCss="1" do="ClickSwitch" linkelem="#manual" class0="active"
+							class1="passive">manual</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="tool" class="tool">
+			<ul class="ul" id="ul">
+				<li>
+					<button onclick="tool_change('rect')"><i class="far fa-square"></i></button>
+				</li>
+				<li>
+					<button onclick="tool_change('circle')"><i class="far fa-circle"></i></button>
+				</li>
+				<!-- <li>
+						<button onclick="tool_change('text')"><i class="fas fa-font"></i></button>
+					</li> -->
+			</ul>
+		</div>
+		<table class="param">
+			<tbody id="param">
+				<tr class="settings">
+					<th>#</th>
+					<th>name</th>
+					<th>!</th>
+					<th>del</th>
+					<th>X</th>
+					<th>Y</th>
+					<th>PX</th>
+					<th>PY</th>
+				</tr>
+			</tbody>
+		</table>
+		<div class="reklama">
+			<div id="k">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({
+						google_ad_client: "ca-pub-4175318508497450",
+						enable_page_level_ads: true
+					});
+				</script>
+			</div>
+			<div id="q"></div>
+		</div>
+	</div>
+	<script src="js/lib/snippet/highlight.pack.js"></script>
+	<script type="text/javascript">
+		function pp(el) {
+			if ($(el).prop("checked")) {
+				opty = true
+				noLoop()
+			} else {
+				opty = false
+				loop()
+			}
+		}
+		hljs.initHighlightingOnLoad();
+
+		function copytext(el) {
+			var $tmp = $("<input>");
+			$("body").append($tmp);
+			$tmp.val($(el).html()).select();
+			document.execCommand("copy");
+			$tmp.remove();
+		}
+
+		function help(el = false) {
+			var q;
+			if (el == false) {
+				$(".help").each(function (i, elem) {
+					let u = $(this).attr("onchange");
+					if (!u) {
+						$(this).attr("onchange", "help(this);");
+					} else if (u.match("help")) {} else {
+						$(this).attr("onchange", "help(this); " + u);
+					}
+					switch ($(this)[0].type) {
+						case "checkbox":
+							q = $.cookie($(this)[0].tagName + $(this)[0].id + $(this)[0].className + $(this)[0]
+								.placeholder);
+							if (q == "true") {
+								$(this).prop("checked", true);
+							} else {
+								$(this).prop("checked", false);
+							}
+							break;
+						case "radio":
+							q = $.cookie($(this)[0].tagName + $(this)[0].name);
+							$("input[value='" + q + "']").prop("checked", true)
+							break;
+						default:
+							q = $.cookie($(this)[0].tagName + $(this)[0].id + $(this)[0].className + $(this)[0]
+								.placeholder);
+							if (q) {
+								$(this).val(q);
+							}
+							break;
+					}
+				});
+			} else {
+				switch ($(el)[0].type) {
+					case "checkbox":
+						q = $(el).prop("checked");
+						$.cookie($(el)[0].tagName + $(el)[0].id + $(el)[0].className + $(el)[0].placeholder, q, {
+							expires: 1,
+							path: "/"
+						});
+						break;
+					case "radio":
+						q = $(el).val();
+						$.cookie($(el)[0].tagName + $(el)[0].name, q, {
+							expires: 1,
+							path: "/"
+						});
+						break;
+					default:
+						q = $(el).val();
+						$.cookie($(el)[0].tagName + $(el)[0].id + $(el)[0].className + $(el)[0].placeholder, q, {
+							expires: 1,
+							path: "/"
+						});
+						break;
+				}
+			}
+			return true;
+		}
+
+		function kd(el, o) {
+			var step = 1;
+			if (o == 1) {
+				switch (event.keyCode) {
+					case 16:
+						step = 10;
+						break;
+					case 17:
+						step = gird_size;
+						break;
+					default:
+						break;
+				}
+				$(el).attr("step", step);
+			} else {
+				$(el).removeAttr("step");
+			}
+			return false
+		}
+		let observer = new MutationObserver(mutationRecords => {
+			help();
+		});
+		observer.observe(ctrpanel, {
+			childList: true,
+			subtree: true,
+			characterDataOldValue: true,
+		});
+		var ttt;
+
+		function import_mss(params) {
+			navigator.clipboard
+				.readText()
+				.then(text => {
+					ttt = json2obj2arr(text, true);
+					if (typeof ttt == "object") {
+						if (typeof ttt[0] !== "undefined" && typeof ttt[0].mX_start !== "undefined" && typeof ttt[0]
+							.settings !== "undefined" && typeof ttt[0].type !== "undefined") {
+							mss = ttt;
+							update_div();
+						} else {
+							console.warn("invalid clipboard");
+						}
+					} else {
+						console.warn("invalid clipboard");
+					}
+				})
+				.then(() => {
+					if ($("#import_mss").html() !== '<i class="fas fa-check-circle"></i>') {
+						let originalText = $("#import_mss").html();
+						$("#import_mss").html('<i class="fas fa-check-circle" style="color:#4ed000;"></i>');
+						setTimeout(() => {
+							$("#import_mss").html(originalText);
+						}, 1500);
+					}
+				})
+				.catch(err => {
+					console.log("Something went wrong", err);
+				});
+		}
+
+		function export_mss(params) {
+			const inputValue = arr2obj2json(mss, true);
+			if (inputValue) {
+				navigator.clipboard
+					.writeText(inputValue)
+					.then(() => {
+						if ($("#export_mss").html() !== '<i class="fas fa-check-circle"></i>') {
+							let originalText = $("#export_mss").html();
+							$("#export_mss").html('<i class="fas fa-check-circle" style="color:#4ed000;"></i>');
+							setTimeout(() => {
+								$("#export_mss").html(originalText);
+							}, 1500);
+						}
+					})
+					.catch(err => {
+						console.log("Something went wrong", err);
+					});
+			}
+		}
+		$(document).ready(function () {
+			NewCss();
+			$("input[type='color']").on("contextmenu", function (event) {
+				$(this).val("#ffffff");
+				$(this).trigger('change');
+				return false;
+			});
+			var userLang = navigator.language || navigator.userLanguage;
+			switch (userLang) {
+				case "ru":
+					manual = 'manual/manual_ru.htm';
+					break;
+				default:
+					manual = 'manual/manual.htm';
+					break;
+			}
+			$("#manualframe").attr('src', manual)
+
+		});
+		setInterval(() => {
+			$("#fps").text(round(frameRate()))
+		}, 100);
+
+
+		function clian() {
+			dra = false;
+			mouseX_start = 0;
+			mouseY_start = 0;
+			mss = [];
+			mcc = [];
+			div = [];
+			lp = 0;
+			update_div(true)
+		}
+
+		function redact(type) {
+			let q;
+			switch (type) {
+				case "css":
+					if (!$('textarea').is('#css_editor')) {
+						$('#prew_css').append(
+							'<textarea ondblclick="redact("css")" onkeyup="repl(this)" id="css_editor"></textarea>')
+						$('#css_editor').html($('#prew_css').text())
+						$('#css_editor').focus()
+					} else {
+						$('#css_editor').detach();
+					}
+					break;
+				case "html":
+					if (!$('textarea').is('#html_editor')) {
+						$('#prew_html').append(
+							'<textarea ondblclick="redact("html")" onkeyup="repl(this)" id="html_editor"></textarea>')
+						$('#html_editor').html($('#prew_html').text())
+						$('#html_editor').focus()
+					} else {
+						$('#html_editor').detach();
+					}
+					break;
+				default:
+					if ($('textarea').is('#html_editor')) {
+						$('#html_editor').detach();
+					}
+					if ($('textarea').is('#css_editor')) {
+						$('#css_editor').detach();
+					}
+
+					break;
+			}
+		}
+	</script>
+</body>
+
+</html>
