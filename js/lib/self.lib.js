@@ -119,6 +119,9 @@ function create_param(d) {
 		case "circle":
 			cursor(circle_cur);
 			break;
+		case "hand":
+			cursor(hand_cur);
+			break;
 		case "text":
 			cursor(text_cur);
 			break;
@@ -203,36 +206,3 @@ function create_td(type, key) {
 	div[key].td = createElement("td");
 	div[key].child(div[key].td);
 }
-
-$.event.special.dblrightclick = {
-	setup: function (data, namespaces) {
-		var e = $(this);
-		e.bind("contextmenu", $.event.special.dblrightclick.handler);
-		e.data("x", null);
-		e.data("y", null);
-		e.data("time", null);
-		e.data("limit", data || 400);
-	},
-
-	teardown: function (namespaces) {
-		$(this).unbind("contextmenu", $.event.special.dblrightclick.handler);
-	},
-
-	handler: function (event) {
-		event.preventDefault();
-		var e = $(this);
-
-		if (e.data("x") == event.screenX && e.data("y") == event.screenY
-			&& (event.timeStamp - e.data("time")) < e.data("limit")) {
-			e.data("x", null);
-			e.data("y", null);
-			e.data("time", null);
-			event.type = "dblrightclick";
-			$.event.dispatch.apply(this, arguments);
-		} else {
-			e.data("x", event.screenX);
-			e.data("y", event.screenY);
-			e.data("time", event.timeStamp);
-		}
-	}
-};

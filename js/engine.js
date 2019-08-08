@@ -11,6 +11,7 @@ function preload() {
 	circle_cur = "css/cursor/O.cur";
 	rect_cur = "css/cursor/cube.cur";
 	text_cur = "css/cursor/text.cur";
+	hand_cur = "css/cursor/hand.cur";
 }
 
 function setup() {
@@ -63,6 +64,9 @@ function draw() {
 			case "circle":
 				ellipse(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
 				break;
+			case "hand":
+				hand()
+				break;
 			default:
 				break;
 		}
@@ -91,6 +95,9 @@ function draw() {
 			case "circle":
 				ellipse(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size);
 				break;
+			case "hand":
+				hand()
+				break;
 			case "text":
 				textSize(32);
 				text("word word word word word word word word ", x1, y1, x2, y2);
@@ -107,6 +114,27 @@ function draw() {
 	} else {
 		lp++;
 	}
+}
+
+function hand() {
+	let in_block =false
+	for (let i = 0; i < mss.length; i++) {
+		const element = mss[i];
+		x = false
+		y = false
+		if(mouseX >= element.mX_start && element.mX_end >= mouseX){
+			x = true
+		}
+		if(mouseY >= element.mY_start && element.mY_end >= mouseY){
+			y = true
+		}
+		if(x && y){
+			in_block = i
+			break
+		}
+		console.log(in_block)
+	}
+	
 }
 
 function bg_c(x) {
@@ -171,6 +199,9 @@ function update_div(t = false) {
 				img = '<i class="far fa-square"></i>';
 				break;
 			case "circle":
+				img = '<i class="far fa-circle"></i>';
+				break;
+			case "hand":
 				img = '<i class="far fa-circle"></i>';
 				break;
 			default:
