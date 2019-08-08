@@ -12,6 +12,9 @@ pre {
 #mnclose:active {
 	color: #740707;
 }
+#control_panel{
+	overflow:auto;
+}
 #html_editor{
 	position: absolute;
 	width: 50% !important;

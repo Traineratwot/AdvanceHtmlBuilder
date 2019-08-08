@@ -19,7 +19,11 @@ function setup() {
 	update_div();
 	ellipseMode(CORNER);
 	angleMode(DEGREES);
+	setInterval(() => {
+		$("#fps").text(round(frameRate()))
+	}, 200);
 }
+
 // if($.cookie('mss')){
 // mss = $.cookie('mss');
 // }

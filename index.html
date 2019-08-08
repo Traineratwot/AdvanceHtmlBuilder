@@ -70,7 +70,7 @@
 				</tr>
 				<tr>
 					<td id="fps"></td>
-					<td><input type="color" name="color" id="color"
+					<td><input type="color" name="color" id="color" class="help"
 							onchange="bg_c(this.value);$('.raw').css({'background-color': this.value})" /></td>
 					<td>
 						<button onclick="clian()"><i class="fas fa-trash-alt"></i></button>
@@ -211,6 +211,7 @@
 			var q;
 			if (el == false) {
 				$(".help").each(function (i, elem) {
+					
 					let u = $(this).attr("onchange");
 					if (!u) {
 						$(this).attr("onchange", "help(this);");
@@ -236,6 +237,7 @@
 								.placeholder);
 							if (q) {
 								$(this).val(q);
+								$(this).trigger('change')
 							}
 							break;
 					}
@@ -366,11 +368,6 @@
 			$("#manualframe").attr('src', manual)
 
 		});
-		setInterval(() => {
-			$("#fps").text(round(frameRate()))
-		}, 100);
-
-
 		function clian() {
 			dra = false;
 			mouseX_start = 0;
