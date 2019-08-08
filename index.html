@@ -19,13 +19,14 @@
 	<script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/lib/self.lib.js"></script>
 	<script type="text/javascript" src="js/lib/zclip.min.js"></script>
+	<script type="text/javascript" src="js/lib/p5.collide2D.js"></script>
 	<link rel="stylesheet" type="text/css" href="js/lib/snippet/prism.css" />
 	<title>Продвинутый Html билдер</title>
 </head>
 
 <body>
-	<div id="manual" class="passive">
-		<button id="mnclose" onclick="$('#mnclose_tr').click()"><i class="fas fa-window-close"></i></button>
+	<div id="manual" class="passive" style="opacity: 0;">
+		<button id="mnclose" onclick="$('#manual').attr('style',''); $('#mnclose_tr').click()"><i class="fas fa-window-close"></i></button>
 		<div class="text" style="height: 100%;width: 100%;">
 			<iframe id="manualframe" src="" frameborder="0"></iframe>
 		</div>
@@ -62,7 +63,7 @@
 					<th>px or %</th>
 					<th>class/DOM</th>
 					<th>use vars?</th>
-					<th>PP</th>
+					<th>P&P</th>
 					<th>exp</th>
 					<th>imp</th>
 					<th>foto</th>
@@ -140,8 +141,7 @@
 						<button id="foto" onclick="save('AHB.jpg');"><i class="fas fa-camera"></i></i></button>
 					</td>
 					<td>
-						<button id="mnclose_tr" newCss="1" do="ClickSwitch" linkelem="#manual" class0="active"
-							class1="passive">manual</button>
+						<button id="mnclose_tr" newCss="1" do="ClickSwitch" linkelem="#manual" class0="active" class1="passive">manual</button>
 					</td>
 				</tr>
 			</table>
@@ -154,9 +154,9 @@
 				<li>
 					<button onclick="tool_change('circle')"><i class="far fa-circle"></i></button>
 				</li>
-				<!-- <li>
+				<li>
 					<button onclick="tool_change('hand')"><i class="far far fa-hand-paper"></i></button>
-				</li> -->
+				</li>
 				<!-- <li>
 					<button onclick="tool_change('text')"><i class="fas fa-font"></i></button>
 				</li> -->
@@ -177,16 +177,7 @@
 			</tbody>
 		</table>
 		<div class="reklama">
-			<div id="k">
-				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-				<script>
-					(adsbygoogle = window.adsbygoogle || []).push({
-						google_ad_client: "ca-pub-4175318508497450",
-						enable_page_level_ads: true
-					});
-				</script>
-			</div>
-			<div id="q"></div>
+			<iframe src="https://www.instant-gaming.com/affgames/igr7741792/200x200" scrolling="no" frameborder="0" style="border: 1px solid #ccc; border-radius: 10px; overflow:hidden; width:200px; height:200px;" allowTransparency="true"></iframe>
 		</div>
 	</div>
 	<script src="js/lib/snippet/highlight.pack.js"></script>

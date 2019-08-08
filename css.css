@@ -42,9 +42,10 @@ pre {
 	position: absolute;
 	width: 80%;
 	height: 100%;
-	background-color: #ffffff;
 	z-index: 999;
+	background-color: #ffffff;
 	top: 0;
+	
 	transition: transform 200ms;
 }
 #manual .test {
@@ -60,6 +61,7 @@ pre {
 	/* animation: go-left-right 1s cubic-bezier(0.5, -0.5, 0.5, 1.5); */
 	animation: go-left-right 1s cubic-bezier(0.5, 0.1, 0.5, 0.9);
 	left: 0;
+	opacity: 1 !important;
 }
 .passive {
 	animation: go-right-left 1s cubic-bezier(0.5, 0.1, 0.5, 0.9);
@@ -72,6 +74,7 @@ pre {
 	}
 	to {
 		left: 0;
+		opacity: 1;
 	}
 }
 @keyframes go-right-left {
@@ -80,6 +83,7 @@ pre {
 	}
 	to {
 		left: -90%;
+		opacity: 0;
 	}
 }
 .ctrpanel {

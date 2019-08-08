@@ -1,53 +1,14 @@
 'use strict';
 function NewCss(elemSelector) {
 	if (elemSelector == null) {
-		elemSelector = ("[newCss=\"1\"]");
+		var elemSelector = ("[data-newCss=\"1\"],[newCss=\"1\"]");
 	}
 	var elems = $(elemSelector);
 	for (var j = 0; j < elems.length; j++) {
 		var elem = elems[j];
 		var unit = new newCss(elem)
-		var u = $(elem).attr("do");
-		switch (u) {
-			case "onblock":
-				unit.onblock();
-				break;
-			case "underblock":
-				unit.underblock();
-				break;
-			case "incenter":
-				unit.incenter();
-				break;
-			case "custom":
-				unit.custom();
-				break;
-			case "clear":
-				unit.clear();
-				break;
-			case "aboveblock":
-				unit.aboveblock();
-				break;
-			case "leftblock":
-				unit.leftblock();
-				break;
-			case "rightblock":
-				unit.rightblock();
-				break;
-			case "ClickSwitch":
-				unit.ClickSwitch();
-				break;
-			case "drag_drop":
-				unit.drag_drop();
-				break;
-			case "watermark":
-				unit.watermark();
-				break;
-			case "":
-			case undefined:
-				break;
-			default:
-				console.warn(u + "");
-		}
+		var u = ($(elem).attr("do")) ? $(elem).attr("do") : $(elem).attr("data-do");
+		unit[u]()
 	}
 }
 var GodObj = {};
@@ -78,10 +39,11 @@ class newCss {
 		this.elem.object = elem;
 		if (param.do !== null && param.linkelem !== null) {
 			$.each(param, function (key, value) {
-				$(elem).attr(key.toLowerCase(), value);
+				$(elem).attr("data-"+key.toLowerCase(), value);
 			});
 		} else {
 			$.each($(elem).attr(), function (key, value) {
+				key = key.replace("data-",'').toLowerCase();
 				param[key] = value;
 			});
 		}
@@ -89,11 +51,25 @@ class newCss {
 		this.elem.offset = $(this.elem.object).offset();
 		this.elem.width = $(this.elem.object).width();
 		this.elem.height = $(this.elem.object).height();
+		this.linkelem_constract()
+		if (param.do !== null) {
+			this[param.do]();
+		}
+	}
+	linkelem_constract(elemSelector = null){
+		if(!this.param.linkelem){
+			if(elemSelector){
+				this.param.linkelem = elemSelector;
+			}else{
+				this.param.linkelem = false;
+				return false
+			}
+		}
 		this.linkelem = {}
-		if (param.linkelem !== null) {
+		if (this.param.linkelem !== null) {
 			this.linkelem.object = $(this.param.linkelem);
-		} else if ($(this.elem.object).attr("linkelem")) {
-			this.linkelem.object = $(this.elem.object).attr("linkelem");
+		} else if ($(this.elem.object).attr("linkelem") || $(this.elem.object).attr("data-linkelem")) {
+			this.linkelem.object = $(this.elem.object).attr("linkelem") || $(this.elem.object).attr("data-linkelem");
 		} else {
 			this.linkelem = false
 		}
@@ -102,47 +78,11 @@ class newCss {
 			this.linkelem.height = $(this.linkelem.object).height()
 			this.linkelem.offset = $(this.linkelem.object).offset()
 		}
-		if (param.do !== null) {
-			switch (param.do) {
-				case "onblock":
-					this.onblock();
-					break;
-				case "underblock":
-					this.underblock();
-					break;
-				case "incenter":
-					this.incenter();
-					break;
-				case "custom":
-					this.custom();
-					break;
-				case "clear":
-					this.clear();
-					break;
-				case "aboveblock":
-					this.aboveblock();
-					break;
-				case "leftblock":
-					this.leftblock();
-					break;
-				case "rightblock":
-					this.rightblock();
-					break;
-				case "ClickSwitch":
-					this.ClickSwitch();
-					break;
-				case "drag_drop":
-					this.drag_drop();
-					break;
-				case "watermark":
-					this.watermark();
-					break;
-				default:
-					break;
-			}
-		}
+		return true
 	}
+
 	onblock(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.linkelem === false) {
 			return false;
 		}
@@ -158,7 +98,7 @@ class newCss {
 			"height": this.linkelem.height,
 			"z-index": this.param.zindex
 		});
-		if ($(this.elem.object).attr("CreateRulle") == "1") {
+		if (this.param.createrulle) {
 			var apo = $(this.elem.object)[0].tagName + "#" + $(this.elem.object)[0].id + "." + $(this.elem.object)[0].className;
 			var style = apo + "{/*" + this.param.do + "*/top:" + this.linkelem.offset.top + "px ;left:" + this.linkelem.offset.left + "px;width:" + this.linkelem.width + "px;height:" + this.linkelem.height + "px;z-index:" + Zindex;
 			if ($('head style').length > 0) {
@@ -166,10 +106,11 @@ class newCss {
 			} else {
 				$('head').append("<style>" + style + "</style>");
 			}
-			$(this.elem.object).removeAttr("CreateRulle");
+			$(this.elem.object).removeAttr("createrulle");
 		}
 	}
 	underblock(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.linkelem === false) {
 			return false;
 		}
@@ -182,7 +123,7 @@ class newCss {
 		$(this.elem.object).css({
 			"width": this.linkelem.width + "px"
 		});
-		if ($(this.elem.object).attr("CreateRulle") == "1") {
+		if (this.param.createrulle) {
 			var apo = $(this.elem.object)[0].tagName + "#" + $(this.elem.object)[0].id + "." + $(this.elem.object)[0].className;
 			var style = apo + "{/*" + this.param.do + "*/top:" + top + "px ;left:" + this.linkelem.offset.left + "px ;width:" + this.linkelem.width + "px";
 			if ($('head style').length > 0) {
@@ -190,10 +131,11 @@ class newCss {
 			} else {
 				$('head').append("<style>" + style + "</style>");
 			}
-			$(this.elem.object).removeAttr("CreateRulle");
+			$(this.elem.object).removeAttr("createrulle");
 		}
 	}
 	aboveblock(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.linkelem === false) {
 			return false;
 		}
@@ -208,7 +150,7 @@ class newCss {
 		$(this.elem.object).css({
 			"width": this.linkelem.width
 		});
-		if ($(this.elem.object).attr("CreateRulle") == "1") {
+		if (this.param.createrulle) {
 			var apo = $(this.elem.object)[0].tagName + "#" + $(this.elem.object)[0].id + "." + $(this.elem.object)[0].className;
 			var style = apo + "{/*" + this.param.do + "*/top:" + top + "px ;left:" + this.linkelem.offset.left + "px;width:" + this.linkelem.width + "px";
 			if ($('head style').length > 0) {
@@ -216,10 +158,11 @@ class newCss {
 			} else {
 				$('head').append("<style>" + style + "</style>");
 			}
-			$(this.elem.object).removeAttr("CreateRulle");;
+			$(this.elem.object).removeAttr("createrulle");;
 		}
 	}
 	leftblock(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.linkelem === false) {
 			return false;
 		}
@@ -232,7 +175,7 @@ class newCss {
 			"top": this.linkelem.offset.top,
 			"left": left
 		});
-		if ($(this.elem.object).attr("CreateRulle") == "1") {
+		if (this.param.createrulle) {
 			var apo = $(this.elem.object)[0].tagName + "#" + $(this.elem.object)[0].id + "." + $(this.elem.object)[0].className;
 			var style = apo + "{/*" + this.param.do + "*/top:" + this.linkelem.offset.top + "px ;left:" + left + "px;height:" + this.linkelem.height + "px";
 			if ($('head style').length > 0) {
@@ -240,10 +183,11 @@ class newCss {
 			} else {
 				$('head').append("<style>" + style + "</style>");
 			}
-			$(this.elem.object).removeAttr("CreateRulle");;
+			$(this.elem.object).removeAttr("createrulle");;
 		}
 	}
 	rightblock(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.linkelem === false) {
 			return false;
 		}
@@ -256,7 +200,7 @@ class newCss {
 			"top": this.linkelem.offset.top,
 			"left": left
 		});
-		if ($(this.elem.object).attr("CreateRulle") == "1") {
+		if (this.param.createrulle) {
 			var apo = $(this.elem.object)[0].tagName + "#" + $(this.elem.object)[0].id + "." + $(this.elem.object)[0].className;
 			var style = apo + "{/*" + this.param.do + "*/top:" + this.linkelem.offset.top + "px ;left:" + left + "px;height:" + this.linkelem.height + "px";
 			if ($('head style').length > 0) {
@@ -264,10 +208,11 @@ class newCss {
 			} else {
 				$('head').append("<style>" + style + "</style>");
 			}
-			$(this.elem.object).removeAttr("CreateRulle");;
+			$(this.elem.object).removeAttr("createrulle");;
 		}
 	}
 	incenter(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.linkelem === false) {
 			return false;
 		}
@@ -278,7 +223,7 @@ class newCss {
 		var height2 = $(this.elem.object).height();
 		var top = object.top + (height1 / 2) - (height2 / 2);
 		var left = object.left + (width1 / 2) - (width2 / 2);
-		if ($(this.elem.object).attr("CreateRulle") == "1") {
+		if (this.param.createrulle) {
 			var apo = $(this.elem.object)[0].tagName + "#" + $(this.elem.object)[0].id + "." + $(this.elem.object)[0].className;
 			var style = apo + "{/*" + this.param.do + "*/top:" + top + "px;left:" + left + "px";
 			if ($('head style').length > 0) {
@@ -286,8 +231,8 @@ class newCss {
 			} else {
 				$('head').append("<style>" + style + "</style>");
 			}
-			$(this.elem.object).removeAttr("CreateRulle");;
-		} else if ($(this.elem.object).attr("CreateRulle") == "2") {
+			$(this.elem.object).removeAttr("createrulle");;
+		} else if ($(this.elem.object).attr("createrulle") == "2") {
 			$(this.elem.object).css({
 				"top": top + "px",
 				"left": left + "px"
@@ -300,6 +245,7 @@ class newCss {
 		}
 	}
 	custom(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.linkelem === false) {
 			return false;
 		}
@@ -325,7 +271,7 @@ class newCss {
 			"top": top,
 			"left": left
 		});
-		if ($(this.elem.object).attr("CreateRulle") == "1") {
+		if (this.param.createrulle) {
 			var apo = $(this.elem.object)[0].tagName + "#" + $(this.elem.object)[0].id + "." + $(this.elem.object)[0].className;
 			var style = apo + "{/*" + this.param.do + "*/ top:" + top + "px ;left:" + left + "px";
 			if ($('head style').length > 0) {
@@ -333,10 +279,11 @@ class newCss {
 			} else {
 				$('head').append("<style>" + style + "</style>");
 			}
-			$(this.elem.object).removeAttr("CreateRulle");;
+			$(this.elem.object).removeAttr("createrulle");;
 		}
 	}
 	drag_drop(elem = null) {
+		this.linkelem_constract(elem)
 		if (this.param.linkelem) {
 			var hold = this.param.hold;
 			if (hold == "1") {
@@ -352,8 +299,10 @@ class newCss {
 				$(this.elem.object).attr("onclick", "d_d(this)");
 			}
 		}
+		$(this.elem.object).css({'user-select': 'none'})
 	}
 	ClickSwitch(elem = null) {
+		this.linkelem_constract(elem)
 		$(this.elem.object).attr("onclick", "checkclik(this)");
 		var linkelem = $(this.elem.object).attr("linkelem");
 		if (linkelem == false || linkelem == undefined) {
@@ -363,16 +312,19 @@ class newCss {
 		GodObj.classX = classX;
 	}
 	watermark(elem = null) {
-		var ok = $(this.elem.object).attr('ok');
-		if (ok != true) {
+		var ok = $(this.elem.object).attr('data-ok');
+		if (!ok) {
 			var watermark = this.param.watermark;
 			var img = $(this.elem.object).attr('src');
 			$(this.elem.object).css({
 				"background-image": "url(" + img + ")"
 			});
 			$(this.elem.object).attr('src', watermark);
-			$(this.elem.object).attr('ok', "1");
+			$(this.elem.object).attr('data-ok', "1");
 		}
+	}
+	clear() {
+		$(this.elem.object).removeAttr("style");
 	}
 }
 function d_d(elem, linkelem = false) {
@@ -446,7 +398,7 @@ function h_s(elem, linkelem = false) {
 				"top": top,
 				"left": left
 			});
-			if ($(elem).attr("CreateRulle") == "1") {
+			if ($(elem).attr("createrulle") == "1") {
 			}
 		});
 	}
@@ -466,22 +418,22 @@ function h_s(elem, linkelem = false) {
 }
 
 function checkclik(elem) {
-	var linkelem = $(elem).attr("linkelem");
+	var linkelem = $(elem).attr("linkelem") || $(elem).attr("data-linkelem");
 	if (linkelem == false || linkelem == undefined) {
 		var linkelem = elem
 	}
-	var h = $(elem).attr("cc");
+	var h = $(elem).attr("cc") || $(elem).attr("data-cc");
 	if (h == false || h == undefined) {
-		$(elem).attr("cc", "1");
+		$(elem).attr("data-cc", "1");
 	} else {
 		if (h == "1") {
-			$(elem).attr("cc", "0");
+			$(elem).attr("data-cc", "0");
 		}
 	}
-	var h = $(elem).attr("cc");
+	var h = $(elem).attr("cc") ||  $(elem).attr("data-cc");
 	var classX = GodObj.classX;
-	var class0 = $.trim($(elem).attr("class0"));
-	var class1 = $.trim($(elem).attr("class1"));
+	var class0 = $.trim($(elem).attr("class0")) || $.trim($(elem).attr("data-class0"));
+	var class1 = $.trim($(elem).attr("class1")) || $.trim($(elem).attr("data-class1"));
 	if (classX == class0 || classX == class1) {
 		switch (h) {
 			case "1":
@@ -503,11 +455,4 @@ function checkclik(elem) {
 				break;
 		}
 	}
-}
-
-function clear(elem) {
-	$(elem).removeAttr("style");
-}
-function getFnName(fn) {
-	return fn.toString().match(/function ([^(]*)\(/)[1];
 }

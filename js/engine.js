@@ -1,17 +1,24 @@
-let bg_color = 0;
-let dra = false;
-let mouseX_start = 0;
-let mouseY_start = 0;
-let mss = [];
-let mcc = [];
-let div = [];
-let lp = 0;
-let opty = false;
+let bg_color = 0
+let dra = false
+let mouseX_start = 0
+let mouseY_start = 0
+let mss = []
+let mcc = []
+let div = []
+let msd = []
+let lp = 0
+let opty = false
+let selWH, sideWH
 function preload() {
-	circle_cur = "css/cursor/O.cur";
-	rect_cur = "css/cursor/cube.cur";
-	text_cur = "css/cursor/text.cur";
-	hand_cur = "css/cursor/hand.cur";
+	circle_cur	 = "css/cursor/O.cur";
+	rect_cur 	 = "css/cursor/cube.cur";
+	text_cur 	 = "css/cursor/text.cur";
+	handUP 		 = "css/cursor/handUp.cur";
+	handDown	 = "css/cursor/handDown.cur";
+	UD 			 = "css/cursor/aero_ns.cur";
+	RL			 = "css/cursor/aero_ew.cur";
+	DLUR		 = "css/cursor/aero_nesw.cur";
+	URDL		 = "css/cursor/aero_nwse.cur";
 }
 
 function setup() {
@@ -26,16 +33,17 @@ function setup() {
 }
 
 // if($.cookie('mss')){
-// mss = $.cookie('mss');
+// 	mss = $.cookie('mss');
 // }
 let fps;
 function draw() {
 	if (opty) {
 		fps = 60;
 	} else {
-		fps = map(mss.length, 2, 20, 120, 20, true);
 		if (mss.length > 25) {
 			fps = map(mss.length, 25, 50, 20, 5, true);
+		} else {
+			fps = map(mss.length, 2, 20, 120, 20, true);
 		}
 	}
 	frameRate(fps);
@@ -57,18 +65,30 @@ function draw() {
 	}
 	for (key in mss) {
 		fill(mss[key].color);
-		switch (mss[key].type) {
-			case "rect":
-				rect(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY, mss[key].settings.corner.LU, mss[key].settings.corner.RU, mss[key].settings.corner.RD, mss[key].settings.corner.LD);
-				break;
-			case "circle":
-				ellipse(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
-				break;
-			case "hand":
-				hand()
-				break;
-			default:
-				break;
+		if (key == selWH && sideWH == "") {
+			let mx = (abs(mouseX - pmouseX) <= gird_size / 20) ? round((mouseX + mouseX_start) / gird_size) * gird_size : mouseX + mouseX_start
+			let my = (abs(mouseY - pmouseY) <= gird_size / 20) ? round((mouseY + mouseY_start) / gird_size) * gird_size : mouseY + mouseY_start
+			switch (mss[key].type) {
+				case "rect":
+					rect(mx, my, mss[key].sX, mss[key].sY, mss[key].settings.corner.LU, mss[key].settings.corner.RU, mss[key].settings.corner.RD, mss[key].settings.corner.LD);
+					break;
+				case "circle":
+					ellipse(mx, my, mss[key].sX, mss[key].sY);
+					break;
+				default:
+					break;
+			}
+		} else {
+			switch (mss[key].type) {
+				case "rect":
+					rect(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY, mss[key].settings.corner.LU, mss[key].settings.corner.RU, mss[key].settings.corner.RD, mss[key].settings.corner.LD);
+					break;
+				case "circle":
+					ellipse(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
+					break;
+				default:
+					break;
+			}
 		}
 	}
 	if (dra) {
@@ -95,14 +115,10 @@ function draw() {
 			case "circle":
 				ellipse(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size);
 				break;
-			case "hand":
-				hand()
-				break;
 			case "text":
 				textSize(32);
 				text("word word word word word word word word ", x1, y1, x2, y2);
 				rect(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size);
-
 				break;
 			default:
 				break;
@@ -117,26 +133,46 @@ function draw() {
 }
 
 function hand() {
-	let in_block =false
-	for (let i = 0; i < mss.length; i++) {
+	for (let i = mss.length - 1; i >= 0; i--) {
 		const element = mss[i];
-		x = false
-		y = false
-		if(mouseX >= element.mX_start && element.mX_end >= mouseX){
-			x = true
+		let res
+		let side = ""
+		// console.log(element)
+		if (mouseX >= element.mX_start && mouseX <= element.mX_end && mouseY >= element.mY_start && mouseY <= element.mY_end) {
+			if (element.type == "circle") {
+				if (!collidePointEllipse(mouseX, mouseY, element.mX_start, element.mY_start, element.sX, element.sY)) {
+					res = i
+				}
+			} else {
+				res = i
+			}
 		}
-		if(mouseY >= element.mY_start && element.mY_end >= mouseY){
-			y = true
+		if (element.type == "rect") {
+			if (mouseX >= element.mX_start - 20 && mouseX <= element.mX_end + 20 && abs(element.mY_start - mouseY) <= 20) {
+				res = i
+				side += "up"
+			}
+			if (mouseX >= element.mX_start - 20 && mouseX <= element.mX_end + 20 && abs(element.mY_end - mouseY) <= 20) {
+				res = i
+				side += "down"
+			}
+			if (mouseY >= element.mY_start - 20 && mouseY <= element.mY_end + 20 && abs(element.mX_start - mouseX) <= 20) {
+				res = i
+				side += "left"
+			}
+			if (mouseY >= element.mY_start - 20 && mouseY <= element.mY_end + 20 && abs(element.mX_end - mouseX) <= 20) {
+				res = i
+				side += "right"
+			}
 		}
-		if(x && y){
-			in_block = i
-			break
+		if (res !== undefined) {
+			return {res, side}
 		}
-		console.log(in_block)
 	}
-	
+	return {res:undefined, side:""}
 }
 
+//"/09f4e9a096142be8.png"
 function bg_c(x) {
 	bg_color = x;
 }
@@ -146,6 +182,39 @@ function mousePressed() {
 	mouseY_start = round(mouseY / gird_size) * gird_size;
 	if (mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height) {
 		dra = true;
+		if (tool == "hand") {
+			let mae = hand()
+			//console.log(hand())
+			selWH = mae.res
+			sideWH = mae.side
+			if (selWH !== undefined) {
+				switch (sideWH) {
+					case "up":
+					case "down":
+						cursor(UD,5,11)
+						break;
+					case "right":
+					case "left":
+						cursor(RL,11,5)
+						break;
+					case "upright":
+					case "downleft":
+						cursor(DLUR,8,8)
+						break;
+					case "downright":
+					case "upleft":
+						cursor(URDL,8,8)
+						break;
+				
+					default:
+				cursor(handDown, 12, 12);
+				mouseX_start = mss[selWH].mX_start - mouseX
+				mouseY_start = mss[selWH].mY_start - mouseY
+				break;
+				}
+			}
+			// console.log(selWH)
+		}
 		if (opty) {
 			loop();
 		}
@@ -154,34 +223,90 @@ function mousePressed() {
 
 function mouseReleased() {
 	if (mouseX > 0 && mouseY > 0 && mouseX < width && mouseY < height && dra) {
-		let m = [];
-		if (mouseX_start < mouseX) {
-			m.mX_start = mouseX_start;
-			m.mX_end = round(mouseX / gird_size) * gird_size;
+		if (tool == "hand") {
+			if (selWH !== undefined) {
+				switch (sideWH) {
+					case "up":
+						mss[selWH].mY_start = round(mouseY / gird_size) * gird_size;
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						break;
+					case "down":
+						mss[selWH].mY_end = round(mouseY / gird_size) * gird_size;
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						break;
+					case "left":
+						mss[selWH].mX_start = round(mouseX / gird_size) * gird_size;
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						break;
+					case "right":
+						mss[selWH].mX_end = round(mouseX / gird_size) * gird_size;
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						break;
+					case "upleft":
+						mss[selWH].mY_start = round(mouseY / gird_size) * gird_size;
+						mss[selWH].mX_start = round(mouseX / gird_size) * gird_size;
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						break;
+					case "upright":
+						mss[selWH].mY_start = round(mouseY / gird_size) * gird_size;
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].mX_end = round(mouseX / gird_size) * gird_size;
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						break;
+					case "downleft":
+						mss[selWH].mY_end = round(mouseY / gird_size) * gird_size;
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].mX_start = round(mouseX / gird_size) * gird_size;
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						break;
+					case "downright":
+						mss[selWH].mY_end = round(mouseY / gird_size) * gird_size;
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].mX_end = round(mouseX / gird_size) * gird_size;
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						break;
+				
+					default:
+						mss[selWH].mX_start = round((mouseX + mouseX_start) / gird_size) * gird_size;
+						mss[selWH].mY_start = round((mouseY + mouseY_start) / gird_size) * gird_size;
+						mss[selWH].mX_end = mss[selWH].mX_start + mss[selWH].sX
+						mss[selWH].mY_end = mss[selWH].mY_start + mss[selWH].sY
+						break;
+				}
+			}
 		} else {
-			m.mX_start = round(mouseX / gird_size) * gird_size;
-			m.mX_end = mouseX_start;
+			let m = [];
+			if (mouseX_start < mouseX) {
+				m.mX_start = mouseX_start;
+				m.mX_end = round(mouseX / gird_size) * gird_size;
+			} else {
+				m.mX_start = round(mouseX / gird_size) * gird_size;
+				m.mX_end = mouseX_start;
+			}
+			if (mouseY_start < mouseY) {
+				m.mY_start = mouseY_start;
+				m.mY_end = round(mouseY / gird_size) * gird_size;
+			} else {
+				m.mY_start = round(mouseY / gird_size) * gird_size;
+				m.mY_end = mouseY_start;
+			}
+			m.sX = m.mX_end - m.mX_start;
+			m.sY = m.mY_end - m.mY_start;
+			m.type = tool;
+			m.settings = DeepCopy(settings);
+			m.name = "div" + mss.length;
+			m.color = settings.color;
+			if (m.sX > 0 && m.sY > 0) {
+				mss.push(m);
+			}
 		}
-		if (mouseY_start < mouseY) {
-			m.mY_start = mouseY_start;
-			m.mY_end = round(mouseY / gird_size) * gird_size;
-		} else {
-			m.mY_start = round(mouseY / gird_size) * gird_size;
-			m.mY_end = mouseY_start;
-		}
-		m.sX = m.mX_end - m.mX_start;
-		m.sY = m.mY_end - m.mY_start;
-		m.type = tool;
-		m.settings = DeepCopy(settings);
-		m.name = "div"+mss.length;
-		m.color = settings.color;
-		if (m.sX > 0 && m.sY > 0) {
-			mss.push(m);
-		}
-		mouseX_start = -1;
-		mouseY_start = -1;
-		update_div();
 	}
+	mouseX_start = -1;
+	mouseY_start = -1;
+	update_div();
+	selWH = undefined
+	sideWH = ""
 	dra = false;
 	if (opty) {
 		noLoop();
@@ -193,8 +318,10 @@ function windowResized() {
 function update_div(t = false) {
 	removeElements();
 	create_tool();
+	msd = {}
 	for (key in mss) {
-		switch (mss[key].type) {
+		let e = mss[key]
+		switch (e.type) {
 			case "rect":
 				img = '<i class="far fa-square"></i>';
 				break;
@@ -334,7 +461,7 @@ function redo() {
 	}
 	update_div();
 }
-var last_mss =[]
+var last_mss = []
 function create() {
 	if (opty) {
 		draw();
@@ -345,13 +472,13 @@ function create() {
 	$("#prew_css").html("");
 	$(".style").html("");
 	let child_DOM = $('#child_DOM').prop('checked');
-	let use_vars  = !$('#use_vars').prop('checked');
+	let use_vars = !$('#use_vars').prop('checked');
 	let style = "";
 	let first = [];
 	let style_data = ''
-	if(use_vars){
+	if (use_vars) {
 		var vars_str = ":root{";
-		var vars ={};
+		var vars = {};
 	}
 	jQuery.each(mss, function (i, val) {
 		switch (child_DOM) {
@@ -380,7 +507,7 @@ function create() {
 					}
 				} else {
 					if (child_DOM) {
-						$("<div>", {class: "test " + val.name}).appendTo("." + first.name);
+						$("<div>", { class: "test " + val.name }).appendTo("." + first.name);
 					} else {
 						$("<div>", { class: "test " + val.name }).appendTo("." + first.name);
 					}
@@ -395,20 +522,20 @@ function create() {
 					} else {
 						style = "." + val.name + "{";
 					}
-					if(use_vars){
-						w 	= w.toFixed()
-						h 	= h.toFixed()
+					if (use_vars) {
+						w = w.toFixed()
+						h = h.toFixed()
 						top = top.toFixed()
-						left= left.toFixed()
-						vars['width'+w]	 	= w+"%";
-						vars['height'+h]	= h+"%";
-						vars['top'+top] 	= top+"%";
-						vars['left'+left] 	= left+"%";
-						style += "position: absolute; width: var(--width"+w+");  height: var(--height"+h+"); top: var(--top"+top+");left: var(--left"+left+");";
-					}else{
+						left = left.toFixed()
+						vars['width' + w] = w + "%";
+						vars['height' + h] = h + "%";
+						vars['top' + top] = top + "%";
+						vars['left' + left] = left + "%";
+						style += "position: absolute; width: var(--width" + w + ");  height: var(--height" + h + "); top: var(--top" + top + ");left: var(--left" + left + ");";
+					} else {
 						style += "position: absolute; width: " + w + "%;  height:" + h + "%; top:" + top + "%;left:" + left + "%;";
 					}
-				
+
 				}
 				break;
 			case "px":
@@ -416,7 +543,7 @@ function create() {
 					style += "position: relative; width: " + val.sX + "px;  height:" + val.sY + "px;";
 					first = val;
 					if (child_DOM) {
-						$("<div>", { class: "test " + val.name}).appendTo(".raw");
+						$("<div>", { class: "test " + val.name }).appendTo(".raw");
 						div0 = "." + val.name + "{top:" + val.mY_start + "px;left:" + val.mX_start + "px;}";
 					} else {
 						$("<div>", { class: "test " + val.name }).appendTo(".raw");
@@ -424,23 +551,23 @@ function create() {
 					}
 				} else {
 					if (child_DOM) {
-						$("<div>", {class: "test " + val.name}).appendTo("." + first.name);
+						$("<div>", { class: "test " + val.name }).appendTo("." + first.name);
 					} else {
 						$("<div>", { class: "test " + val.name }).appendTo("." + first.name);
 					}
 					let left = val.mX_start - first.mX_start;
 					let top = val.mY_start - first.mY_start;
-					if(use_vars){
-						w 	= val.sX.toFixed()
-						h 	= val.sY.toFixed()
+					if (use_vars) {
+						w = val.sX.toFixed()
+						h = val.sY.toFixed()
 						top = top.toFixed()
-						left= left.toFixed()
-						vars['width'+w]	 	= w+"px";
-						vars['height'+h]	= h+"px";
-						vars['top'+top] 	= top+"px";
-						vars['left'+left] 	= left+"px";
-						style += "position: absolute; width: var(--width"+w+");  height: var(--height"+h+"); top: var(--top"+top+");left: var(--left"+left+");";
-					}else{
+						left = left.toFixed()
+						vars['width' + w] = w + "px";
+						vars['height' + h] = h + "px";
+						vars['top' + top] = top + "px";
+						vars['left' + left] = left + "px";
+						style += "position: absolute; width: var(--width" + w + ");  height: var(--height" + h + "); top: var(--top" + top + ");left: var(--left" + left + ");";
+					} else {
 						style += "position: absolute; width: " + val.sX + "px;  height:" + val.sY + "px; top:" + top + "px;left:" + left + "px;";
 					}
 				}
@@ -454,26 +581,26 @@ function create() {
 						div0 = "." + val.name + "{top:" + val.mY_start + "px;left:" + val.mX_start + "px; position: relative;}";
 					} else {
 						$("<div>", { class: "test " + val.name }).appendTo(".raw");
-					div0 = "." + val.name + " {top:" + val.mY_start + "px;left:" + val.mX_start + "px; position: relative;}";
+						div0 = "." + val.name + " {top:" + val.mY_start + "px;left:" + val.mX_start + "px; position: relative;}";
 					}
 				} else {
 					if (child_DOM) {
-						$("<div>", {class: "test " + val.name}).appendTo("." + first.name);
+						$("<div>", { class: "test " + val.name }).appendTo("." + first.name);
 					} else {
 						$("<div>", { class: "test " + val.name }).appendTo("." + first.name);
 					}
 					let left = val.mX_start - first.mX_start;
 					let top = val.mY_start - first.mY_start;
-					if(use_vars){
-						vars['width'+val.sX]	= val.sX+"px";
-						vars['height'+val.sY]	= val.sY+"px";
-						vars['top'+top] 		= top+"px";
-						vars['left'+left] 		= left+"px";
-						style += "position: absolute; width: var(--width"+val.sX+");  height: var(--height"+val.sY+"); margin: var(--top"+top+") auto auto var(--left"+left+");";
-					}else{
+					if (use_vars) {
+						vars['width' + val.sX] = val.sX + "px";
+						vars['height' + val.sY] = val.sY + "px";
+						vars['top' + top] = top + "px";
+						vars['left' + left] = left + "px";
+						style += "position: absolute; width: var(--width" + val.sX + ");  height: var(--height" + val.sY + "); margin: var(--top" + top + ") auto auto var(--left" + left + ");";
+					} else {
 						style += "position: absolute; width: " + val.sX + "px;  height:" + val.sY + "px; margin: " + top + "px auto auto " + left + "px;";
 					}
-					
+
 				}
 				break;
 
@@ -495,13 +622,13 @@ function create() {
 				break;
 		}
 		if (val.color != "#ffffff") {
-			if(use_vars){
-				vars['color-'+i] = val.color;
-				style += "background-color:var(--color-"+i+");";
-			}else{
+			if (use_vars) {
+				vars['color-' + i] = val.color;
+				style += "background-color:var(--color-" + i + ");";
+			} else {
 				style += "background-color:" + val.color + ";";
 			}
-			
+
 		}
 
 		style += "}";
@@ -512,14 +639,14 @@ function create() {
 		$("#div0").html(div0);
 		style = "";
 	});
-	if(use_vars){
+	if (use_vars) {
 		jQuery.each(vars, function (i, val) {
-			vars_str += "\n--"+i+":"+val+";"
+			vars_str += "\n--" + i + ":" + val + ";"
 		});
-		vars_str+="}"
-		style_data = vars_str+"\n"+ style_data
+		vars_str += "}"
+		style_data = vars_str + "\n" + style_data
 	}
-	
+
 	$(".style").html(style_data);
 	$("#prew_html").text($(".raw").html());
 	$("#prew_css").text($(".style").html());

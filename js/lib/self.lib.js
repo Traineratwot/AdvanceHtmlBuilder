@@ -120,7 +120,7 @@ function create_param(d) {
 			cursor(circle_cur);
 			break;
 		case "hand":
-			cursor(hand_cur);
+			cursor(handUP, 12, 12);
 			break;
 		case "text":
 			cursor(text_cur);
@@ -138,6 +138,9 @@ function set_cur() {
 			break;
 		case "circle":
 			cursor(circle_cur);
+			break;
+		case "hand":
+			cursor(handUP, 16, 16);
 			break;
 
 		default:
