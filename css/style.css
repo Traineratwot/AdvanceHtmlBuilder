@@ -151,6 +151,11 @@ body {
 	right: 4px;
 	color: #4e4e4e;
 }
+#button-70 .smooth-grid:after {
+	content: "\f00a";
+	right: 4px;
+	color: #4e4e4e;
+}
 
 #button-70 .knobs span {
 	display: inline-block;

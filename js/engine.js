@@ -9,7 +9,7 @@ let msd = []
 let lp = 0
 let opty = false
 let selWH, sideWH
-const DZPX = 10
+const DZPX = 5
 function preload() {
 	circle_cur	 = "css/cursor/O.cur";
 	rect_cur 	 = "css/cursor/cube.cur";
@@ -37,7 +37,7 @@ function setup() {
 // 	mss = $.cookie('mss');
 // }
 let fps;
-function draw() {
+async function draw() {
 	if (opty) {
 		fps = 60;
 	} else {
@@ -66,12 +66,59 @@ function draw() {
 	}
 	for (key in mss) {
 		fill(mss[key].color);
-		if (key == selWH && sideWH == "") {
-			let mx = (abs(mouseX - pmouseX) <= gird_size / 20) ? round((mouseX + mouseX_start) / gird_size) * gird_size : mouseX + mouseX_start
-			let my = (abs(mouseY - pmouseY) <= gird_size / 20) ? round((mouseY + mouseY_start) / gird_size) * gird_size : mouseY + mouseY_start
+		if (key == selWH) {
+			let $sg = $('#smooth-grid').prop('checked');
+			let mx  = ($sg) ? round((mouseX + mouseX_start) / gird_size)	* gird_size	: mouseX + mouseX_start
+			let my  = ($sg) ? round((mouseY + mouseY_start) / gird_size)	* gird_size	: mouseY + mouseY_start
+			let mx2 = ($sg) ? round((mouseX				  ) / gird_size)	* gird_size	: mouseX
+			let my2 = ($sg) ? round((mouseY				  ) / gird_size)	* gird_size	: mouseY
 			switch (mss[key].type) {
 				case "rect":
-					rect(mx, my, mss[key].sX, mss[key].sY, mss[key].settings.corner.LU, mss[key].settings.corner.RU, mss[key].settings.corner.RD, mss[key].settings.corner.LD);
+					let rx = mss[key].mX_start
+					let ry = mss[key].mY_start
+					let rw = mss[key].sX
+					let rh = mss[key].sY
+					switch (sideWH) {
+						case "up":
+							ry = my2
+							rh = mss[selWH].mY_end - my2
+							break;
+						case "down":
+							rh = my2 - mss[selWH].mY_start
+							break;
+						case "left":
+							rx = mx2
+							rw = mss[selWH].mX_end - mx2
+							break;
+						case "right":
+							rw = mx2 - mss[selWH].mX_start
+							break;
+						case "upleft":
+							rx = mx2
+							ry = my2
+							rw = mss[selWH].mY_end - mx2
+							rh = mss[selWH].mX_end - my2
+							break;
+						case "upright":
+							rx = my2
+							rw = mx2 - mss[selWH].mX_start
+							rh = mss[selWH].mY_end - my2
+							break;
+						case "downleft":
+							rx = mx2
+							rw = mss[selWH].mX_end - mx2
+							rh = my2 - mss[selWH].mY_start
+							break;
+						case "downright":
+							rw = mx2 - mss[selWH].mX_start
+							rh = my2 - mss[selWH].mY_start
+							break;
+						default:
+							rx = mx
+							ry = my
+							break;
+					}
+					rect(rx, ry, rw, rh, mss[key].settings.corner.LU, mss[key].settings.corner.RU, mss[key].settings.corner.RD, mss[key].settings.corner.LD);
 					break;
 				case "circle":
 					ellipse(mx, my, mss[key].sX, mss[key].sY);
@@ -185,7 +232,7 @@ function mousePressed() {
 		dra = true;
 		if (tool == "hand") {
 			let mae = hand()
-			//console.log(hand())
+			console.log(hand())
 			selWH = mae.res
 			sideWH = mae.side
 			if (selWH !== undefined) {
@@ -208,11 +255,11 @@ function mousePressed() {
 						break;
 				
 					default:
-				cursor(handDown, 12, 12);
+						cursor(handDown, 12, 12);
+					break;
+				}
 				mouseX_start = mss[selWH].mX_start - mouseX
 				mouseY_start = mss[selWH].mY_start - mouseY
-				break;
-				}
 			}
 			// console.log(selWH)
 		}
