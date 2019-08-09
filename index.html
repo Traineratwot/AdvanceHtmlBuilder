@@ -26,7 +26,8 @@
 
 <body>
 	<div id="manual" class="passive" style="opacity: 0;">
-		<button id="mnclose" onclick="$('#manual').attr('style',''); $('#mnclose_tr').click()"><i class="fas fa-window-close"></i></button>
+		<button id="mnclose" onclick="$('#manual').attr('style',''); $('#mnclose_tr').click()"><i
+				class="fas fa-window-close"></i></button>
 		<div class="text" style="height: 100%;width: 100%;">
 			<iframe id="manualframe" src="" frameborder="0"></iframe>
 		</div>
@@ -85,9 +86,9 @@
 					<td>
 						<button onclick="redo()"><i class="fas fa-redo"></i></button>
 					</td>
-					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number"
-							title="Grid" min="0" max="100" onmousemove="$(this).focus()"
-							onmouseout="draw();$(this).blur()" value="20" />px</td>
+					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number" title="Grid"
+							min="0" max="100" onmousemove="$(this).focus()" onmouseout="draw();$(this).blur()"
+							value="20" />px</td>
 					<td>
 						<div class='switcher'>
 							<label class='switcher-label switcher-off' for='off1'>px</label>
@@ -124,7 +125,7 @@
 					</td>
 					<td>
 						<div class="button b20" id="button-70">
-							<input type="checkbox" class="checkbox help" onchange="pp(this)" id="pp" />
+							<input type="checkbox" class="checkbox" onchange="pp(this)" id="pp" />
 							<div class="knobs fas pp">
 								<span><i class="fas fa-play"></i></span>
 							</div>
@@ -141,7 +142,8 @@
 						<button id="foto" onclick="save('AHB.jpg');"><i class="fas fa-camera"></i></i></button>
 					</td>
 					<td>
-						<button id="mnclose_tr" newCss="1" do="ClickSwitch" linkelem="#manual" class0="active" class1="passive">manual</button>
+						<button id="mnclose_tr" newCss="1" do="ClickSwitch" linkelem="#manual" class0="active"
+							class1="passive">manual</button>
 					</td>
 				</tr>
 			</table>
@@ -177,7 +179,9 @@
 			</tbody>
 		</table>
 		<div class="reklama">
-			<iframe src="https://www.instant-gaming.com/affgames/igr7741792/200x200" scrolling="no" frameborder="0" style="border: 1px solid #ccc; border-radius: 10px; overflow:hidden; width:200px; height:200px;" allowTransparency="true"></iframe>
+			<iframe src="https://www.instant-gaming.com/affgames/igr7741792/200x200" scrolling="no" frameborder="0"
+				style="border: 1px solid #ccc; border-radius: 10px; overflow:hidden; width:200px; height:200px;"
+				allowTransparency="true"></iframe>
 		</div>
 	</div>
 	<script src="js/lib/snippet/highlight.pack.js"></script>
@@ -186,8 +190,14 @@
 			if ($(el).prop("checked")) {
 				opty = true
 				noLoop()
+				if (handcheckinterval) {
+					clearInterval(handcheckinterval);
+				}
 			} else {
 				opty = false
+				handcheckinterval = setInterval(() => {
+					handcheck();
+				}, 200);
 				loop()
 			}
 		}
@@ -205,7 +215,7 @@
 			var q;
 			if (el == false) {
 				$(".help").each(function (i, elem) {
-					
+
 					let u = $(this).attr("onchange");
 					if (!u) {
 						$(this).attr("onchange", "help(this);");
@@ -362,6 +372,7 @@
 			$("#manualframe").attr('src', manual)
 
 		});
+
 		function clian() {
 			dra = false;
 			mouseX_start = 0;

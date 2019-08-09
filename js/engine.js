@@ -9,6 +9,7 @@ let msd = []
 let lp = 0
 let opty = false
 let selWH, sideWH
+const DZPX = 10
 function preload() {
 	circle_cur	 = "css/cursor/O.cur";
 	rect_cur 	 = "css/cursor/cube.cur";
@@ -28,7 +29,7 @@ function setup() {
 	ellipseMode(CORNER);
 	angleMode(DEGREES);
 	setInterval(() => {
-		$("#fps").text(round(frameRate()))
+		$("#fps").text(round(frameRate()));
 	}, 200);
 }
 
@@ -148,19 +149,19 @@ function hand() {
 			}
 		}
 		if (element.type == "rect") {
-			if (mouseX >= element.mX_start - 20 && mouseX <= element.mX_end + 20 && abs(element.mY_start - mouseY) <= 20) {
+			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_start - mouseY) <= DZPX) {
 				res = i
 				side += "up"
 			}
-			if (mouseX >= element.mX_start - 20 && mouseX <= element.mX_end + 20 && abs(element.mY_end - mouseY) <= 20) {
+			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_end - mouseY) <= DZPX) {
 				res = i
 				side += "down"
 			}
-			if (mouseY >= element.mY_start - 20 && mouseY <= element.mY_end + 20 && abs(element.mX_start - mouseX) <= 20) {
+			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_start - mouseX) <= DZPX) {
 				res = i
 				side += "left"
 			}
-			if (mouseY >= element.mY_start - 20 && mouseY <= element.mY_end + 20 && abs(element.mX_end - mouseX) <= 20) {
+			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_end - mouseX) <= DZPX) {
 				res = i
 				side += "right"
 			}
@@ -301,10 +302,10 @@ function mouseReleased() {
 				mss.push(m);
 			}
 		}
+		update_div();
 	}
 	mouseX_start = -1;
 	mouseY_start = -1;
-	update_div();
 	selWH = undefined
 	sideWH = ""
 	dra = false;
@@ -462,7 +463,7 @@ function redo() {
 	update_div();
 }
 var last_mss = []
-function create() {
+async function create() {
 	if (opty) {
 		draw();
 	}
