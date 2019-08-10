@@ -20,6 +20,7 @@
 	<script type="text/javascript" src="js/lib/self.lib.js"></script>
 	<script type="text/javascript" src="js/lib/zclip.min.js"></script>
 	<script type="text/javascript" src="js/lib/p5.collide2D.js"></script>
+	<script type="text/javascript" src="js/lib/keymaster.js"></script>
 	<link rel="stylesheet" type="text/css" href="js/lib/snippet/prism.css" />
 	<title>Продвинутый Html билдер</title>
 </head>
@@ -428,6 +429,10 @@
 					break;
 			}
 		}
+		key('ctrl+z', undo());
+		key('ctrl+y', redo());
+		key('p', function () {$('#pp').click()});
+		key('ctrl+del', clian());
 	</script>
 </body>
 
