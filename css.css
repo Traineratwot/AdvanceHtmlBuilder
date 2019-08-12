@@ -327,43 +327,35 @@ ul li {
 	color: #2487D9 !important;
 }
 
-.top {
-	--bt: -32px;
-	--bn: -5px;
-}
-
-.bottom {
-	--bt: 26px;
-	--bn: 20px;
-}
-
 .tooltip {
 	z-index: 999;
 	position: relative;
 }
 
 .hov:after,.tooltip:hover:after {
+	font-size: 8px;
 	text-transform: uppercase;
 	background: #333;
 	border-radius: 5px;
-	bottom: var(--bt);
+	bottom: -26px;
 	color: #fff;
 	content: attr(data-title);
-	margin: 0 -50%;
+	margin: 0 -40%;
 	transform: translate(-50%);
 	padding: 5px 10px;
 	position: absolute;
 	z-index: 98;
 }
 
+
 .hov:before,.tooltip:hover:before {
 	border: solid;
 	border-color: #333 transparent;
 	border-width: 6px 6px 0 6px;
-	bottom: var(--bn);
+	bottom: -5px;
 	color: #fff;
 	content: "";
-	left: 25%;
+	left: 40%;
 	position: absolute;
 	z-index: 99;
 }

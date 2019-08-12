@@ -53,8 +53,8 @@ function tool_change(value) {
 		tool = value;
 		set_cur();
 		update_div();
-		$('.tool_active').removeClass('tool_active');
-		$('#'+value).addClass('tool_active');
+		$(".tool_active").removeClass("tool_active");
+		$("#" + value).addClass("tool_active");
 		if (value == "hand") {
 			if (!opty) {
 				handcheckinterval = setInterval(() => {
@@ -148,44 +148,46 @@ function create_param(d) {
 }
 
 async function handcheck() {
-	let side = "";
-	for (let i = mss.length - 1; i >= 0; i--) {
-		const element = mss[i];
-		if (element.type == "rect") {
-			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_start - mouseY) <= DZPX) {
-				side += "up";
-			}
-			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_end - mouseY) <= DZPX) {
-				side += "down";
-			}
-			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_start - mouseX) <= DZPX) {
-				side += "left";
-			}
-			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_end - mouseX) <= DZPX) {
-				side += "right";
+	if (stop == false) {
+		let side = "";
+		for (let i = mss.length - 1; i >= 0; i--) {
+			const element = mss[i];
+			if (element.type == "rect") {
+				if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_start - mouseY) <= DZPX) {
+					side += "up";
+				}
+				if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_end - mouseY) <= DZPX) {
+					side += "down";
+				}
+				if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_start - mouseX) <= DZPX) {
+					side += "left";
+				}
+				if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_end - mouseX) <= DZPX) {
+					side += "right";
+				}
 			}
 		}
-	}
-	switch (side) {
-		case "up":
-		case "down":
-			cursor(UD, 5, 11);
-			break;
-		case "right":
-		case "left":
-			cursor(RL, 11, 5);
-			break;
-		case "upright":
-		case "downleft":
-			cursor(DLUR, 8, 8);
-			break;
-		case "downright":
-		case "upleft":
-			cursor(URDL, 8, 8);
-			break;
-		default:
-			cursor(handUP, 12, 12);
-			break;
+		switch (side) {
+			case "up":
+			case "down":
+				cursor(UD, 5, 11);
+				break;
+			case "right":
+			case "left":
+				cursor(RL, 11, 5);
+				break;
+			case "upright":
+			case "downleft":
+				cursor(DLUR, 8, 8);
+				break;
+			case "downright":
+			case "upleft":
+				cursor(URDL, 8, 8);
+				break;
+			default:
+				cursor(handUP, 12, 12);
+				break;
+		}
 	}
 }
 

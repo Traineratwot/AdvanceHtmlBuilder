@@ -57,15 +57,15 @@
 				<tr>
 					<th>fps</th>
 					<th>bg color</th>
-					<th>clear</th>
+					<th class="tooltip top" data-title="del">clear</th>
 					<th>refresh</th>
-					<th>undo</th>
-					<th>redo</th>
+					<th class="tooltip top" data-title="ctrl+z">undo</th>
+					<th class="tooltip top" data-title="ctrl+y">redo</th>
 					<th>gird</th>
 					<th>px or %</th>
 					<th>class/DOM</th>
 					<th>use vars?</th>
-					<th>P&P</th>
+					<th class="tooltip top" data-title="p">P&P</th>
 					<th>S/G</th>
 					<th>exp</th>
 					<th>imp</th>
@@ -77,18 +77,18 @@
 					<td><input type="color" name="color" id="color" class="help"
 							onchange="bg_c(this.value);$('.raw').css({'background-color': this.value})" /></td>
 					<td>
-						<button class="tooltip bottom" data-title="del" onclick="clian()"><i
+						<button onclick="clian()"><i
 								class="fas fa-trash-alt"></i></button>
 					</td>
 					<td>
 						<button onclick="update_div(true)"><i class="fas fa-sync"></i></button>
 					</td>
 					<td>
-						<button class="tooltip bottom" data-title="ctrl+z" onclick="undo()"><i
+						<button  onclick="undo()"><i
 								class="fas fa-undo"></i></button>
 					</td>
 					<td>
-						<button class="tooltip bottom" data-title="ctrl+y" onclick="redo()"><i
+						<button  onclick="redo()"><i
 								class="fas fa-redo"></i></button>
 					</td>
 					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number" title="Grid"
@@ -131,8 +131,8 @@
 					<td>
 						<div class="button b20" id="button-70">
 							<input type="checkbox" class="checkbox" onchange="pp(this)" id="pp" />
-							<div class="knobs fas pp">
-								<span><i class="fas fa-play"></i></span>
+							<div class="knobs fas pp" >
+								<span><i class="fas fa-play "></i></span>
 							</div>
 							<div class="layer"></div>
 						</div>

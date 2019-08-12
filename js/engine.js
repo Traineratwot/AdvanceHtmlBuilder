@@ -1,25 +1,26 @@
-let bg_color = 0
-let dra = false
-let mouseX_start = 0
-let mouseY_start = 0
-let mss = []
-let mcc = []
-let div = []
-let msd = []
-let lp = 0
-let opty = false
-let selWH, sideWH
-const DZPX = 5
+let bg_color = 0;
+let dra = false;
+let mouseX_start = 0;
+let mouseY_start = 0;
+let mss = [];
+let mcc = [];
+let div = [];
+let msd = [];
+let stop = false;
+let lp = 0;
+let opty = false;
+let selWH, sideWH;
+const DZPX = 5;
 function preload() {
-	circle_cur	 = "css/cursor/O.cur";
-	rect_cur 	 = "css/cursor/cube.cur";
-	text_cur 	 = "css/cursor/text.cur";
-	handUP 		 = "css/cursor/handUp.cur";
-	handDown	 = "css/cursor/handDown.cur";
-	UD 			 = "css/cursor/aero_ns.cur";
-	RL			 = "css/cursor/aero_ew.cur";
-	DLUR		 = "css/cursor/aero_nesw.cur";
-	URDL		 = "css/cursor/aero_nwse.cur";
+	circle_cur = "css/cursor/O.cur";
+	rect_cur = "css/cursor/cube.cur";
+	text_cur = "css/cursor/text.cur";
+	handUP = "css/cursor/handUp.cur";
+	handDown = "css/cursor/handDown.cur";
+	UD = "css/cursor/aero_ns.cur";
+	RL = "css/cursor/aero_ew.cur";
+	DLUR = "css/cursor/aero_nesw.cur";
+	URDL = "css/cursor/aero_nwse.cur";
 }
 
 function setup() {
@@ -67,55 +68,55 @@ async function draw() {
 	for (key in mss) {
 		fill(mss[key].color);
 		if (key == selWH) {
-			let $sg = $('#smooth-grid').prop('checked');
-			let mx  = ($sg) ? round((mouseX + mouseX_start) / gird_size)	* gird_size	: mouseX + mouseX_start
-			let my  = ($sg) ? round((mouseY + mouseY_start) / gird_size)	* gird_size	: mouseY + mouseY_start
-			let mx2 = ($sg) ? round((mouseX				  ) / gird_size)	* gird_size	: mouseX
-			let my2 = ($sg) ? round((mouseY				  ) / gird_size)	* gird_size	: mouseY
+			let $sg = $("#smooth-grid").prop("checked");
+			let mx = $sg ? round((mouseX + mouseX_start) / gird_size) * gird_size : mouseX + mouseX_start;
+			let my = $sg ? round((mouseY + mouseY_start) / gird_size) * gird_size : mouseY + mouseY_start;
+			let mx2 = $sg ? round(mouseX / gird_size) * gird_size : mouseX;
+			let my2 = $sg ? round(mouseY / gird_size) * gird_size : mouseY;
 			switch (mss[key].type) {
 				case "rect":
-					let rx = mss[key].mX_start
-					let ry = mss[key].mY_start
-					let rw = mss[key].sX
-					let rh = mss[key].sY
+					let rx = mss[key].mX_start;
+					let ry = mss[key].mY_start;
+					let rw = mss[key].sX;
+					let rh = mss[key].sY;
 					switch (sideWH) {
 						case "up":
-							ry = my2
-							rh = mss[selWH].mY_end - my2
+							ry = my2;
+							rh = mss[selWH].mY_end - my2;
 							break;
 						case "down":
-							rh = my2 - mss[selWH].mY_start
+							rh = my2 - mss[selWH].mY_start;
 							break;
 						case "left":
-							rx = mx2
-							rw = mss[selWH].mX_end - mx2
+							rx = mx2;
+							rw = mss[selWH].mX_end - mx2;
 							break;
 						case "right":
-							rw = mx2 - mss[selWH].mX_start
+							rw = mx2 - mss[selWH].mX_start;
 							break;
 						case "upleft":
-							rx = mx2
-							ry = my2
-							rw = mss[selWH].mY_end - mx2
-							rh = mss[selWH].mX_end - my2
+							rx = mx2;
+							ry = my2;
+							rw = mss[selWH].mY_end - mx2;
+							rh = mss[selWH].mX_end - my2;
 							break;
 						case "upright":
-							rx = my2
-							rw = mx2 - mss[selWH].mX_start
-							rh = mss[selWH].mY_end - my2
+							rx = my2;
+							rw = mx2 - mss[selWH].mX_start;
+							rh = mss[selWH].mY_end - my2;
 							break;
 						case "downleft":
-							rx = mx2
-							rw = mss[selWH].mX_end - mx2
-							rh = my2 - mss[selWH].mY_start
+							rx = mx2;
+							rw = mss[selWH].mX_end - mx2;
+							rh = my2 - mss[selWH].mY_start;
 							break;
 						case "downright":
-							rw = mx2 - mss[selWH].mX_start
-							rh = my2 - mss[selWH].mY_start
+							rw = mx2 - mss[selWH].mX_start;
+							rh = my2 - mss[selWH].mY_start;
 							break;
 						default:
-							rx = mx
-							ry = my
+							rx = mx;
+							ry = my;
 							break;
 					}
 					rect(rx, ry, rw, rh, mss[key].settings.corner.LU, mss[key].settings.corner.RU, mss[key].settings.corner.RD, mss[key].settings.corner.LD);
@@ -183,41 +184,41 @@ async function draw() {
 function hand() {
 	for (let i = mss.length - 1; i >= 0; i--) {
 		const element = mss[i];
-		let res
-		let side = ""
+		let res;
+		let side = "";
 		// console.log(element)
 		if (mouseX >= element.mX_start && mouseX <= element.mX_end && mouseY >= element.mY_start && mouseY <= element.mY_end) {
 			if (element.type == "circle") {
 				if (!collidePointEllipse(mouseX, mouseY, element.mX_start, element.mY_start, element.sX, element.sY)) {
-					res = i
+					res = i;
 				}
 			} else {
-				res = i
+				res = i;
 			}
 		}
 		if (element.type == "rect") {
 			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_start - mouseY) <= DZPX) {
-				res = i
-				side += "up"
+				res = i;
+				side += "up";
 			}
 			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_end - mouseY) <= DZPX) {
-				res = i
-				side += "down"
+				res = i;
+				side += "down";
 			}
 			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_start - mouseX) <= DZPX) {
-				res = i
-				side += "left"
+				res = i;
+				side += "left";
 			}
 			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_end - mouseX) <= DZPX) {
-				res = i
-				side += "right"
+				res = i;
+				side += "right";
 			}
 		}
 		if (res !== undefined) {
-			return {res, side}
+			return { res, side };
 		}
 	}
-	return {res:undefined, side:""}
+	return { res: undefined, side: "" };
 }
 
 //"/09f4e9a096142be8.png"
@@ -231,35 +232,40 @@ function mousePressed() {
 	if (mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height) {
 		dra = true;
 		if (tool == "hand") {
-			let mae = hand()
-			console.log(hand())
-			selWH = mae.res
-			sideWH = mae.side
+			let mae = hand();
+			console.log(hand());
+			selWH = mae.res;
+			sideWH = mae.side;
 			if (selWH !== undefined) {
 				switch (sideWH) {
 					case "up":
 					case "down":
-						cursor(UD,5,11)
+						stop = true;
+						cursor(UD, 5, 11);
 						break;
 					case "right":
 					case "left":
-						cursor(RL,11,5)
+						stop = true;
+						cursor(RL, 11, 5);
 						break;
 					case "upright":
 					case "downleft":
-						cursor(DLUR,8,8)
+						stop = true;
+						cursor(DLUR, 8, 8);
 						break;
 					case "downright":
 					case "upleft":
-						cursor(URDL,8,8)
+						stop = true;
+						cursor(URDL, 8, 8);
 						break;
-				
+
 					default:
+						stop = true;
 						cursor(handDown, 12, 12);
-					break;
+						break;
 				}
-				mouseX_start = mss[selWH].mX_start - mouseX
-				mouseY_start = mss[selWH].mY_start - mouseY
+				mouseX_start = mss[selWH].mX_start - mouseX;
+				mouseY_start = mss[selWH].mY_start - mouseY;
 			}
 			// console.log(selWH)
 		}
@@ -276,50 +282,59 @@ function mouseReleased() {
 				switch (sideWH) {
 					case "up":
 						mss[selWH].mY_start = round(mouseY / gird_size) * gird_size;
-						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start;
+						stop = false;
 						break;
 					case "down":
 						mss[selWH].mY_end = round(mouseY / gird_size) * gird_size;
-						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start;
+						stop = false;
 						break;
 					case "left":
 						mss[selWH].mX_start = round(mouseX / gird_size) * gird_size;
-						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start;
+						stop = false;
 						break;
 					case "right":
 						mss[selWH].mX_end = round(mouseX / gird_size) * gird_size;
-						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start;
+						stop = false;
 						break;
 					case "upleft":
 						mss[selWH].mY_start = round(mouseY / gird_size) * gird_size;
 						mss[selWH].mX_start = round(mouseX / gird_size) * gird_size;
-						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
-						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start;
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start;
+						stop = false;
 						break;
 					case "upright":
 						mss[selWH].mY_start = round(mouseY / gird_size) * gird_size;
-						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start;
 						mss[selWH].mX_end = round(mouseX / gird_size) * gird_size;
-						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start;
+						stop = false;
 						break;
 					case "downleft":
 						mss[selWH].mY_end = round(mouseY / gird_size) * gird_size;
-						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start;
 						mss[selWH].mX_start = round(mouseX / gird_size) * gird_size;
-						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start;
+						stop = false;
 						break;
 					case "downright":
 						mss[selWH].mY_end = round(mouseY / gird_size) * gird_size;
-						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start
+						mss[selWH].sY = mss[selWH].mY_end - mss[selWH].mY_start;
 						mss[selWH].mX_end = round(mouseX / gird_size) * gird_size;
-						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start
+						mss[selWH].sX = mss[selWH].mX_end - mss[selWH].mX_start;
+						stop = false;
 						break;
-				
+
 					default:
 						mss[selWH].mX_start = round((mouseX + mouseX_start) / gird_size) * gird_size;
 						mss[selWH].mY_start = round((mouseY + mouseY_start) / gird_size) * gird_size;
-						mss[selWH].mX_end = mss[selWH].mX_start + mss[selWH].sX
-						mss[selWH].mY_end = mss[selWH].mY_start + mss[selWH].sY
+						mss[selWH].mX_end = mss[selWH].mX_start + mss[selWH].sX;
+						mss[selWH].mY_end = mss[selWH].mY_start + mss[selWH].sY;
+						stop = false;
 						break;
 				}
 			}
@@ -353,8 +368,8 @@ function mouseReleased() {
 	}
 	mouseX_start = -1;
 	mouseY_start = -1;
-	selWH = undefined
-	sideWH = ""
+	selWH = undefined;
+	sideWH = "";
 	dra = false;
 	if (opty) {
 		noLoop();
@@ -366,9 +381,9 @@ function windowResized() {
 function update_div(t = false) {
 	removeElements();
 	create_tool();
-	msd = {}
+	msd = {};
 	for (key in mss) {
-		let e = mss[key]
+		let e = mss[key];
 		switch (e.type) {
 			case "rect":
 				img = '<i class="far fa-square"></i>';
@@ -509,7 +524,7 @@ function redo() {
 	}
 	update_div();
 }
-var last_mss = []
+var last_mss = [];
 async function create() {
 	if (opty) {
 		draw();
@@ -519,11 +534,11 @@ async function create() {
 	$("#prew_html").html("");
 	$("#prew_css").html("");
 	$(".style").html("");
-	let child_DOM = $('#child_DOM').prop('checked');
-	let use_vars = !$('#use_vars').prop('checked');
+	let child_DOM = $("#child_DOM").prop("checked");
+	let use_vars = !$("#use_vars").prop("checked");
 	let style = "";
 	let first = [];
-	let style_data = ''
+	let style_data = "";
 	if (use_vars) {
 		var vars_str = ":root{";
 		var vars = {};
@@ -572,19 +587,18 @@ async function create() {
 						style = "." + val.name + "{";
 					}
 					if (use_vars) {
-						w = w.toFixed()
-						h = h.toFixed()
-						top = top.toFixed()
-						left = left.toFixed()
-						vars['width' + w] = w + "%";
-						vars['height' + h] = h + "%";
-						vars['top' + top] = top + "%";
-						vars['left' + left] = left + "%";
+						w = w.toFixed();
+						h = h.toFixed();
+						top = top.toFixed();
+						left = left.toFixed();
+						vars["width" + w] = w + "%";
+						vars["height" + h] = h + "%";
+						vars["top" + top] = top + "%";
+						vars["left" + left] = left + "%";
 						style += "position: absolute; width: var(--width" + w + ");  height: var(--height" + h + "); top: var(--top" + top + ");left: var(--left" + left + ");";
 					} else {
 						style += "position: absolute; width: " + w + "%;  height:" + h + "%; top:" + top + "%;left:" + left + "%;";
 					}
-
 				}
 				break;
 			case "px":
@@ -607,14 +621,14 @@ async function create() {
 					let left = val.mX_start - first.mX_start;
 					let top = val.mY_start - first.mY_start;
 					if (use_vars) {
-						w = val.sX.toFixed()
-						h = val.sY.toFixed()
-						top = top.toFixed()
-						left = left.toFixed()
-						vars['width' + w] = w + "px";
-						vars['height' + h] = h + "px";
-						vars['top' + top] = top + "px";
-						vars['left' + left] = left + "px";
+						w = val.sX.toFixed();
+						h = val.sY.toFixed();
+						top = top.toFixed();
+						left = left.toFixed();
+						vars["width" + w] = w + "px";
+						vars["height" + h] = h + "px";
+						vars["top" + top] = top + "px";
+						vars["left" + left] = left + "px";
 						style += "position: absolute; width: var(--width" + w + ");  height: var(--height" + h + "); top: var(--top" + top + ");left: var(--left" + left + ");";
 					} else {
 						style += "position: absolute; width: " + val.sX + "px;  height:" + val.sY + "px; top:" + top + "px;left:" + left + "px;";
@@ -641,15 +655,14 @@ async function create() {
 					let left = val.mX_start - first.mX_start;
 					let top = val.mY_start - first.mY_start;
 					if (use_vars) {
-						vars['width' + val.sX] = val.sX + "px";
-						vars['height' + val.sY] = val.sY + "px";
-						vars['top' + top] = top + "px";
-						vars['left' + left] = left + "px";
+						vars["width" + val.sX] = val.sX + "px";
+						vars["height" + val.sY] = val.sY + "px";
+						vars["top" + top] = top + "px";
+						vars["left" + left] = left + "px";
 						style += "position: absolute; width: var(--width" + val.sX + ");  height: var(--height" + val.sY + "); margin: var(--top" + top + ") auto auto var(--left" + left + ");";
 					} else {
 						style += "position: absolute; width: " + val.sX + "px;  height:" + val.sY + "px; margin: " + top + "px auto auto " + left + "px;";
 					}
-
 				}
 				break;
 
@@ -672,39 +685,39 @@ async function create() {
 		}
 		if (val.color != "#ffffff") {
 			if (use_vars) {
-				vars['color-' + i] = val.color;
+				vars["color-" + i] = val.color;
 				style += "background-color:var(--color-" + i + ");";
 			} else {
 				style += "background-color:" + val.color + ";";
 			}
 		}
 		style += "}";
-		style_data += style
+		style_data += style;
 		$("#div0").html("");
 		$("#div0").html(div0);
 		style = "";
-	};
+	}
 	if (use_vars) {
-		jQuery.each(vars, function (i, val) {
-			vars_str += "\n--" + i + ":" + val + ";"
+		jQuery.each(vars, function(i, val) {
+			vars_str += "\n--" + i + ":" + val + ";";
 		});
-		vars_str += "}"
-		style_data = vars_str + "\n" + style_data
+		vars_str += "}";
+		style_data = vars_str + "\n" + style_data;
 	}
 
 	$(".style").html(style_data);
 	$("#prew_html").text($(".raw").html());
 	$("#prew_css").text($(".style").html());
-	$("pre code").each(function (index, element){
+	$("pre code").each(function(index, element) {
 		hljs.highlightBlock(element);
 	});
-	$(".hljs-tag").each(function (index, element) {
+	$(".hljs-tag").each(function(index, element) {
 		this.after("\n");
 	});
-	$(".hljs-attribute").each(function (index, element) {
+	$(".hljs-attribute").each(function(index, element) {
 		this.before("\n");
 	});
-	$(".hljs-selector-class").each(function (index, element) {
+	$(".hljs-selector-class").each(function(index, element) {
 		if (index == 0) {
 		} else {
 			this.before("\n\n");
@@ -713,10 +726,10 @@ async function create() {
 	$("#prew_html")
 		.children(".hljs-tag")
 		.not(":first-child,:last-child")
-		.each(function (index, element) {
+		.each(function(index, element) {
 			this.before("  ");
 		});
-	$(".hljs-attr").each(function (index, element) {
+	$(".hljs-attr").each(function(index, element) {
 		$(this).text(" " + $(this).text());
 	});
 	return true;
