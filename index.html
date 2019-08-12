@@ -77,16 +77,19 @@
 					<td><input type="color" name="color" id="color" class="help"
 							onchange="bg_c(this.value);$('.raw').css({'background-color': this.value})" /></td>
 					<td>
-						<button onclick="clian()"><i class="fas fa-trash-alt"></i></button>
+						<button class="tooltip bottom" data-title="del" onclick="clian()"><i
+								class="fas fa-trash-alt"></i></button>
 					</td>
 					<td>
 						<button onclick="update_div(true)"><i class="fas fa-sync"></i></button>
 					</td>
 					<td>
-						<button onclick="undo()"><i class="fas fa-undo"></i></button>
+						<button class="tooltip bottom" data-title="ctrl+z" onclick="undo()"><i
+								class="fas fa-undo"></i></button>
 					</td>
 					<td>
-						<button onclick="redo()"><i class="fas fa-redo"></i></button>
+						<button class="tooltip bottom" data-title="ctrl+y" onclick="redo()"><i
+								class="fas fa-redo"></i></button>
 					</td>
 					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number" title="Grid"
 							min="0" max="100" onmousemove="$(this).focus()" onmouseout="draw();$(this).blur()"
@@ -161,13 +164,13 @@
 		</div>
 		<div id="tool" class="tool">
 			<ul class="ul" id="ul">
-				<li>
+				<li class="tooltip top" data-title="r">
 					<button id="rect" class="tool_active" onclick="tool_change('rect')"><i class="far fa-square"></i></button>
 				</li>
-				<li>
+				<li class="tooltip top" data-title="c">
 					<button id="circle" onclick="tool_change('circle')"><i class="far fa-circle"></i></button>
 				</li>
-				<li>
+				<li class="tooltip top" data-title="h">
 					<button id="hand" onclick="tool_change('hand')"><i class="far far fa-hand-paper"></i></button>
 				</li>
 				<!-- <li>
@@ -450,8 +453,18 @@
 		key('r', function () {
 			tool_change('rect')
 		});
-		key('ctrl+c', function () {
-			console.log('this is not the command line');
+		key('del', function () {
+			clian()
+		});
+		$(document).keydown(function (event) {
+			if (event.code == "AltLeft") {
+				$('.tooltip').addClass('hov')
+			}
+		});
+		$(document).keyup(function () {
+			if (event.code == "AltLeft") {
+				$('.tooltip').removeClass('hov')
+			}
 		});
 	</script>
 </body>
