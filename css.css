@@ -328,7 +328,7 @@ ul li {
 }
 
 .tooltip {
-	z-index: 999;
+	z-index: 10;
 	position: relative;
 }
 
