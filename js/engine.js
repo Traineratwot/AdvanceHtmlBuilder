@@ -436,6 +436,8 @@ function update_div(t = false) {
 	if ($("textarea").is("#css_editor")) {
 		$("#css_editor").detach();
 	}
+	localStorage.setItem('mss',arr2obj2json(mss, true));
+
 	if (!opty || t) {
 		create();
 	}
@@ -742,4 +744,8 @@ async function create() {
 		$(this).text(" " + $(this).text());
 	});
 	return true;
+}
+if(localStorage.mss){
+	mss = json2obj2arr(localStorage.mss, true);
+	update_div();
 }

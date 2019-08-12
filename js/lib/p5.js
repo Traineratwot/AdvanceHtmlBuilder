@@ -42849,11 +42849,9 @@ X.prototype.gluTessProperty=X.prototype.B;X.prototype.gluGetTessProperty=X.proto
 	        if (!n || n < 256) {
 	            continue;
 	        }
-
 	        if (JSON.stringify(names[nameKey]) === nameString) {
 	            return n;
 	        }
-
 	        if (nameID <= n) {
 	            nameID = n + 1;
 	        }
