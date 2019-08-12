@@ -162,13 +162,13 @@
 		<div id="tool" class="tool">
 			<ul class="ul" id="ul">
 				<li>
-					<button onclick="tool_change('rect')"><i class="far fa-square"></i></button>
+					<button id="rect" class="tool_active" onclick="tool_change('rect')"><i class="far fa-square"></i></button>
 				</li>
 				<li>
-					<button onclick="tool_change('circle')"><i class="far fa-circle"></i></button>
+					<button id="circle" onclick="tool_change('circle')"><i class="far fa-circle"></i></button>
 				</li>
 				<li>
-					<button onclick="tool_change('hand')"><i class="far far fa-hand-paper"></i></button>
+					<button id="hand" onclick="tool_change('hand')"><i class="far far fa-hand-paper"></i></button>
 				</li>
 				<!-- <li>
 					<button onclick="tool_change('text')"><i class="fas fa-font"></i></button>
@@ -429,10 +429,30 @@
 					break;
 			}
 		}
-		key('ctrl+z', undo());
-		key('ctrl+y', redo());
-		key('p', function () {$('#pp').click()});
-		key('ctrl+del', clian());
+		key('ctrl+z', function () {
+			undo()
+		});
+		key('ctrl+y', function () {
+			redo()
+		});
+		key('p', function () {
+			$('#pp').click()
+		});
+		key('ctrl+del', function () {
+			clian()
+		});
+		key('h', function () {
+			tool_change('hand')
+		});
+		key('c', function () {
+			tool_change('circle')
+		});
+		key('r', function () {
+			tool_change('rect')
+		});
+		key('ctrl+c', function () {
+			console.log('this is not the command line');
+		});
 	</script>
 </body>
 

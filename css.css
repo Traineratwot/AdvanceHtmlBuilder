@@ -26,6 +26,9 @@ pre {
 	outline: 1px dotted rgba(0, 0, 0, 0.301);
 	outline-offset: -1px;
 }
+.tool_active{
+	background-color: #666;
+}
 #css_editor{
 	position: absolute;
 	width: 50% !important;

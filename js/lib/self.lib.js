@@ -53,7 +53,8 @@ function tool_change(value) {
 		tool = value;
 		set_cur();
 		update_div();
-
+		$('.tool_active').removeClass('tool_active');
+		$('#'+value).addClass('tool_active');
 		if (value == "hand") {
 			if (!opty) {
 				handcheckinterval = setInterval(() => {
