@@ -528,7 +528,8 @@ async function create() {
 		var vars_str = ":root{";
 		var vars = {};
 	}
-	jQuery.each(mss, function (i, val) {
+	for (let i = 0; i < mss.length; i++) {
+		const val = mss[i];
 		switch (child_DOM) {
 			case true:
 				if (i == 0) {
@@ -676,17 +677,13 @@ async function create() {
 			} else {
 				style += "background-color:" + val.color + ";";
 			}
-
 		}
-
 		style += "}";
-
 		style_data += style
-
 		$("#div0").html("");
 		$("#div0").html(div0);
 		style = "";
-	});
+	};
 	if (use_vars) {
 		jQuery.each(vars, function (i, val) {
 			vars_str += "\n--" + i + ":" + val + ";"
@@ -698,8 +695,8 @@ async function create() {
 	$(".style").html(style_data);
 	$("#prew_html").text($(".raw").html());
 	$("#prew_css").text($(".style").html());
-	document.querySelectorAll("pre code").forEach((block) => {
-		hljs.highlightBlock(block);
+	$("pre code").each(function (index, element){
+		hljs.highlightBlock(element);
 	});
 	$(".hljs-tag").each(function (index, element) {
 		this.after("\n");
