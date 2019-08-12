@@ -456,16 +456,17 @@
 		key('del', function () {
 			clian()
 		});
-		$(document).keydown(function (event) {
-			if (event.code == "AltLeft") {
-				$('.tooltip').addClass('hov')
-			}
-		});
 		$(document).keyup(function () {
-			if (event.code == "AltLeft") {
+			if (event.key == "Alt") {
 				$('.tooltip').removeClass('hov')
 			}
 		});
+		$(document).keydown(function (event) {
+			if (event.key == "Alt") {
+				$('.tooltip').addClass('hov')
+			}
+		});
+		
 	</script>
 </body>
 

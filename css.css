@@ -343,6 +343,7 @@ ul li {
 }
 
 .hov:after,.tooltip:hover:after {
+	text-transform: uppercase;
 	background: #333;
 	border-radius: 5px;
 	bottom: var(--bt);
