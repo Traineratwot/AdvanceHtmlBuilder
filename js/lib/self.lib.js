@@ -259,7 +259,7 @@ function create_color(type, key, help = false) {
 	div[key].td[type] = createColorPicker(mss[key].color);
 	div[key].td.child(div[key].td[type]);
 	div[key].td[type].type = type;
-	div[key].td[type].size(27, AUTO);
+	div[key].td[type].size(40, 15);
 	div[key].td[type].attribute("oncontextmenu", "this.value = '#ffffff'; thisInputEvent($(this),'" + type + "'," + key + "); return false;");
 	div[key].td[type].key = key;
 	div[key].td[type].input(myInputEvent);

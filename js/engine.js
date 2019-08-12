@@ -383,6 +383,11 @@ function windowResized() {
 	resizeCanvas(windowWidth / 2, windowHeight / 2);
 }
 function update_div(t = false) {
+	if(mss.length == 0){
+		$('#settings').fadeOut(0)
+	}else{
+		$('#settings').fadeIn(0)
+	}
 	removeElements();
 	create_tool();
 	msd = {};
