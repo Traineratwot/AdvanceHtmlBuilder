@@ -358,7 +358,11 @@ function mouseReleased() {
 			m.sY = m.mY_end - m.mY_start;
 			m.type = tool;
 			m.settings = DeepCopy(settings);
-			m.name = "div" + mss.length;
+			if(mss.length == 0){
+				m.name = "div";
+			}else{
+				m.name = "div" + mss.length;
+			}
 			m.color = settings.color;
 			if (m.sX > 0 && m.sY > 0) {
 				mss.push(m);
