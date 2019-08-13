@@ -58,10 +58,12 @@ async function draw() {
 	stroke(50);
 	strokeWeight(1);
 	if (Number($("#gird_input").val()) > 0) {
-		for (let i = 0; i < width; i += gird_size) {
+		i = 0;
+		for (; i < width; i += gird_size) {
 			line(i, height, i, 0);
 		}
-		for (let i = 0; i < height; i += gird_size) {
+		i = 0;
+		for (; i < height; i += gird_size) {
 			line(width, i, 0, i);
 		}
 	}
@@ -182,7 +184,8 @@ async function draw() {
 }
 
 function hand() {
-	for (let i = mss.length - 1; i >= 0; i--) {
+	let i = mss.length - 1
+	for (; i >= 0; i--) {
 		const element = mss[i];
 		let res;
 		let side = "";
@@ -554,7 +557,8 @@ async function create() {
 		var vars_str = ":root{";
 		var vars = {};
 	}
-	for (let i = 0; i < mss.length; i++) {
+	let i = 0;
+	for (; i < mss.length; i++) {
 		const val = mss[i];
 		switch (child_DOM) {
 			case true:

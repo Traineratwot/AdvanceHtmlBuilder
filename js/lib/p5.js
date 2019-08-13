@@ -2092,7 +2092,7 @@ module.exports={
             "description": "<p>XML is a representation of an XML object, able to parse XML code. Use\n<a href=\"#/p5/loadXML\">loadXML()</a> to load external XML files and create XML objects.</p>\n",
             "is_constructor": 1,
             "example": [
-                "\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  let children = xml.getChildren('animal');\n\n  for (let i = 0; i < children.length; i++) {\n    let id = children[i].getNum('id');\n    let coloring = children[i].getString('species');\n    let name = children[i].getContent();\n    print(id + ', ' + coloring + ', ' + name);\n  }\n}\n\n// Sketch prints:\n// 0, Capra hircus, Goat\n// 1, Panthera pardus, Leopard\n// 2, Equus zebra, Zebra\n</code></div>"
+                "\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  let children = xml.getChildren('animal');\n\n  for (i = 0;; i < children.length; i++) {\n    let id = children[i].getNum('id');\n    let coloring = children[i].getString('species');\n    let name = children[i].getContent();\n    print(id + ', ' + coloring + ', ' + name);\n  }\n}\n\n// Sketch prints:\n// 0, Capra hircus, Goat\n// 1, Panthera pardus, Leopard\n// 2, Equus zebra, Zebra\n</code></div>"
             ],
             "alt": "no image displayed"
         },
@@ -3954,7 +3954,7 @@ module.exports={
             "name": "colorMode",
             "chainable": 1,
             "example": [
-                "\n<div>\n<code>\nnoStroke();\ncolorMode(RGB, 100);\nfor (let i = 0; i < 100; i++) {\n  for (let j = 0; j < 100; j++) {\n    stroke(i, j, 0);\n    point(i, j);\n  }\n}\n</code>\n</div>\n\n<div>\n<code>\nnoStroke();\ncolorMode(HSB, 100);\nfor (let i = 0; i < 100; i++) {\n  for (let j = 0; j < 100; j++) {\n    stroke(i, j, 100);\n    point(i, j);\n  }\n}\n</code>\n</div>\n\n<div>\n<code>\ncolorMode(RGB, 255);\nlet c = color(127, 255, 0);\n\ncolorMode(RGB, 1);\nlet myColor = c._getRed();\ntext(myColor, 10, 10, 80, 80);\n</code>\n</div>\n\n<div>\n<code>\nnoFill();\ncolorMode(RGB, 255, 255, 255, 1);\nbackground(255);\n\nstrokeWeight(4);\nstroke(255, 0, 10, 0.3);\nellipse(40, 40, 50, 50);\nellipse(50, 50, 40, 40);\n</code>\n</div>"
+                "\n<div>\n<code>\nnoStroke();\ncolorMode(RGB, 100);\nfor (i = 0;; i < 100; i++) {\n  for (let j = 0; j < 100; j++) {\n    stroke(i, j, 0);\n    point(i, j);\n  }\n}\n</code>\n</div>\n\n<div>\n<code>\nnoStroke();\ncolorMode(HSB, 100);\nfor (i = 0;; i < 100; i++) {\n  for (let j = 0; j < 100; j++) {\n    stroke(i, j, 100);\n    point(i, j);\n  }\n}\n</code>\n</div>\n\n<div>\n<code>\ncolorMode(RGB, 255);\nlet c = color(127, 255, 0);\n\ncolorMode(RGB, 1);\nlet myColor = c._getRed();\ntext(myColor, 10, 10, 80, 80);\n</code>\n</div>\n\n<div>\n<code>\nnoFill();\ncolorMode(RGB, 255, 255, 255, 1);\nbackground(255);\n\nstrokeWeight(4);\nstroke(255, 0, 10, 0.3);\nellipse(40, 40, 50, 50);\nellipse(50, 50, 40, 40);\n</code>\n</div>"
             ],
             "alt": "Green to red gradient from bottom L to top R. shading originates from top left.\nRainbow gradient from left to right. Brightness increasing to white at top.\nunknown image.\n50x50 ellipse at middle L & 40x40 ellipse at center. Transluscent pink outlines.",
             "class": "p5",
@@ -5173,7 +5173,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nnoFill();\nlet x1 = 85,\n x2 = 10,\n x3 = 90,\n x4 = 15;\nlet y1 = 20,\n y2 = 10,\n y3 = 90,\n y4 = 80;\nbezier(x1, y1, x2, y2, x3, y3, x4, y4);\nfill(255);\nlet steps = 10;\nfor (let i = 0; i <= steps; i++) {\n  let t = i / steps;\n  let x = bezierPoint(x1, x2, x3, x4, t);\n  let y = bezierPoint(y1, y2, y3, y4, t);\n  ellipse(x, y, 5, 5);\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nnoFill();\nlet x1 = 85,\n x2 = 10,\n x3 = 90,\n x4 = 15;\nlet y1 = 20,\n y2 = 10,\n y3 = 90,\n y4 = 80;\nbezier(x1, y1, x2, y2, x3, y3, x4, y4);\nfill(255);\nlet steps = 10;\nfor (i = 0;; i <= steps; i++) {\n  let t = i / steps;\n  let x = bezierPoint(x1, x2, x3, x4, t);\n  let y = bezierPoint(y1, y2, y3, y4, t);\n  ellipse(x, y, 5, 5);\n}\n</code>\n</div>"
             ],
             "alt": "stretched black s-shape with 17 small orange lines extending from under shape.",
             "class": "p5",
@@ -5218,7 +5218,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nnoFill();\nbezier(85, 20, 10, 10, 90, 90, 15, 80);\nlet steps = 6;\nfill(255);\nfor (let i = 0; i <= steps; i++) {\n  let t = i / steps;\n  // Get the location of the point\n  let x = bezierPoint(85, 10, 90, 15, t);\n  let y = bezierPoint(20, 10, 90, 80, t);\n  // Get the tangent points\n  let tx = bezierTangent(85, 10, 90, 15, t);\n  let ty = bezierTangent(20, 10, 90, 80, t);\n  // Calculate an angle from the tangent points\n  let a = atan2(ty, tx);\n  a += PI;\n  stroke(255, 102, 0);\n  line(x, y, cos(a) * 30 + x, sin(a) * 30 + y);\n  // The following line of code makes a line\n  // inverse of the above line\n  //line(x, y, cos(a)*-30 + x, sin(a)*-30 + y);\n  stroke(0);\n  ellipse(x, y, 5, 5);\n}\n</code>\n</div>\n\n<div>\n<code>\nnoFill();\nbezier(85, 20, 10, 10, 90, 90, 15, 80);\nstroke(255, 102, 0);\nlet steps = 16;\nfor (let i = 0; i <= steps; i++) {\n  let t = i / steps;\n  let x = bezierPoint(85, 10, 90, 15, t);\n  let y = bezierPoint(20, 10, 90, 80, t);\n  let tx = bezierTangent(85, 10, 90, 15, t);\n  let ty = bezierTangent(20, 10, 90, 80, t);\n  let a = atan2(ty, tx);\n  a -= HALF_PI;\n  line(x, y, cos(a) * 8 + x, sin(a) * 8 + y);\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nnoFill();\nbezier(85, 20, 10, 10, 90, 90, 15, 80);\nlet steps = 6;\nfill(255);\nfor (i = 0;; i <= steps; i++) {\n  let t = i / steps;\n  // Get the location of the point\n  let x = bezierPoint(85, 10, 90, 15, t);\n  let y = bezierPoint(20, 10, 90, 80, t);\n  // Get the tangent points\n  let tx = bezierTangent(85, 10, 90, 15, t);\n  let ty = bezierTangent(20, 10, 90, 80, t);\n  // Calculate an angle from the tangent points\n  let a = atan2(ty, tx);\n  a += PI;\n  stroke(255, 102, 0);\n  line(x, y, cos(a) * 30 + x, sin(a) * 30 + y);\n  // The following line of code makes a line\n  // inverse of the above line\n  //line(x, y, cos(a)*-30 + x, sin(a)*-30 + y);\n  stroke(0);\n  ellipse(x, y, 5, 5);\n}\n</code>\n</div>\n\n<div>\n<code>\nnoFill();\nbezier(85, 20, 10, 10, 90, 90, 15, 80);\nstroke(255, 102, 0);\nlet steps = 16;\nfor (i = 0;; i <= steps; i++) {\n  let t = i / steps;\n  let x = bezierPoint(85, 10, 90, 15, t);\n  let y = bezierPoint(20, 10, 90, 80, t);\n  let tx = bezierTangent(85, 10, 90, 15, t);\n  let ty = bezierTangent(20, 10, 90, 80, t);\n  let a = atan2(ty, tx);\n  a -= HALF_PI;\n  line(x, y, cos(a) * 8 + x, sin(a) * 8 + y);\n}\n</code>\n</div>"
             ],
             "alt": "s-shaped line with 17 short orange lines extending from underside of shape",
             "class": "p5",
@@ -5436,7 +5436,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nnoFill();\ncurve(5, 26, 5, 26, 73, 24, 73, 61);\ncurve(5, 26, 73, 24, 73, 61, 15, 65);\nfill(255);\nellipseMode(CENTER);\nlet steps = 6;\nfor (let i = 0; i <= steps; i++) {\n  let t = i / steps;\n  let x = curvePoint(5, 5, 73, 73, t);\n  let y = curvePoint(26, 26, 24, 61, t);\n  ellipse(x, y, 5, 5);\n  x = curvePoint(5, 73, 73, 15, t);\n  y = curvePoint(26, 24, 61, 65, t);\n  ellipse(x, y, 5, 5);\n}\n</code>\n</div>\n\nline hooking down to right-bottom with 13 5x5 white ellipse points"
+                "\n<div>\n<code>\nnoFill();\ncurve(5, 26, 5, 26, 73, 24, 73, 61);\ncurve(5, 26, 73, 24, 73, 61, 15, 65);\nfill(255);\nellipseMode(CENTER);\nlet steps = 6;\nfor (i = 0;; i <= steps; i++) {\n  let t = i / steps;\n  let x = curvePoint(5, 5, 73, 73, t);\n  let y = curvePoint(26, 26, 24, 61, t);\n  ellipse(x, y, 5, 5);\n  x = curvePoint(5, 73, 73, 15, t);\n  y = curvePoint(26, 24, 61, 65, t);\n  ellipse(x, y, 5, 5);\n}\n</code>\n</div>\n\nline hooking down to right-bottom with 13 5x5 white ellipse points"
             ],
             "class": "p5",
             "module": "Shape",
@@ -5480,7 +5480,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nnoFill();\ncurve(5, 26, 73, 24, 73, 61, 15, 65);\nlet steps = 6;\nfor (let i = 0; i <= steps; i++) {\n  let t = i / steps;\n  let x = curvePoint(5, 73, 73, 15, t);\n  let y = curvePoint(26, 24, 61, 65, t);\n  //ellipse(x, y, 5, 5);\n  let tx = curveTangent(5, 73, 73, 15, t);\n  let ty = curveTangent(26, 24, 61, 65, t);\n  let a = atan2(ty, tx);\n  a -= PI / 2.0;\n  line(x, y, cos(a) * 8 + x, sin(a) * 8 + y);\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nnoFill();\ncurve(5, 26, 73, 24, 73, 61, 15, 65);\nlet steps = 6;\nfor (i = 0;; i <= steps; i++) {\n  let t = i / steps;\n  let x = curvePoint(5, 73, 73, 15, t);\n  let y = curvePoint(26, 24, 61, 65, t);\n  //ellipse(x, y, 5, 5);\n  let tx = curveTangent(5, 73, 73, 15, t);\n  let ty = curveTangent(26, 24, 61, 65, t);\n  let a = atan2(ty, tx);\n  a -= PI / 2.0;\n  line(x, y, cos(a) * 8 + x, sin(a) * 8 + y);\n}\n</code>\n</div>"
             ],
             "alt": "right curving line mid-right of canvas with 7 short lines radiating from it.",
             "class": "p5",
@@ -7102,7 +7102,7 @@ module.exports={
                 "type": "String[]"
             },
             "example": [
-                "\n<div class='norender'><code>\nfunction setup() {\n  let urlPath = getURLPath();\n  for (let i = 0; i < urlPath.length; i++) {\n    text(urlPath[i], 10, i * 20 + 20);\n  }\n}\n</code></div>"
+                "\n<div class='norender'><code>\nfunction setup() {\n  let urlPath = getURLPath();\n  for (i = 0;; i < urlPath.length; i++) {\n    text(urlPath[i], 10, i * 20 + 20);\n  }\n}\n</code></div>"
             ],
             "alt": "no display",
             "class": "p5",
@@ -9620,7 +9620,7 @@ module.exports={
                 "type": "p5.Image"
             },
             "example": [
-                "\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (let i = 0; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>\n\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (let i = 0; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102, (i % img.width) * 2));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\nimage(img, 34, 34);\n</code>\n</div>\n\n<div>\n<code>\nlet pink = color(255, 102, 204);\nlet img = createImage(66, 66);\nimg.loadPixels();\nlet d = pixelDensity();\nlet halfImage = 4 * (img.width * d) * (img.height / 2 * d);\nfor (let i = 0; i < halfImage; i += 4) {\n  img.pixels[i] = red(pink);\n  img.pixels[i + 1] = green(pink);\n  img.pixels[i + 2] = blue(pink);\n  img.pixels[i + 3] = alpha(pink);\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>"
+                "\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (i = 0;; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>\n\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (i = 0;; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102, (i % img.width) * 2));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\nimage(img, 34, 34);\n</code>\n</div>\n\n<div>\n<code>\nlet pink = color(255, 102, 204);\nlet img = createImage(66, 66);\nimg.loadPixels();\nlet d = pixelDensity();\nlet halfImage = 4 * (img.width * d) * (img.height / 2 * d);\nfor (i = 0;; i < halfImage; i += 4) {\n  img.pixels[i] = red(pink);\n  img.pixels[i + 1] = green(pink);\n  img.pixels[i + 2] = blue(pink);\n  img.pixels[i + 3] = alpha(pink);\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>"
             ],
             "alt": "66x66 dark turquoise rect in center of canvas.\n2 gradated dark turquoise rects fade left. 1 center 1 bottom right of canvas\nno image displayed",
             "class": "p5",
@@ -10001,7 +10001,7 @@ module.exports={
             "type": "Number",
             "readonly": "",
             "example": [
-                "\n<div><code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  createCanvas(100, 100);\n  image(img, 0, 0);\n  for (let i = 0; i < img.width; i++) {\n    let c = img.get(i, img.height / 2);\n    stroke(c);\n    line(i, height / 2, i, height);\n  }\n}\n</code></div>"
+                "\n<div><code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  createCanvas(100, 100);\n  image(img, 0, 0);\n  for (i = 0;; i < img.width; i++) {\n    let c = img.get(i, img.height / 2);\n    stroke(c);\n    line(i, height / 2, i, height);\n  }\n}\n</code></div>"
             ],
             "alt": "rocky mountains in top and horizontal lines in corresponding colors in bottom.",
             "class": "p5.Image",
@@ -10017,7 +10017,7 @@ module.exports={
             "type": "Number",
             "readonly": "",
             "example": [
-                "\n<div><code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  createCanvas(100, 100);\n  image(img, 0, 0);\n  for (let i = 0; i < img.height; i++) {\n    let c = img.get(img.width / 2, i);\n    stroke(c);\n    line(0, i, width / 2, i);\n  }\n}\n</code></div>"
+                "\n<div><code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  createCanvas(100, 100);\n  image(img, 0, 0);\n  for (i = 0;; i < img.height; i++) {\n    let c = img.get(img.width / 2, i);\n    stroke(c);\n    line(0, i, width / 2, i);\n  }\n}\n</code></div>"
             ],
             "alt": "rocky mountains on right and vertical lines in corresponding colors on left.",
             "class": "p5.Image",
@@ -10027,12 +10027,12 @@ module.exports={
         {
             "file": "src/image/p5.Image.js",
             "line": 152,
-            "description": "<p>Array containing the values for all the pixels in the display window.\nThese values are numbers. This array is the size (include an appropriate\nfactor for pixelDensity) of the display window x4,\nrepresenting the R, G, B, A values in order for each pixel, moving from\nleft to right across each row, then down each column. Retina and other\nhigh denisty displays may have more pixels (by a factor of\npixelDensity^2).\nFor example, if the image is 100x100 pixels, there will be 40,000. With\npixelDensity = 2, there will be 160,000. The first four values\n(indices 0-3) in the array will be the R, G, B, A values of the pixel at\n(0, 0). The second four values (indices 4-7) will contain the R, G, B, A\nvalues of the pixel at (1, 0). More generally, to set values for a pixel\nat (x, y):</p>\n<pre><code class=\"lang-javascript\">let d = pixelDensity();\nfor (let i = 0; i &lt; d; i++) {\n  for (let j = 0; j &lt; d; j++) {\n    // loop over\n    index = 4 * ((y * d + j) * width * d + (x * d + i));\n    pixels[index] = r;\n    pixels[index+1] = g;\n    pixels[index+2] = b;\n    pixels[index+3] = a;\n  }\n}\n</code></pre>\n<p><br><br>\nBefore accessing this array, the data must loaded with the <a href=\"#/p5.Image/loadPixels\">loadPixels()</a>\nfunction. After the array data has been modified, the <a href=\"#/p5.Image/updatePixels\">updatePixels()</a>\nfunction must be run to update the changes.</p>\n",
+            "description": "<p>Array containing the values for all the pixels in the display window.\nThese values are numbers. This array is the size (include an appropriate\nfactor for pixelDensity) of the display window x4,\nrepresenting the R, G, B, A values in order for each pixel, moving from\nleft to right across each row, then down each column. Retina and other\nhigh denisty displays may have more pixels (by a factor of\npixelDensity^2).\nFor example, if the image is 100x100 pixels, there will be 40,000. With\npixelDensity = 2, there will be 160,000. The first four values\n(indices 0-3) in the array will be the R, G, B, A values of the pixel at\n(0, 0). The second four values (indices 4-7) will contain the R, G, B, A\nvalues of the pixel at (1, 0). More generally, to set values for a pixel\nat (x, y):</p>\n<pre><code class=\"lang-javascript\">let d = pixelDensity();\nfor (i = 0;; i &lt; d; i++) {\n  for (let j = 0; j &lt; d; j++) {\n    // loop over\n    index = 4 * ((y * d + j) * width * d + (x * d + i));\n    pixels[index] = r;\n    pixels[index+1] = g;\n    pixels[index+2] = b;\n    pixels[index+3] = a;\n  }\n}\n</code></pre>\n<p><br><br>\nBefore accessing this array, the data must loaded with the <a href=\"#/p5.Image/loadPixels\">loadPixels()</a>\nfunction. After the array data has been modified, the <a href=\"#/p5.Image/updatePixels\">updatePixels()</a>\nfunction must be run to update the changes.</p>\n",
             "itemtype": "property",
             "name": "pixels",
             "type": "Number[]",
             "example": [
-                "\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (let i = 0; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>\n<div>\n<code>\nlet pink = color(255, 102, 204);\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (let i = 0; i < 4 * (width * height / 2); i += 4) {\n  img.pixels[i] = red(pink);\n  img.pixels[i + 1] = green(pink);\n  img.pixels[i + 2] = blue(pink);\n  img.pixels[i + 3] = alpha(pink);\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>"
+                "\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (i = 0;; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>\n<div>\n<code>\nlet pink = color(255, 102, 204);\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (i = 0;; i < 4 * (width * height / 2); i += 4) {\n  img.pixels[i] = red(pink);\n  img.pixels[i + 1] = green(pink);\n  img.pixels[i + 2] = blue(pink);\n  img.pixels[i + 3] = alpha(pink);\n}\nimg.updatePixels();\nimage(img, 17, 17);\n</code>\n</div>"
             ],
             "alt": "66x66 turquoise rect in center of canvas\n66x66 pink rect in center of canvas",
             "class": "p5.Image",
@@ -10054,7 +10054,7 @@ module.exports={
             "itemtype": "method",
             "name": "loadPixels",
             "example": [
-                "\n<div><code>\nlet myImage;\nlet halfImage;\n\nfunction preload() {\n  myImage = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  myImage.loadPixels();\n  halfImage = 4 * width * height / 2;\n  for (let i = 0; i < halfImage; i++) {\n    myImage.pixels[i + halfImage] = myImage.pixels[i];\n  }\n  myImage.updatePixels();\n}\n\nfunction draw() {\n  image(myImage, 0, 0);\n}\n</code></div>"
+                "\n<div><code>\nlet myImage;\nlet halfImage;\n\nfunction preload() {\n  myImage = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  myImage.loadPixels();\n  halfImage = 4 * width * height / 2;\n  for (i = 0;; i < halfImage; i++) {\n    myImage.pixels[i + halfImage] = myImage.pixels[i];\n  }\n  myImage.updatePixels();\n}\n\nfunction draw() {\n  image(myImage, 0, 0);\n}\n</code></div>"
             ],
             "alt": "2 images of rocky mountains vertically stacked",
             "class": "p5.Image",
@@ -10068,7 +10068,7 @@ module.exports={
             "itemtype": "method",
             "name": "updatePixels",
             "example": [
-                "\n<div><code>\nlet myImage;\nlet halfImage;\n\nfunction preload() {\n  myImage = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  myImage.loadPixels();\n  halfImage = 4 * width * height / 2;\n  for (let i = 0; i < halfImage; i++) {\n    myImage.pixels[i + halfImage] = myImage.pixels[i];\n  }\n  myImage.updatePixels();\n}\n\nfunction draw() {\n  image(myImage, 0, 0);\n}\n</code></div>"
+                "\n<div><code>\nlet myImage;\nlet halfImage;\n\nfunction preload() {\n  myImage = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  myImage.loadPixels();\n  halfImage = 4 * width * height / 2;\n  for (i = 0;; i < halfImage; i++) {\n    myImage.pixels[i + halfImage] = myImage.pixels[i];\n  }\n  myImage.updatePixels();\n}\n\nfunction draw() {\n  image(myImage, 0, 0);\n}\n</code></div>"
             ],
             "alt": "2 images of rocky mountains vertically stacked",
             "class": "p5.Image",
@@ -10174,7 +10174,7 @@ module.exports={
                 }
             ],
             "example": [
-                "\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (let i = 0; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102, (i % img.width) * 2));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\nimage(img, 34, 34);\n</code>\n</div>"
+                "\n<div>\n<code>\nlet img = createImage(66, 66);\nimg.loadPixels();\nfor (i = 0;; i < img.width; i++) {\n  for (let j = 0; j < img.height; j++) {\n    img.set(i, j, color(0, 90, 102, (i % img.width) * 2));\n  }\n}\nimg.updatePixels();\nimage(img, 17, 17);\nimage(img, 34, 34);\n</code>\n</div>"
             ],
             "alt": "2 gradated dark turquoise rects fade left. 1 center 1 bottom right of canvas",
             "class": "p5.Image",
@@ -10516,12 +10516,12 @@ module.exports={
         {
             "file": "src/image/pixels.js",
             "line": 14,
-            "description": "<p><a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference\n/Global_Objects/Uint8ClampedArray' target='_blank'>Uint8ClampedArray</a>\ncontaining the values for all the pixels in the display window.\nThese values are numbers. This array is the size (include an appropriate\nfactor for <a href=\"#/p5/pixelDensity\">pixelDensity</a>) of the display window x4,\nrepresenting the R, G, B, A values in order for each pixel, moving from\nleft to right across each row, then down each column. Retina and other\nhigh density displays will have more pixels[] (by a factor of\npixelDensity^2).\nFor example, if the image is 100x100 pixels, there will be 40,000. On a\nretina display, there will be 160,000.\n<br><br>\nThe first four values (indices 0-3) in the array will be the R, G, B, A\nvalues of the pixel at (0, 0). The second four values (indices 4-7) will\ncontain the R, G, B, A values of the pixel at (1, 0). More generally, to\nset values for a pixel at (x, y):</p>\n<pre><code class=\"lang-javascript\">let d = pixelDensity();\nfor (let i = 0; i &lt; d; i++) {\n  for (let j = 0; j &lt; d; j++) {\n    // loop over\n    index = 4 * ((y * d + j) * width * d + (x * d + i));\n    pixels[index] = r;\n    pixels[index+1] = g;\n    pixels[index+2] = b;\n    pixels[index+3] = a;\n  }\n}\n</code></pre>\n<p>While the above method is complex, it is flexible enough to work with\nany pixelDensity. Note that <a href=\"#/p5/set\">set()</a> will automatically take care of\nsetting all the appropriate values in <a href=\"#/p5/pixels\">pixels[]</a> for a given (x, y) at\nany pixelDensity, but the performance may not be as fast when lots of\nmodifications are made to the pixel array.\n<br><br>\nBefore accessing this array, the data must loaded with the <a href=\"#/p5/loadPixels\">loadPixels()</a>\nfunction. After the array data has been modified, the <a href=\"#/p5/updatePixels\">updatePixels()</a>\nfunction must be run to update the changes.\n<br><br>\nNote that this is not a standard javascript array.  This means that\nstandard javascript functions such as <a href=\"#/p5/slice\">slice()</a> or\n<a href=\"#/p5/arrayCopy\">arrayCopy()</a> do not\nwork.</p>",
+            "description": "<p><a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference\n/Global_Objects/Uint8ClampedArray' target='_blank'>Uint8ClampedArray</a>\ncontaining the values for all the pixels in the display window.\nThese values are numbers. This array is the size (include an appropriate\nfactor for <a href=\"#/p5/pixelDensity\">pixelDensity</a>) of the display window x4,\nrepresenting the R, G, B, A values in order for each pixel, moving from\nleft to right across each row, then down each column. Retina and other\nhigh density displays will have more pixels[] (by a factor of\npixelDensity^2).\nFor example, if the image is 100x100 pixels, there will be 40,000. On a\nretina display, there will be 160,000.\n<br><br>\nThe first four values (indices 0-3) in the array will be the R, G, B, A\nvalues of the pixel at (0, 0). The second four values (indices 4-7) will\ncontain the R, G, B, A values of the pixel at (1, 0). More generally, to\nset values for a pixel at (x, y):</p>\n<pre><code class=\"lang-javascript\">let d = pixelDensity();\nfor (i = 0;; i &lt; d; i++) {\n  for (let j = 0; j &lt; d; j++) {\n    // loop over\n    index = 4 * ((y * d + j) * width * d + (x * d + i));\n    pixels[index] = r;\n    pixels[index+1] = g;\n    pixels[index+2] = b;\n    pixels[index+3] = a;\n  }\n}\n</code></pre>\n<p>While the above method is complex, it is flexible enough to work with\nany pixelDensity. Note that <a href=\"#/p5/set\">set()</a> will automatically take care of\nsetting all the appropriate values in <a href=\"#/p5/pixels\">pixels[]</a> for a given (x, y) at\nany pixelDensity, but the performance may not be as fast when lots of\nmodifications are made to the pixel array.\n<br><br>\nBefore accessing this array, the data must loaded with the <a href=\"#/p5/loadPixels\">loadPixels()</a>\nfunction. After the array data has been modified, the <a href=\"#/p5/updatePixels\">updatePixels()</a>\nfunction must be run to update the changes.\n<br><br>\nNote that this is not a standard javascript array.  This means that\nstandard javascript functions such as <a href=\"#/p5/slice\">slice()</a> or\n<a href=\"#/p5/arrayCopy\">arrayCopy()</a> do not\nwork.</p>",
             "itemtype": "property",
             "name": "pixels",
             "type": "Number[]",
             "example": [
-                "\n<div>\n<code>\nlet pink = color(255, 102, 204);\nloadPixels();\nlet d = pixelDensity();\nlet halfImage = 4 * (width * d) * (height / 2 * d);\nfor (let i = 0; i < halfImage; i += 4) {\n  pixels[i] = red(pink);\n  pixels[i + 1] = green(pink);\n  pixels[i + 2] = blue(pink);\n  pixels[i + 3] = alpha(pink);\n}\nupdatePixels();\n</code>\n</div>"
+                "\n<div>\n<code>\nlet pink = color(255, 102, 204);\nloadPixels();\nlet d = pixelDensity();\nlet halfImage = 4 * (width * d) * (height / 2 * d);\nfor (i = 0;; i < halfImage; i += 4) {\n  pixels[i] = red(pink);\n  pixels[i + 1] = green(pink);\n  pixels[i + 2] = blue(pink);\n  pixels[i + 3] = alpha(pink);\n}\nupdatePixels();\n</code>\n</div>"
             ],
             "alt": "top half of canvas pink, bottom grey",
             "class": "p5",
@@ -10838,7 +10838,7 @@ module.exports={
             "itemtype": "method",
             "name": "loadPixels",
             "example": [
-                "\n<div>\n<code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  image(img, 0, 0);\n  let d = pixelDensity();\n  let halfImage = 4 * (img.width * d) * (img.height * d / 2);\n  loadPixels();\n  for (let i = 0; i < halfImage; i++) {\n    pixels[i + halfImage] = pixels[i];\n  }\n  updatePixels();\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  image(img, 0, 0);\n  let d = pixelDensity();\n  let halfImage = 4 * (img.width * d) * (img.height * d / 2);\n  loadPixels();\n  for (i = 0;; i < halfImage; i++) {\n    pixels[i + halfImage] = pixels[i];\n  }\n  updatePixels();\n}\n</code>\n</div>"
             ],
             "alt": "two images of the rocky mountains. one on top, one on bottom of canvas.",
             "class": "p5",
@@ -10909,7 +10909,7 @@ module.exports={
                 }
             ],
             "example": [
-                "\n<div>\n<code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  image(img, 0, 0);\n  let d = pixelDensity();\n  let halfImage = 4 * (img.width * d) * (img.height * d / 2);\n  loadPixels();\n  for (let i = 0; i < halfImage; i++) {\n    pixels[i + halfImage] = pixels[i];\n  }\n  updatePixels();\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nlet img;\nfunction preload() {\n  img = loadImage('assets/rockies.jpg');\n}\n\nfunction setup() {\n  image(img, 0, 0);\n  let d = pixelDensity();\n  let halfImage = 4 * (img.width * d) * (img.height * d / 2);\n  loadPixels();\n  for (i = 0;; i < halfImage; i++) {\n    pixels[i + halfImage] = pixels[i];\n  }\n  updatePixels();\n}\n</code>\n</div>"
             ],
             "alt": "two images of the rocky mountains. one on top, one on bottom of canvas.",
             "class": "p5",
@@ -11174,7 +11174,7 @@ module.exports={
                 "type": "Object"
             },
             "example": [
-                "\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  let children = xml.getChildren('animal');\n\n  for (let i = 0; i < children.length; i++) {\n    let id = children[i].getNum('id');\n    let coloring = children[i].getString('species');\n    let name = children[i].getContent();\n    print(id + ', ' + coloring + ', ' + name);\n  }\n}\n\n// Sketch prints:\n// 0, Capra hircus, Goat\n// 1, Panthera pardus, Leopard\n// 2, Equus zebra, Zebra\n</code></div>"
+                "\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  let children = xml.getChildren('animal');\n\n  for (i = 0;; i < children.length; i++) {\n    let id = children[i].getNum('id');\n    let coloring = children[i].getString('species');\n    let name = children[i].getContent();\n    print(id + ', ' + coloring + ', ' + name);\n  }\n}\n\n// Sketch prints:\n// 0, Capra hircus, Goat\n// 1, Panthera pardus, Leopard\n// 2, Equus zebra, Zebra\n</code></div>"
             ],
             "alt": "no image displayed",
             "class": "p5",
@@ -11211,7 +11211,7 @@ module.exports={
                 "type": "Object"
             },
             "example": [
-                "\n<div class='norender'><code>\nlet data;\n\nfunction preload() {\n  data = loadBytes('assets/mammals.xml');\n}\n\nfunction setup() {\n  for (let i = 0; i < 5; i++) {\n    console.log(data.bytes[i].toString(16));\n  }\n}\n</code></div>"
+                "\n<div class='norender'><code>\nlet data;\n\nfunction preload() {\n  data = loadBytes('assets/mammals.xml');\n}\n\nfunction setup() {\n  for (i = 0;; i < 5; i++) {\n    console.log(data.bytes[i].toString(16));\n  }\n}\n</code></div>"
             ],
             "alt": "no image displayed",
             "class": "p5",
@@ -11561,7 +11561,7 @@ module.exports={
                 "type": "p5.PrintWriter"
             },
             "example": [
-                "\n<div>\n<code>\nfunction setup() {\n  createCanvas(100, 100);\n  background(200);\n  text('click here to save', 10, 10, 70, 80);\n}\n\nfunction mousePressed() {\n  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {\n    var writer = createWriter('squares.txt');\n    for (let i = 0; i < 10; i++) {\n      writer.print(i * i);\n    }\n    writer.close();\n    writer.clear();\n  }\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nfunction setup() {\n  createCanvas(100, 100);\n  background(200);\n  text('click here to save', 10, 10, 70, 80);\n}\n\nfunction mousePressed() {\n  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {\n    var writer = createWriter('squares.txt');\n    for (i = 0;; i < 10; i++) {\n      writer.print(i * i);\n    }\n    writer.close();\n    writer.clear();\n  }\n}\n</code>\n</div>"
             ],
             "class": "p5",
             "module": "IO",
@@ -11990,7 +11990,7 @@ module.exports={
                 "type": "p5.TableRow[]"
             },
             "example": [
-                "\n<div class=\"norender\">\n<code>\nlet table;\n\nfunction setup() {\n  table = new p5.Table();\n\n  table.addColumn('name');\n  table.addColumn('type');\n\n  let newRow = table.addRow();\n  newRow.setString('name', 'Lion');\n  newRow.setString('type', 'Mammal');\n\n  newRow = table.addRow();\n  newRow.setString('name', 'Snake');\n  newRow.setString('type', 'Reptile');\n\n  newRow = table.addRow();\n  newRow.setString('name', 'Mosquito');\n  newRow.setString('type', 'Insect');\n\n  newRow = table.addRow();\n  newRow.setString('name', 'Lizard');\n  newRow.setString('type', 'Reptile');\n\n  let rows = table.matchRows('R.*', 'type');\n  for (let i = 0; i < rows.length; i++) {\n    print(rows[i].getString('name') + ': ' + rows[i].getString('type'));\n  }\n}\n// Sketch prints:\n// Snake: Reptile\n// Lizard: Reptile\n</code>\n</div>"
+                "\n<div class=\"norender\">\n<code>\nlet table;\n\nfunction setup() {\n  table = new p5.Table();\n\n  table.addColumn('name');\n  table.addColumn('type');\n\n  let newRow = table.addRow();\n  newRow.setString('name', 'Lion');\n  newRow.setString('type', 'Mammal');\n\n  newRow = table.addRow();\n  newRow.setString('name', 'Snake');\n  newRow.setString('type', 'Reptile');\n\n  newRow = table.addRow();\n  newRow.setString('name', 'Mosquito');\n  newRow.setString('type', 'Insect');\n\n  newRow = table.addRow();\n  newRow.setString('name', 'Lizard');\n  newRow.setString('type', 'Reptile');\n\n  let rows = table.matchRows('R.*', 'type');\n  for (i = 0;; i < rows.length; i++) {\n    print(rows[i].getString('name') + ': ' + rows[i].getString('type'));\n  }\n}\n// Sketch prints:\n// Snake: Reptile\n// Lizard: Reptile\n</code>\n</div>"
             ],
             "class": "p5.Table",
             "module": "IO",
@@ -12379,7 +12379,7 @@ module.exports={
                 "type": "Array"
             },
             "example": [
-                "\n<div class=\"norender\">\n<code>\n// Given the CSV file \"mammals.csv\"\n// in the project's \"assets\" folder\n//\n// id,species,name\n// 0,Capra hircus,Goat\n// 1,Panthera pardus,Leoperd\n// 2,Equus zebra,Zebra\n\nlet table;\n\nfunction preload() {\n  // table is comma separated value \"CSV\"\n  // and has specifiying header for column labels\n  table = loadTable('assets/mammals.csv', 'csv', 'header');\n}\n\nfunction setup() {\n  let tableArray = table.getArray();\n  for (let i = 0; i < tableArray.length; i++) {\n    print(tableArray[i]);\n  }\n}\n</code>\n</div>"
+                "\n<div class=\"norender\">\n<code>\n// Given the CSV file \"mammals.csv\"\n// in the project's \"assets\" folder\n//\n// id,species,name\n// 0,Capra hircus,Goat\n// 1,Panthera pardus,Leoperd\n// 2,Equus zebra,Zebra\n\nlet table;\n\nfunction preload() {\n  // table is comma separated value \"CSV\"\n  // and has specifiying header for column labels\n  table = loadTable('assets/mammals.csv', 'csv', 'header');\n}\n\nfunction setup() {\n  let tableArray = table.getArray();\n  for (i = 0;; i < tableArray.length; i++) {\n    print(tableArray[i]);\n  }\n}\n</code>\n</div>"
             ],
             "alt": "no image displayed",
             "class": "p5.Table",
@@ -12646,7 +12646,7 @@ module.exports={
                 "type": "p5.XML[]"
             },
             "example": [
-                "&lt;animal\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  let animals = xml.getChildren('animal');\n\n  for (let i = 0; i < animals.length; i++) {\n    print(animals[i].getContent());\n  }\n}\n\n// Sketch prints:\n// \"Goat\"\n// \"Leopard\"\n// \"Zebra\"\n</code></div>"
+                "&lt;animal\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  let animals = xml.getChildren('animal');\n\n  for (i = 0;; i < animals.length; i++) {\n    print(animals[i].getContent());\n  }\n}\n\n// Sketch prints:\n// \"Goat\"\n// \"Leopard\"\n// \"Zebra\"\n</code></div>"
             ],
             "class": "p5.XML",
             "module": "IO",
@@ -12710,7 +12710,7 @@ module.exports={
                 }
             ],
             "example": [
-                "\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  xml.removeChild('animal');\n  let children = xml.getChildren();\n  for (let i = 0; i < children.length; i++) {\n    print(children[i].getContent());\n  }\n}\n\n// Sketch prints:\n// \"Leopard\"\n// \"Zebra\"\n</code></div>\n<div class='norender'><code>\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  xml.removeChild(1);\n  let children = xml.getChildren();\n  for (let i = 0; i < children.length; i++) {\n    print(children[i].getContent());\n  }\n}\n\n// Sketch prints:\n// \"Goat\"\n// \"Zebra\"\n</code></div>"
+                "\n<div class='norender'><code>\n// The following short XML file called \"mammals.xml\" is parsed\n// in the code below.\n//\n// <?xml version=\"1.0\"?>\n// &lt;mammals&gt;\n//   &lt;animal id=\"0\" species=\"Capra hircus\">Goat&lt;/animal&gt;\n//   &lt;animal id=\"1\" species=\"Panthera pardus\">Leopard&lt;/animal&gt;\n//   &lt;animal id=\"2\" species=\"Equus zebra\">Zebra&lt;/animal&gt;\n// &lt;/mammals&gt;\n\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  xml.removeChild('animal');\n  let children = xml.getChildren();\n  for (i = 0;; i < children.length; i++) {\n    print(children[i].getContent());\n  }\n}\n\n// Sketch prints:\n// \"Leopard\"\n// \"Zebra\"\n</code></div>\n<div class='norender'><code>\nlet xml;\n\nfunction preload() {\n  xml = loadXML('assets/mammals.xml');\n}\n\nfunction setup() {\n  xml.removeChild(1);\n  let children = xml.getChildren();\n  for (i = 0;; i < children.length; i++) {\n    print(children[i].getContent());\n  }\n}\n\n// Sketch prints:\n// \"Goat\"\n// \"Zebra\"\n</code></div>"
             ],
             "class": "p5.XML",
             "module": "IO",
@@ -13296,7 +13296,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div><code>\nfunction setup() {\n  // Change the elements in the array and run the sketch\n  // to show how max() works!\n  let numArray = [2, 1, 5, 4, 8, 9];\n  fill(0);\n  noStroke();\n  text('Array Elements', 0, 10);\n  // Draw all numbers in the array\n  let spacing = 15;\n  let elemsY = 25;\n  for (let i = 0; i < numArray.length; i++) {\n    text(numArray[i], i * spacing, elemsY);\n  }\n  let maxX = 33;\n  let maxY = 80;\n  // Draw the Maximum value in the array.\n  textSize(32);\n  text(max(numArray), maxX, maxY);\n}\n</code></div>"
+                "\n<div><code>\nfunction setup() {\n  // Change the elements in the array and run the sketch\n  // to show how max() works!\n  let numArray = [2, 1, 5, 4, 8, 9];\n  fill(0);\n  noStroke();\n  text('Array Elements', 0, 10);\n  // Draw all numbers in the array\n  let spacing = 15;\n  let elemsY = 25;\n  for (i = 0;; i < numArray.length; i++) {\n    text(numArray[i], i * spacing, elemsY);\n  }\n  let maxX = 33;\n  let maxY = 80;\n  // Draw the Maximum value in the array.\n  textSize(32);\n  text(max(numArray), maxX, maxY);\n}\n</code></div>"
             ],
             "alt": "Small text at top reads: Array Elements 2 1 5 4 8 9. Large text at center: 9",
             "class": "p5",
@@ -13349,7 +13349,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div><code>\nfunction setup() {\n  // Change the elements in the array and run the sketch\n  // to show how min() works!\n  let numArray = [2, 1, 5, 4, 8, 9];\n  fill(0);\n  noStroke();\n  text('Array Elements', 0, 10);\n  // Draw all numbers in the array\n  let spacing = 15;\n  let elemsY = 25;\n  for (let i = 0; i < numArray.length; i++) {\n    text(numArray[i], i * spacing, elemsY);\n  }\n  let maxX = 33;\n  let maxY = 80;\n  // Draw the Minimum value in the array.\n  textSize(32);\n  text(min(numArray), maxX, maxY);\n}\n</code></div>"
+                "\n<div><code>\nfunction setup() {\n  // Change the elements in the array and run the sketch\n  // to show how min() works!\n  let numArray = [2, 1, 5, 4, 8, 9];\n  fill(0);\n  noStroke();\n  text('Array Elements', 0, 10);\n  // Draw all numbers in the array\n  let spacing = 15;\n  let elemsY = 25;\n  for (i = 0;; i < numArray.length; i++) {\n    text(numArray[i], i * spacing, elemsY);\n  }\n  let maxX = 33;\n  let maxY = 80;\n  // Draw the Minimum value in the array.\n  textSize(32);\n  text(min(numArray), maxX, maxY);\n}\n</code></div>"
             ],
             "alt": "Small text at top reads: Array Elements 2 1 5 4 8 9. Large text at center: 1",
             "class": "p5",
@@ -14805,7 +14805,7 @@ module.exports={
                 }
             ],
             "example": [
-                "\n<div>\n<code>\nrandomSeed(99);\nfor (let i = 0; i < 100; i++) {\n  let r = random(0, 255);\n  stroke(r);\n  line(i, 0, i, 100);\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nrandomSeed(99);\nfor (i = 0;; i < 100; i++) {\n  let r = random(0, 255);\n  stroke(r);\n  line(i, 0, i, 100);\n}\n</code>\n</div>"
             ],
             "alt": "many vertical lines drawn in white, black or grey.",
             "class": "p5",
@@ -14823,7 +14823,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nfor (let i = 0; i < 100; i++) {\n  let r = random(50);\n  stroke(r * 5);\n  line(50, i, 50 + r, i);\n}\n</code>\n</div>\n<div>\n<code>\nfor (let i = 0; i < 100; i++) {\n  let r = random(-50, 50);\n  line(50, i, 50 + r, i);\n}\n</code>\n</div>\n<div>\n<code>\n// Get a random element from an array using the random(Array) syntax\nlet words = ['apple', 'bear', 'cat', 'dog'];\nlet word = random(words); // select random word\ntext(word, 10, 50); // draw the word\n</code>\n</div>"
+                "\n<div>\n<code>\nfor (i = 0;; i < 100; i++) {\n  let r = random(50);\n  stroke(r * 5);\n  line(50, i, 50 + r, i);\n}\n</code>\n</div>\n<div>\n<code>\nfor (i = 0;; i < 100; i++) {\n  let r = random(-50, 50);\n  line(50, i, 50 + r, i);\n}\n</code>\n</div>\n<div>\n<code>\n// Get a random element from an array using the random(Array) syntax\nlet words = ['apple', 'bear', 'cat', 'dog'];\nlet word = random(words); // select random word\ntext(word, 10, 50); // draw the word\n</code>\n</div>"
             ],
             "alt": "100 horizontal lines from center canvas to right. size+fill change each time\n100 horizontal lines from center of canvas. height & side change each render\nword displayed at random. Either apple, bear, cat, or dog",
             "class": "p5",
@@ -14890,7 +14890,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n <div>\n <code>\n for (let y = 0; y < 100; y++) {\n   let x = randomGaussian(50, 15);\n   line(50, y, x, y);\n }\n </code>\n </div>\n <div>\n <code>\n let distribution = new Array(360);\nfunction setup() {\n   createCanvas(100, 100);\n   for (let i = 0; i < distribution.length; i++) {\n     distribution[i] = floor(randomGaussian(0, 15));\n   }\n }\nfunction draw() {\n   background(204);\n  translate(width / 2, width / 2);\n  for (let i = 0; i < distribution.length; i++) {\n     rotate(TWO_PI / distribution.length);\n     stroke(0);\n     let dist = abs(distribution[i]);\n     line(0, 0, dist, 0);\n   }\n }\n </code>\n </div>"
+                "\n <div>\n <code>\n for (let y = 0; y < 100; y++) {\n   let x = randomGaussian(50, 15);\n   line(50, y, x, y);\n }\n </code>\n </div>\n <div>\n <code>\n let distribution = new Array(360);\nfunction setup() {\n   createCanvas(100, 100);\n   for (i = 0;; i < distribution.length; i++) {\n     distribution[i] = floor(randomGaussian(0, 15));\n   }\n }\nfunction draw() {\n   background(204);\n  translate(width / 2, width / 2);\n  for (i = 0;; i < distribution.length; i++) {\n     rotate(TWO_PI / distribution.length);\n     stroke(0);\n     let dist = abs(distribution[i]);\n     line(0, 0, dist, 0);\n   }\n }\n </code>\n </div>"
             ],
             "alt": "100 horizontal lines from center of canvas. height & side change each render\n black lines radiate from center of canvas. size determined each render",
             "class": "p5",
@@ -15017,7 +15017,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nlet a = 0.0;\nlet inc = TWO_PI / 25.0;\nfor (let i = 0; i < 25; i++) {\n  line(i * 4, 50, i * 4, 50 + cos(a) * 40.0);\n  a = a + inc;\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nlet a = 0.0;\nlet inc = TWO_PI / 25.0;\nfor (i = 0;; i < 25; i++) {\n  line(i * 4, 50, i * 4, 50 + cos(a) * 40.0);\n  a = a + inc;\n}\n</code>\n</div>"
             ],
             "alt": "vertical black lines form wave patterns, extend-down on left and right side",
             "class": "p5",
@@ -15042,7 +15042,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nlet a = 0.0;\nlet inc = TWO_PI / 25.0;\nfor (let i = 0; i < 25; i++) {\n  line(i * 4, 50, i * 4, 50 + sin(a) * 40.0);\n  a = a + inc;\n}\n</code>\n</div>"
+                "\n<div>\n<code>\nlet a = 0.0;\nlet inc = TWO_PI / 25.0;\nfor (i = 0;; i < 25; i++) {\n  line(i * 4, 50, i * 4, 50 + sin(a) * 40.0);\n  a = a + inc;\n}\n</code>\n</div>"
             ],
             "alt": "vertical black lines extend down and up from center to form wave pattern",
             "class": "p5",
@@ -15067,7 +15067,7 @@ module.exports={
                 "type": "Number"
             },
             "example": [
-                "\n<div>\n<code>\nlet a = 0.0;\nlet inc = TWO_PI / 50.0;\nfor (let i = 0; i < 100; i = i + 2) {\n  line(i, 50, i, 50 + tan(a) * 2.0);\n  a = a + inc;\n}\n</code>"
+                "\n<div>\n<code>\nlet a = 0.0;\nlet inc = TWO_PI / 50.0;\nfor (i = 0;; i < 100; i = i + 2) {\n  line(i, 50, i, 50 + tan(a) * 2.0);\n  a = a + inc;\n}\n</code>"
             ],
             "alt": "vertical black lines end down and up from center to form spike pattern",
             "class": "p5",
@@ -15582,7 +15582,7 @@ module.exports={
                 "type": "Array"
             },
             "example": [
-                "\n<div>\n<code>\nlet font;\nfunction preload() {\n  font = loadFont('./assets/Avenir.otf');\n}\n\nlet points;\nlet bounds;\nfunction setup() {\n  createCanvas(100, 100);\n  stroke(0);\n  fill(255, 104, 204);\n\n  points = font.textToPoints('p5', 0, 0, 10, {\n    sampleFactor: 5,\n    simplifyThreshold: 0\n  });\n  bounds = font.textBounds(' p5 ', 0, 0, 10);\n}\n\nfunction draw() {\n  background(255);\n  beginShape();\n  translate(-bounds.x * width / bounds.w, -bounds.y * height / bounds.h);\n  for (let i = 0; i < points.length; i++) {\n    let p = points[i];\n    vertex(\n      p.x * width / bounds.w +\n        sin(20 * p.y / bounds.h + millis() / 1000) * width / 30,\n      p.y * height / bounds.h\n    );\n  }\n  endShape(CLOSE);\n}\n</code>\n</div>\n"
+                "\n<div>\n<code>\nlet font;\nfunction preload() {\n  font = loadFont('./assets/Avenir.otf');\n}\n\nlet points;\nlet bounds;\nfunction setup() {\n  createCanvas(100, 100);\n  stroke(0);\n  fill(255, 104, 204);\n\n  points = font.textToPoints('p5', 0, 0, 10, {\n    sampleFactor: 5,\n    simplifyThreshold: 0\n  });\n  bounds = font.textBounds(' p5 ', 0, 0, 10);\n}\n\nfunction draw() {\n  background(255);\n  beginShape();\n  translate(-bounds.x * width / bounds.w, -bounds.y * height / bounds.h);\n  for (i = 0;; i < points.length; i++) {\n    let p = points[i];\n    vertex(\n      p.x * width / bounds.w +\n        sin(20 * p.y / bounds.h + millis() / 1000) * width / 30,\n      p.y * height / bounds.h\n    );\n  }\n  endShape(CLOSE);\n}\n</code>\n</div>\n"
             ],
             "class": "p5.Font",
             "module": "Typography",
@@ -40064,7 +40064,7 @@ X.prototype.gluTessProperty=X.prototype.B;X.prototype.gluGetTessProperty=X.proto
 	            var da;
 	            if (state.gZone) {
 	                da = [];
-	                for (let i = 0; i < state.gZone.length; i++)
+	                for (i = 0;; i < state.gZone.length; i++)
 	                {
 	                    da.push(i + ' ' +
 	                        state.gZone[i].x * 64 + ' ' +
@@ -40078,7 +40078,7 @@ X.prototype.gluTessProperty=X.prototype.B;X.prototype.gluGetTessProperty=X.proto
 
 	            if (state.tZone) {
 	                da = [];
-	                for (let i = 0; i < state.tZone.length; i++) {
+	                for (i = 0;; i < state.tZone.length; i++) {
 	                    da.push(i + ' ' +
 	                        state.tZone[i].x * 64 + ' ' +
 	                        state.tZone[i].y * 64 + ' ' +
@@ -46439,7 +46439,7 @@ p5.prototype.clear = function() {
  * <code>
  * noStroke();
  * colorMode(RGB, 100);
- * for (let i = 0; i < 100; i++) {
+ * for (i = 0;; i < 100; i++) {
  *   for (let j = 0; j < 100; j++) {
  *     stroke(i, j, 0);
  *     point(i, j);
@@ -46452,7 +46452,7 @@ p5.prototype.clear = function() {
  * <code>
  * noStroke();
  * colorMode(HSB, 100);
- * for (let i = 0; i < 100; i++) {
+ * for (i = 0;; i < 100; i++) {
  *   for (let j = 0; j < 100; j++) {
  *     stroke(i, j, 100);
  *     point(i, j);
@@ -48177,7 +48177,7 @@ p5.prototype.getURL = function() {
  * <div class='norender'><code>
  * function setup() {
  *   let urlPath = getURLPath();
- *   for (let i = 0; i < urlPath.length; i++) {
+ *   for (i = 0;; i < urlPath.length; i++) {
  *     text(urlPath[i], 10, i * 20 + 20);
  *   }
  * }
@@ -53998,7 +53998,7 @@ p5.prototype.bezierDetail = function(d) {
  * bezier(x1, y1, x2, y2, x3, y3, x4, y4);
  * fill(255);
  * let steps = 10;
- * for (let i = 0; i <= steps; i++) {
+ * for (i = 0;; i <= steps; i++) {
  *   let t = i / steps;
  *   let x = bezierPoint(x1, x2, x3, x4, t);
  *   let y = bezierPoint(y1, y2, y3, y4, t);
@@ -54043,7 +54043,7 @@ p5.prototype.bezierPoint = function(a, b, c, d, t) {
  * bezier(85, 20, 10, 10, 90, 90, 15, 80);
  * let steps = 6;
  * fill(255);
- * for (let i = 0; i <= steps; i++) {
+ * for (i = 0;; i <= steps; i++) {
  *   let t = i / steps;
  *   // Get the location of the point
  *   let x = bezierPoint(85, 10, 90, 15, t);
@@ -54071,7 +54071,7 @@ p5.prototype.bezierPoint = function(a, b, c, d, t) {
  * bezier(85, 20, 10, 10, 90, 90, 15, 80);
  * stroke(255, 102, 0);
  * let steps = 16;
- * for (let i = 0; i <= steps; i++) {
+ * for (i = 0;; i <= steps; i++) {
  *   let t = i / steps;
  *   let x = bezierPoint(85, 10, 90, 15, t);
  *   let y = bezierPoint(20, 10, 90, 80, t);
@@ -54305,7 +54305,7 @@ p5.prototype.curveTightness = function(t) {
  * fill(255);
  * ellipseMode(CENTER);
  * let steps = 6;
- * for (let i = 0; i <= steps; i++) {
+ * for (i = 0;; i <= steps; i++) {
  *   let t = i / steps;
  *   let x = curvePoint(5, 5, 73, 73, t);
  *   let y = curvePoint(26, 26, 24, 61, t);
@@ -54349,7 +54349,7 @@ p5.prototype.curvePoint = function(a, b, c, d, t) {
  * noFill();
  * curve(5, 26, 73, 24, 73, 61, 15, 65);
  * let steps = 6;
- * for (let i = 0; i <= steps; i++) {
+ * for (i = 0;; i <= steps; i++) {
  *   let t = i / steps;
  *   let x = curvePoint(5, 73, 73, 15, t);
  *   let y = curvePoint(26, 24, 61, 65, t);
@@ -60006,7 +60006,7 @@ var p5 = _dereq_('../core/main');
  * <code>
  * let img = createImage(66, 66);
  * img.loadPixels();
- * for (let i = 0; i < img.width; i++) {
+ * for (i = 0;; i < img.width; i++) {
  *   for (let j = 0; j < img.height; j++) {
  *     img.set(i, j, color(0, 90, 102));
  *   }
@@ -60020,7 +60020,7 @@ var p5 = _dereq_('../core/main');
  * <code>
  * let img = createImage(66, 66);
  * img.loadPixels();
- * for (let i = 0; i < img.width; i++) {
+ * for (i = 0;; i < img.width; i++) {
  *   for (let j = 0; j < img.height; j++) {
  *     img.set(i, j, color(0, 90, 102, (i % img.width) * 2));
  *   }
@@ -60038,7 +60038,7 @@ var p5 = _dereq_('../core/main');
  * img.loadPixels();
  * let d = pixelDensity();
  * let halfImage = 4 * (img.width * d) * (img.height / 2 * d);
- * for (let i = 0; i < halfImage; i += 4) {
+ * for (i = 0;; i < halfImage; i += 4) {
  *   img.pixels[i] = red(pink);
  *   img.pixels[i + 1] = green(pink);
  *   img.pixels[i + 2] = blue(pink);
@@ -60912,7 +60912,7 @@ p5.Image = function(width, height) {
    * function setup() {
    *   createCanvas(100, 100);
    *   image(img, 0, 0);
-   *   for (let i = 0; i < img.width; i++) {
+   *   for (i = 0;; i < img.width; i++) {
    *     let c = img.get(i, img.height / 2);
    *     stroke(c);
    *     line(i, height / 2, i, height);
@@ -60939,7 +60939,7 @@ p5.Image = function(width, height) {
    * function setup() {
    *   createCanvas(100, 100);
    *   image(img, 0, 0);
-   *   for (let i = 0; i < img.height; i++) {
+   *   for (i = 0;; i < img.height; i++) {
    *     let c = img.get(img.width / 2, i);
    *     stroke(c);
    *     line(0, i, width / 2, i);
@@ -60976,7 +60976,7 @@ p5.Image = function(width, height) {
    * at (x, y):
    * ```javascript
    * let d = pixelDensity();
-   * for (let i = 0; i < d; i++) {
+   * for (i = 0;; i < d; i++) {
    *   for (let j = 0; j < d; j++) {
    *     // loop over
    *     index = 4 * ((y * d + j) * width * d + (x * d + i));
@@ -60997,7 +60997,7 @@ p5.Image = function(width, height) {
    * <code>
    * let img = createImage(66, 66);
    * img.loadPixels();
-   * for (let i = 0; i < img.width; i++) {
+   * for (i = 0;; i < img.width; i++) {
    *   for (let j = 0; j < img.height; j++) {
    *     img.set(i, j, color(0, 90, 102));
    *   }
@@ -61011,7 +61011,7 @@ p5.Image = function(width, height) {
    * let pink = color(255, 102, 204);
    * let img = createImage(66, 66);
    * img.loadPixels();
-   * for (let i = 0; i < 4 * (width * height / 2); i += 4) {
+   * for (i = 0;; i < 4 * (width * height / 2); i += 4) {
    *   img.pixels[i] = red(pink);
    *   img.pixels[i + 1] = green(pink);
    *   img.pixels[i + 2] = blue(pink);
@@ -61055,7 +61055,7 @@ p5.Image.prototype._setProperty = function(prop, value) {
  * function setup() {
  *   myImage.loadPixels();
  *   halfImage = 4 * width * height / 2;
- *   for (let i = 0; i < halfImage; i++) {
+ *   for (i = 0;; i < halfImage; i++) {
  *     myImage.pixels[i + halfImage] = myImage.pixels[i];
  *   }
  *   myImage.updatePixels();
@@ -61100,7 +61100,7 @@ p5.Image.prototype.loadPixels = function() {
  * function setup() {
  *   myImage.loadPixels();
  *   halfImage = 4 * width * height / 2;
- *   for (let i = 0; i < halfImage; i++) {
+ *   for (i = 0;; i < halfImage; i++) {
  *     myImage.pixels[i + halfImage] = myImage.pixels[i];
  *   }
  *   myImage.updatePixels();
@@ -61186,7 +61186,7 @@ p5.Image.prototype.get = function(x, y, w, h) {
  * <code>
  * let img = createImage(66, 66);
  * img.loadPixels();
- * for (let i = 0; i < img.width; i++) {
+ * for (i = 0;; i < img.width; i++) {
  *   for (let j = 0; j < img.height; j++) {
  *     img.set(i, j, color(0, 90, 102, (i % img.width) * 2));
  *   }
@@ -61663,7 +61663,7 @@ _dereq_('../color/p5.Color');
  * set values for a pixel at (x, y):
  * ```javascript
  * let d = pixelDensity();
- * for (let i = 0; i < d; i++) {
+ * for (i = 0;; i < d; i++) {
  *   for (let j = 0; j < d; j++) {
  *     // loop over
  *     index = 4 * ((y * d + j) * width * d + (x * d + i));
@@ -61697,7 +61697,7 @@ _dereq_('../color/p5.Color');
  * loadPixels();
  * let d = pixelDensity();
  * let halfImage = 4 * (width * d) * (height / 2 * d);
- * for (let i = 0; i < halfImage; i += 4) {
+ * for (i = 0;; i < halfImage; i += 4) {
  *   pixels[i] = red(pink);
  *   pixels[i + 1] = green(pink);
  *   pixels[i + 2] = blue(pink);
@@ -62170,7 +62170,7 @@ p5.prototype.get = function(x, y, w, h) {
  *   let d = pixelDensity();
  *   let halfImage = 4 * (img.width * d) * (img.height * d / 2);
  *   loadPixels();
- *   for (let i = 0; i < halfImage; i++) {
+ *   for (i = 0;; i < halfImage; i++) {
  *     pixels[i + halfImage] = pixels[i];
  *   }
  *   updatePixels();
@@ -62289,7 +62289,7 @@ p5.prototype.set = function(x, y, imgOrCol) {
  *   let d = pixelDensity();
  *   let halfImage = 4 * (img.width * d) * (img.height * d / 2);
  *   loadPixels();
- *   for (let i = 0; i < halfImage; i++) {
+ *   for (i = 0;; i < halfImage; i++) {
  *     pixels[i + halfImage] = pixels[i];
  *   }
  *   updatePixels();
@@ -62962,7 +62962,7 @@ function makeObject(row, headers) {
  * function setup() {
  *   let children = xml.getChildren('animal');
  *
- *   for (let i = 0; i < children.length; i++) {
+ *   for (i = 0;; i < children.length; i++) {
  *     let id = children[i].getNum('id');
  *     let coloring = children[i].getString('species');
  *     let name = children[i].getContent();
@@ -63044,7 +63044,7 @@ p5.prototype.loadXML = function() {
  * }
  *
  * function setup() {
- *   for (let i = 0; i < 5; i++) {
+ *   for (i = 0;; i < 5; i++) {
  *     console.log(data.bytes[i].toString(16));
  *   }
  * }
@@ -63511,7 +63511,7 @@ p5.prototype._pWriters = [];
  * function mousePressed() {
  *   if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
  *     var writer = createWriter('squares.txt');
- *     for (let i = 0; i < 10; i++) {
+ *     for (i = 0;; i < 10; i++) {
  *       writer.print(i * i);
  *     }
  *     writer.close();
@@ -64701,7 +64701,7 @@ p5.Table.prototype.matchRow = function(regexp, column) {
  *   newRow.setString('type', 'Reptile');
  *
  *   let rows = table.matchRows('R.*', 'type');
- *   for (let i = 0; i < rows.length; i++) {
+ *   for (i = 0;; i < rows.length; i++) {
  *     print(rows[i].getString('name') + ': ' + rows[i].getString('type'));
  *   }
  * }
@@ -65529,7 +65529,7 @@ p5.Table.prototype.getObject = function(headerColumn) {
  *
  * function setup() {
  *   let tableArray = table.getArray();
- *   for (let i = 0; i < tableArray.length; i++) {
+ *   for (i = 0;; i < tableArray.length; i++) {
  *     print(tableArray[i]);
  *   }
  * }
@@ -65940,7 +65940,7 @@ var p5 = _dereq_('../core/main');
  * function setup() {
  *   let children = xml.getChildren('animal');
  *
- *   for (let i = 0; i < children.length; i++) {
+ *   for (i = 0;; i < children.length; i++) {
  *     let id = children[i].getNum('id');
  *     let coloring = children[i].getString('species');
  *     let name = children[i].getContent();
@@ -66192,7 +66192,7 @@ p5.XML.prototype.listChildren = function() {
  * function setup() {
  *   let animals = xml.getChildren('animal');
  *
- *   for (let i = 0; i < animals.length; i++) {
+ *   for (i = 0;; i < animals.length; i++) {
  *     print(animals[i].getContent());
  *   }
  * }
@@ -66358,7 +66358,7 @@ p5.XML.prototype.addChild = function(node) {
  * function setup() {
  *   xml.removeChild('animal');
  *   let children = xml.getChildren();
- *   for (let i = 0; i < children.length; i++) {
+ *   for (i = 0;; i < children.length; i++) {
  *     print(children[i].getContent());
  *   }
  * }
@@ -66377,7 +66377,7 @@ p5.XML.prototype.addChild = function(node) {
  * function setup() {
  *   xml.removeChild(1);
  *   let children = xml.getChildren();
- *   for (let i = 0; i < children.length; i++) {
+ *   for (i = 0;; i < children.length; i++) {
  *     print(children[i].getContent());
  *   }
  * }
@@ -67273,7 +67273,7 @@ p5.prototype.map = function(n, start1, stop1, start2, stop2, withinBounds) {
  *   // Draw all numbers in the array
  *   let spacing = 15;
  *   let elemsY = 25;
- *   for (let i = 0; i < numArray.length; i++) {
+ *   for (i = 0;; i < numArray.length; i++) {
  *     text(numArray[i], i * spacing, elemsY);
  *   }
  *   let maxX = 33;
@@ -67323,7 +67323,7 @@ p5.prototype.max = function() {
  *   // Draw all numbers in the array
  *   let spacing = 15;
  *   let elemsY = 25;
- *   for (let i = 0; i < numArray.length; i++) {
+ *   for (i = 0;; i < numArray.length; i++) {
  *     text(numArray[i], i * spacing, elemsY);
  *   }
  *   let maxX = 33;
@@ -69805,7 +69805,7 @@ var lcg = (function() {
  * <div>
  * <code>
  * randomSeed(99);
- * for (let i = 0; i < 100; i++) {
+ * for (i = 0;; i < 100; i++) {
  *   let r = random(0, 255);
  *   stroke(r);
  *   line(i, 0, i, 100);
@@ -69847,7 +69847,7 @@ p5.prototype.randomSeed = function(seed) {
  * @example
  * <div>
  * <code>
- * for (let i = 0; i < 100; i++) {
+ * for (i = 0;; i < 100; i++) {
  *   let r = random(50);
  *   stroke(r * 5);
  *   line(50, i, 50 + r, i);
@@ -69856,7 +69856,7 @@ p5.prototype.randomSeed = function(seed) {
  * </div>
  * <div>
  * <code>
- * for (let i = 0; i < 100; i++) {
+ * for (i = 0;; i < 100; i++) {
  *   let r = random(-50, 50);
  *   line(50, i, 50 + r, i);
  * }
@@ -69943,7 +69943,7 @@ p5.prototype.random = function(min, max) {
  *
  * function setup() {
  *   createCanvas(100, 100);
- *   for (let i = 0; i < distribution.length; i++) {
+ *   for (i = 0;; i < distribution.length; i++) {
  *     distribution[i] = floor(randomGaussian(0, 15));
  *   }
  * }
@@ -69953,7 +69953,7 @@ p5.prototype.random = function(min, max) {
  *
  *   translate(width / 2, width / 2);
  *
- *   for (let i = 0; i < distribution.length; i++) {
+ *   for (i = 0;; i < distribution.length; i++) {
  *     rotate(TWO_PI / distribution.length);
  *     stroke(0);
  *     let dist = abs(distribution[i]);
@@ -70163,7 +70163,7 @@ p5.prototype.atan2 = function(y, x) {
  * <code>
  * let a = 0.0;
  * let inc = TWO_PI / 25.0;
- * for (let i = 0; i < 25; i++) {
+ * for (i = 0;; i < 25; i++) {
  *   line(i * 4, 50, i * 4, 50 + cos(a) * 40.0);
  *   a = a + inc;
  * }
@@ -70191,7 +70191,7 @@ p5.prototype.cos = function(angle) {
  * <code>
  * let a = 0.0;
  * let inc = TWO_PI / 25.0;
- * for (let i = 0; i < 25; i++) {
+ * for (i = 0;; i < 25; i++) {
  *   line(i * 4, 50, i * 4, 50 + sin(a) * 40.0);
  *   a = a + inc;
  * }
@@ -70219,7 +70219,7 @@ p5.prototype.sin = function(angle) {
  * <code>
  * let a = 0.0;
  * let inc = TWO_PI / 50.0;
- * for (let i = 0; i < 100; i = i + 2) {
+ * for (i = 0;; i < 100; i = i + 2) {
  *   line(i, 50, i, 50 + tan(a) * 2.0);
  *   a = a + inc;
  * }
@@ -71171,7 +71171,7 @@ p5.Font.prototype.textBounds = function(str, x, y, fontSize, opts) {
  *   background(255);
  *   beginShape();
  *   translate(-bounds.x * width / bounds.w, -bounds.y * height / bounds.h);
- *   for (let i = 0; i < points.length; i++) {
+ *   for (i = 0;; i < points.length; i++) {
  *     let p = points[i];
  *     vertex(
  *       p.x * width / bounds.w +
