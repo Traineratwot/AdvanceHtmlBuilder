@@ -67,7 +67,7 @@ async function draw() {
 			line(width, i, 0, i);
 		}
 	}
-	for (key in mss) {
+	mss.forEach(function(item, key, arr) {
 		fill(mss[key].color);
 		if (key == selWH) {
 			let $sg = $("#smooth-grid").prop("checked");
@@ -141,7 +141,7 @@ async function draw() {
 					break;
 			}
 		}
-	}
+	});
 	if (dra) {
 		fill(settings.color);
 		let x1, x2, y1, y2;
@@ -184,7 +184,7 @@ async function draw() {
 }
 
 function hand() {
-	let i = mss.length - 1
+	let i = mss.length - 1;
 	for (; i >= 0; i--) {
 		const element = mss[i];
 		let res;
@@ -361,9 +361,9 @@ function mouseReleased() {
 			m.sY = m.mY_end - m.mY_start;
 			m.type = tool;
 			m.settings = DeepCopy(settings);
-			if(mss.length == 0){
+			if (mss.length == 0) {
 				m.name = "div";
-			}else{
+			} else {
 				m.name = "div" + mss.length;
 			}
 			m.color = settings.color;
@@ -386,10 +386,10 @@ function windowResized() {
 	resizeCanvas(windowWidth / 2, windowHeight / 2);
 }
 function update_div(t = false) {
-	if(mss.length == 0){
-		$('#settings').fadeOut(0)
-	}else{
-		$('#settings').fadeIn(0)
+	if (mss.length == 0) {
+		$("#settings").fadeOut(0);
+	} else {
+		$("#settings").fadeIn(0);
 	}
 	removeElements();
 	create_tool();
@@ -439,7 +439,7 @@ function update_div(t = false) {
 	if ($("textarea").is("#css_editor")) {
 		$("#css_editor").detach();
 	}
-	localStorage.setItem('mss',arr2obj2json(mss, true));
+	localStorage.setItem("mss", arr2obj2json(mss, true));
 
 	if (!opty || t) {
 		create();
@@ -557,15 +557,13 @@ async function create() {
 		var vars_str = ":root{";
 		var vars = {};
 	}
-	let i = 0;
-	for (; i < mss.length; i++) {
-		const val = mss[i];
+	mss.forEach(function(val, i, arr) {
 		switch (child_DOM) {
 			case true:
 				if (i == 0) {
 					style = "." + val.name + "{";
 				} else {
-					style = "." + mss[0].name + " :nth-child(" + i + "){";
+					style = "." + arr[0].name + " :nth-child(" + i + "){";
 				}
 				break;
 			case false:
@@ -597,7 +595,7 @@ async function create() {
 					let w = (val.sX / first.sX) * 100;
 					let h = (val.sY / first.sY) * 100;
 					if (child_DOM) {
-						style = "." + mss[0].name + " :nth-child(" + i + "){";
+						style = "." + arr[0].name + " :nth-child(" + i + "){";
 					} else {
 						style = "." + val.name + "{";
 					}
@@ -711,7 +709,7 @@ async function create() {
 		$("#div0").html("");
 		$("#div0").html(div0);
 		style = "";
-	}
+	});
 	if (use_vars) {
 		jQuery.each(vars, function(i, val) {
 			vars_str += "\n--" + i + ":" + val + ";";
@@ -749,7 +747,7 @@ async function create() {
 	});
 	return true;
 }
-if(localStorage.mss){
+if (localStorage.mss) {
 	mss = json2obj2arr(localStorage.mss, true);
 	update_div();
 }
