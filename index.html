@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
-<!-- ("b"+"a"+ +"hthrtyrt"+"a") -->
+
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 	<link rel="stylesheet" href="css.css" />
 	<link rel="stylesheet" href="css/style.css" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+	<script src="js/lib/jquery.min.js"></script>
+	<script src="js/lib/p5.min.js"></script>
+	<script src="js/lib/p5.dom.js"></script>
 	<script type="text/javascript" src="js/lib/NewCssOOP.js"></script>
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.js"></script>  -->
-	<script type="text/javascript" src="js/lib/url.min.js"></script>
-	<script type="text/javascript" src="js/lib/md5.js"></script>
+	<!-- <script src="js/lib/addons/p5.sound.js"></script>  -->
+	<!-- <script type="text/javascript" src="js/lib/url.min.js"></script> -->
+	<!-- <script type="text/javascript" src="js/lib/md5.js"></script> -->
 	<script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/lib/self.lib.js"></script>
 	<script type="text/javascript" src="js/lib/zclip.min.js"></script>
@@ -74,8 +73,7 @@
 				</tr>
 				<tr>
 					<td id="fps"></td>
-					<td><input type="color" name="color" id="color" class="help"
-							onchange="bg_c(this.value);$('.raw').css({'background-color': this.value})" /></td>
+					<td><input type="color" name="color" id="color" class="help" onchange="bg_c(this.value);$('.raw').css({'background-color': this.value})" /></td>
 					<td>
 						<button onclick="clian()"><i
 								class="fas fa-trash-alt"></i></button>
@@ -84,29 +82,24 @@
 						<button onclick="update_div(true)"><i class="fas fa-sync"></i></button>
 					</td>
 					<td>
-						<button  onclick="undo()"><i
+						<button onclick="undo()"><i
 								class="fas fa-undo"></i></button>
 					</td>
 					<td>
-						<button  onclick="redo()"><i
+						<button onclick="redo()"><i
 								class="fas fa-redo"></i></button>
 					</td>
-					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number" title="Grid"
-							min="0" max="100" onmousemove="$(this).focus()" onmouseout="draw();$(this).blur()"
-							value="20" />px</td>
+					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number" title="Grid" min="0" max="100" onmousemove="$(this).focus()" onmouseout="draw();$(this).blur()" value="20" />px</td>
 					<td>
 						<div class='switcher'>
 							<label class='switcher-label switcher-off' for='off1'>px</label>
-							<input id='off1' class='switcher-radio-off help create_type' type='radio' name='create_type'
-								onchange="update_div()" value='px'>
+							<input id='off1' class='switcher-radio-off help create_type' type='radio' name='create_type' onchange="update_div()" value='px'>
 
 							<label class='switcher-label switcher-neutral' for='neutral1'>%</label>
-							<input id='neutral1' class='switcher-radio-neutral help create_type' type='radio'
-								name='create_type' onchange="update_div()" value='%' checked>
+							<input id='neutral1' class='switcher-radio-neutral help create_type' type='radio' name='create_type' onchange="update_div()" value='%' checked>
 
 							<label class='switcher-label switcher-on' for='on1'>m</label>
-							<input id='on1' class='switcher-radio-on help create_type' type='radio' name='create_type'
-								onchange="update_div()" value='m'>
+							<input id='on1' class='switcher-radio-on help create_type' type='radio' name='create_type' onchange="update_div()" value='m'>
 							<div class='switcher-slider'></div>
 						</div>
 					</td>
@@ -131,7 +124,7 @@
 					<td>
 						<div class="button b20" id="button-70">
 							<input type="checkbox" class="checkbox" onchange="pp(this)" id="pp" />
-							<div class="knobs fas pp" >
+							<div class="knobs fas pp">
 								<span><i class="fas fa-play "></i></span>
 							</div>
 							<div class="layer"></div>
@@ -156,8 +149,7 @@
 						<button id="foto" onclick="save('AHB.jpg');"><i class="fas fa-camera"></i></i></button>
 					</td>
 					<td>
-						<button id="mnclose_tr" newCss="1" do="ClickSwitch" linkelem="#manual" class0="active"
-							class1="passive">manual</button>
+						<button id="mnclose_tr" newCss="1" do="ClickSwitch" linkelem="#manual" class0="active" class1="passive">manual</button>
 					</td>
 				</tr>
 			</table>
@@ -194,9 +186,7 @@
 			</tbody>
 		</table>
 		<div class="reklama">
-			<iframe src="https://www.instant-gaming.com/affgames/igr7741792/200x200" scrolling="no" frameborder="0"
-				style="border: 1px solid #ccc; border-radius: 10px; overflow:hidden; width:200px; height:200px;"
-				allowTransparency="true"></iframe>
+			<iframe src="https://www.instant-gaming.com/affgames/igr7741792/200x200" scrolling="no" frameborder="0" style="border: 1px solid #ccc; border-radius: 10px; overflow:hidden; width:200px; height:200px;" allowTransparency="true"></iframe>
 		</div>
 	</div>
 	<script src="js/lib/snippet/highlight.pack.js"></script>
@@ -229,7 +219,7 @@
 		function help(el = false) {
 			var q;
 			if (el == false) {
-				$(".help").each(function (i, elem) {
+				$(".help").each(function(i, elem) {
 
 					let u = $(this).attr("onchange");
 					if (!u) {
@@ -368,9 +358,9 @@
 					});
 			}
 		}
-		$(document).ready(function () {
+		$(document).ready(function() {
 			NewCss();
-			$("input[type='color']").on("contextmenu", function (event) {
+			$("input[type='color']").on("contextmenu", function(event) {
 				$(this).val("#ffffff");
 				$(this).trigger('change');
 				return false;
@@ -433,41 +423,40 @@
 					break;
 			}
 		}
-		key('ctrl+z', function () {
+		key('ctrl+z', function() {
 			undo()
 		});
-		key('ctrl+y', function () {
+		key('ctrl+y', function() {
 			redo()
 		});
-		key('p', function () {
+		key('p', function() {
 			$('#pp').click()
 		});
-		key('escape', function () {
+		key('escape', function() {
 			$('#mnclose_tr').click()
 		});
-		key('h', function () {
+		key('h', function() {
 			tool_change('hand')
 		});
-		key('c,o', function () {
+		key('c,o', function() {
 			tool_change('circle')
 		});
-		key('r', function () {
+		key('r', function() {
 			tool_change('rect')
 		});
-		key('del', function () {
+		key('del', function() {
 			clian()
 		});
-		$(document).keyup(function () {
+		$(document).keyup(function() {
 			if (event.key == "Alt") {
 				$('.tooltip').removeClass('hov')
 			}
 		});
-		$(document).keydown(function (event) {
+		$(document).keydown(function(event) {
 			if (event.key == "Alt") {
 				$('.tooltip').addClass('hov')
 			}
 		});
-		
 	</script>
 </body>
 
