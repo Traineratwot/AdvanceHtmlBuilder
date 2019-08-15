@@ -207,65 +207,70 @@ function set_cur() {
 			return false;
 	}
 }
-function create_num(type, key, text, set = false, help = false) {
-	create_td(type, key);
+async function create_num(type, key, text, set = false, help = false) {
+	o = create_td(type, key);
+	u = o.td[type]
 	if (set) {
-		div[key].td[type] = createInput(mss[key].settings[set][type], "Number");
+		u = createInput(mss[key].settings[set][type], "Number");
 	} else {
-		div[key].td[type] = createInput(mss[key][type], "Number");
+		u = createInput(mss[key][type], "Number");
 	}
-	div[key].td.child(div[key].td[type]);
-	div[key].td[type].type = type;
-	div[key].td[type].set = set;
-	div[key].td[type].size(50, 14);
+	o.td.child(u);
+	u.type = type;
+	u.set = set;
+	u.size(50, 14);
 	if (help) {
-		div[key].td[type].addClass("help");
+		u.addClass("help");
 	}
-	div[key].td[type].attribute("min", 0);
-	div[key].td[type].attribute("placeholder", text);
-	div[key].td[type].attribute("onkeydown", "kd(this,1)");
-	div[key].td[type].attribute("onkeyup", "kd(this,0)");
-	div[key].td[type].attribute("onmousemove", "$(this).focus()");
-	div[key].td[type].attribute("onmouseout", "$(this).blur()");
-	div[key].td[type].key = key;
-	div[key].td[type].input(myInputEvent);
+	u.attribute("min", 0);
+	u.attribute("placeholder", text);
+	u.attribute("onkeydown", "kd(this,1)");
+	u.attribute("onkeyup", "kd(this,0)");
+	u.attribute("onmousemove", "$(this).focus()");
+	u.attribute("onmouseout", "$(this).blur()");
+	u.key = key;
+	u.input(myInputEvent);
 }
-function create_but(type, key, text) {
-	create_td(type, key);
-	div[key].td[type] = createButton(text);
-	div[key].td.child(div[key].td[type]);
-	div[key].td[type].type = type;
-	div[key].td[type].size(20, 20);
-	div[key].td[type].key = key;
-	div[key].td[type].mousePressed(Pressed_button);
+async function create_but(type, key, text) {
+	o = create_td(type, key);
+	u = o.td[type]
+	u = createButton(text);
+	o.td.child(u);
+	u.type = type;
+	u.size(20, 20);
+	u.key = key;
+	u.mousePressed(Pressed_button);
 }
-function create_text(type, key, text, help = false) {
-	create_td(type, key);
-	div[key].td[type] = createInput(mss[key][type]);
-	div[key].td.child(div[key].td[type]);
-	div[key].td[type].type = type;
-	div[key].td[type].size(50, 14);
+async function create_text(type, key, text, help = false) {
+	o = create_td(type, key);
+	u = o.td[type]
+	u = createInput(mss[key][type]);
+	o.td.child(u);
+	u.type = type;
+	u.size(50, 14);
 	if (help) {
-		div[key].td[type].addClass("help");
+		u.addClass("help");
 	}
-	div[key].td[type].attribute("placeholder", text);
-	div[key].td[type].attribute("onmousemove", "$(this).focus()");
-	div[key].td[type].attribute("onmouseout", "$(this).blur()");
-	div[key].td[type].key = key;
-	div[key].td[type].input(myInputEvent);
+	u.attribute("placeholder", text);
+	u.attribute("onmousemove", "$(this).focus()");
+	u.attribute("onmouseout", "$(this).blur()");
+	u.key = key;
+	u.input(myInputEvent);
 }
-function create_color(type, key, help = false) {
-	create_td(type, key);
-	div[key].td[type] = createColorPicker(mss[key].color);
-	div[key].td.child(div[key].td[type]);
-	div[key].td[type].type = type;
-	div[key].td[type].size(40, 15);
-	div[key].td[type].attribute("oncontextmenu", "this.value = '#ffffff'; thisInputEvent($(this),'" + type + "'," + key + "); return false;");
-	div[key].td[type].key = key;
-	div[key].td[type].input(myInputEvent);
+async function create_color(type, key, help = false) {
+	o = create_td(type, key);
+	u = o.td[type]
+	u = createColorPicker(mss[key].color);
+	o.td.child(u);
+	u.type = type;
+	u.size(40, 15);
+	u.attribute("oncontextmenu", "this.value = '#ffffff'; thisInputEvent($(this),'" + type + "'," + key + "); return false;");
+	u.key = key;
+	u.input(myInputEvent);
 }
 
 function create_td(type, key) {
 	div[key].td = createElement("td");
 	div[key].child(div[key].td);
+	return div[key]
 }
