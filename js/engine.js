@@ -68,20 +68,29 @@ async function draw() {
             line(width, i, 0, i);
         }
     }
+    let rxf
+    let ryf
+    let rwf
+    let rhf
+    let Gmode = ""
+    let sg = $("#smooth-grid").prop("checked");
     mss.forEach(function(item, key, arr) {
         fill(mss[key].color);
         if (key == selWH) {
-            let sg = $("#smooth-grid").prop("checked");
             let mx = sg ? round((mouseX + mouseX_start) / gird_size) * gird_size : mouseX + mouseX_start;
             let my = sg ? round((mouseY + mouseY_start) / gird_size) * gird_size : mouseY + mouseY_start;
             let mx2 = sg ? round(mouseX / gird_size) * gird_size : mouseX;
             let my2 = sg ? round(mouseY / gird_size) * gird_size : mouseY;
+            let rx = mss[key].mX_start;
+            let ry = mss[key].mY_start;
+            let rw = mss[key].sX;
+            let rh = mss[key].sY;
+            rxf = round(rx / gird_size) * gird_size
+            ryf = round(ry / gird_size) * gird_size
+            rwf = round(rw / gird_size) * gird_size
+            rhf = round(rh / gird_size) * gird_size
             switch (mss[key].type) {
                 case "rect":
-                    let rx = mss[key].mX_start;
-                    let ry = mss[key].mY_start;
-                    let rw = mss[key].sX;
-                    let rh = mss[key].sY;
                     switch (sideWH) {
                         case "up":
                             ry = my2;
@@ -129,28 +138,15 @@ async function draw() {
                     ryf = round(ry / gird_size) * gird_size
                     rwf = round(rw / gird_size) * gird_size
                     rhf = round(rh / gird_size) * gird_size
-                    if (!sg) {
-                        fill(0, 0)
-                        stroke(255)
-                        strokeWeight(1)
-                        rect(rxf, ryf, rwf, rhf)
-                    }
-                    stroke(0)
-                    fill(255)
-                    textAlign(CENTER, BOTTOM);
-                    text(rwf, rxf + rwf / 2, ryf)
-                    textAlign(RIGHT, CENTER)
-                    text(rhf, rxf, ryf + rhf / 2)
-                    text(ryf, rxf, ryf - 30)
-                    textAlign(RIGHT, BOTTOM)
-                    text(rxf, rxf - 20, ryf)
-                    stroke(255)
-                    strokeWeight(1);
-                    line(rxf, ryf, 0, ryf)
-                    line(rxf, ryf, rxf, 0)
+                    Gmode = "rect"
                     break;
                 case "circle":
                     ellipse(mx, my, mss[key].sX, mss[key].sY);
+                    rxf = round(mx / gird_size) * gird_size
+                    ryf = round(my / gird_size) * gird_size
+                    rwf = round(mss[key].sX / gird_size) * gird_size
+                    rhf = round(mss[key].sY / gird_size) * gird_size
+                    Gmode = "ellipse"
                     break;
                 default:
                     break;
@@ -167,6 +163,7 @@ async function draw() {
                     break;
             }
         }
+
     });
     if (dra) {
         fill(settings.color);
@@ -200,20 +197,39 @@ async function draw() {
             default:
                 break;
         }
+        if (tool != "hand") {
+            rxf = x1
+            ryf = y1
+            rwf = x2 - x1
+            rhf = y2 - y1
+            sg = true
+            Gmode = "dra"
+        }
+    }
+    if (Gmode != "") {
         stroke(0)
         fill(255)
-        strokeWeight(2);
         textAlign(CENTER, BOTTOM);
-        text(x2 - x1, x1 + (x2 - x1) / 2, y1)
-        textAlign(RIGHT, CENTER);
-        text(y2 - y1, x1, y1 + (y2 - y1) / 2)
-        text(y1, x1, y1 - 30)
-        textAlign(RIGHT, BOTTOM);
-        text(x1, x1 - 20, y1)
-        strokeWeight(1);
+        text(rwf, rxf + rwf / 2, ryf)
+        textAlign(RIGHT, CENTER)
+        text(rhf, rxf, ryf + rhf / 2)
+        text(ryf, rxf, ryf - 30)
+        textAlign(RIGHT, BOTTOM)
+        text(rxf, rxf - 20, ryf)
         stroke(255)
-        line(x1, y1, 0, y1)
-        line(x1, y1, x1, 0)
+        strokeWeight(1);
+        line(rxf, ryf, 0, ryf)
+        line(rxf, ryf, rxf, 0)
+        if (!sg) {
+            fill(0, 0)
+            stroke(255)
+            strokeWeight(1)
+            if (Gmode == "rect") {
+                rect(rxf, ryf, rwf, rhf)
+            } else {
+                ellipse(rxf, ryf, rwf, rhf)
+            }
+        }
     }
     if (lp == 30) {
         //noLoop();
