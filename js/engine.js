@@ -70,8 +70,6 @@ async function draw() {
 	}
 	let rxf
 	let ryf
-	let rwf
-	let rhf
 	let Gmode = ""
 	let sg = $("#smooth-grid").prop("checked");
 	mss.forEach(function (item, key, arr) {
@@ -87,8 +85,6 @@ async function draw() {
 			let rh = mss[key].sY;
 			rxf = round(rx / gird_size) * gird_size
 			ryf = round(ry / gird_size) * gird_size
-			rwf = round(rw / gird_size) * gird_size
-			rhf = round(rh / gird_size) * gird_size
 			switch (mss[key].type) {
 				case "rect":
 					switch (sideWH) {
@@ -136,16 +132,12 @@ async function draw() {
 					strokeWeight(2);
 					rxf = round(rx / gird_size) * gird_size
 					ryf = round(ry / gird_size) * gird_size
-					rwf = round(rw / gird_size) * gird_size
-					rhf = round(rh / gird_size) * gird_size
 					Gmode = "rect"
 					break;
 				case "circle":
 					ellipse(mx, my, mss[key].sX, mss[key].sY);
 					rxf = round(mx / gird_size) * gird_size
 					ryf = round(my / gird_size) * gird_size
-					rwf = round(mss[key].sX / gird_size) * gird_size
-					rhf = round(mss[key].sY / gird_size) * gird_size
 					Gmode = "ellipse"
 					break;
 				default:
@@ -200,8 +192,8 @@ async function draw() {
 		if (tool != "hand") {
 			rxf = x1
 			ryf = y1
-			rwf = x2 - x1
-			rhf = y2 - y1
+			rw = x2 - x1
+			rh = y2 - y1
 			sg = true
 			Gmode = "dra"
 		}
@@ -210,9 +202,9 @@ async function draw() {
 		stroke(0)
 		fill(255)
 		textAlign(CENTER, BOTTOM);
-		text(rwf, rxf + rwf / 2, ryf)
+		text(rw, rxf + rw / 2, ryf)
 		textAlign(RIGHT, CENTER)
-		text(rhf, rxf, ryf + rhf / 2)
+		text(rh, rxf, ryf + rh / 2)
 		text(ryf, rxf, ryf - 30)
 		textAlign(RIGHT, BOTTOM)
 		text(rxf, rxf - 20, ryf)
@@ -225,9 +217,9 @@ async function draw() {
 			stroke(255)
 			strokeWeight(1)
 			if (Gmode == "rect") {
-				rect(rxf, ryf, rwf, rhf)
+				rect(rxf, ryf, rw, rh)
 			} else {
-				ellipse(rxf, ryf, rwf, rhf)
+				ellipse(rxf, ryf, rw, rh)
 			}
 		}
 	}

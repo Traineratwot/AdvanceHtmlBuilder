@@ -207,7 +207,7 @@ function set_cur() {
 			return false;
 	}
 }
-async function create_num(type, key, text, set = false, help = false) {
+function create_num(type, key, text, set = false, help = false) {
 	o = create_td(type, key);
 	u = o.td[type]
 	if (set) {
@@ -231,7 +231,7 @@ async function create_num(type, key, text, set = false, help = false) {
 	u.key = key;
 	u.input(myInputEvent);
 }
-async function create_but(type, key, text) {
+function create_but(type, key, text) {
 	o = create_td(type, key);
 	u = o.td[type]
 	u = createButton(text);
@@ -241,7 +241,7 @@ async function create_but(type, key, text) {
 	u.key = key;
 	u.mousePressed(Pressed_button);
 }
-async function create_text(type, key, text, help = false) {
+function create_text(type, key, text, help = false) {
 	o = create_td(type, key);
 	u = o.td[type]
 	u = createInput(mss[key][type]);
@@ -257,7 +257,7 @@ async function create_text(type, key, text, help = false) {
 	u.key = key;
 	u.input(myInputEvent);
 }
-async function create_color(type, key, help = false) {
+function create_color(type, key, help = false) {
 	o = create_td(type, key);
 	u = o.td[type]
 	u = createColorPicker(mss[key].color);
@@ -273,4 +273,11 @@ function create_td(type, key) {
 	div[key].td = createElement("td");
 	div[key].child(div[key].td);
 	return div[key]
+}
+
+function create_div(key = -1) {
+	kommunism_array = ['x','y','px','py'];
+	if (key >= 0) {
+		o = $('<tr class="settings" id="tr' + key + '">').appendTo('#param');
+	}
 }
