@@ -68,8 +68,7 @@ async function draw() {
 			line(width, i, 0, i);
 		}
 	}
-	let rxf
-	let ryf
+	let rxf, ryf, rw, rh
 	let Gmode = ""
 	let sg = $("#smooth-grid").prop("checked");
 	mss.forEach(function (item, key, arr) {
@@ -81,8 +80,8 @@ async function draw() {
 			let my2 = sg ? round(mouseY / gird_size) * gird_size : mouseY;
 			let rx = mss[key].mX_start;
 			let ry = mss[key].mY_start;
-			let rw = mss[key].sX;
-			let rh = mss[key].sY;
+			rw = mss[key].sX;
+			rh = mss[key].sY;
 			rxf = round(rx / gird_size) * gird_size
 			ryf = round(ry / gird_size) * gird_size
 			switch (mss[key].type) {
@@ -451,6 +450,7 @@ function update_div(t = false) {
 	removeElements();
 	create_tool();
 	msd = {};
+	$('#param').html('');
 	for (key in mss) {
 		let e = mss[key];
 		switch (e.type) {
@@ -466,29 +466,30 @@ function update_div(t = false) {
 			default:
 				break;
 		}
-		div[key] = createElement("tr");
-		select("#param").child(div[key]);
-		div[key].addClass("settings");
-		div[key].span = createSpan(img + " " + key);
-		div[key].child(div[key].span);
-		create_text("name", key, "name");
-		create_but("^", key, "^");
-		create_but("x", key, "X");
-		create_num("sX", key, "Size X");
-		create_num("sY", key, "Size Y");
-		create_num("mX_start", key, "Pos X");
-		create_num("mY_start", key, "Pos X");
-		create_color("color", key);
-		switch (mss[key].type) {
-			case "rect":
-				create_num("LU", key, "0", "corner");
-				create_num("RU", key, "0", "corner");
-				create_num("RD", key, "0", "corner");
-				create_num("LD", key, "0", "corner");
-				break;
-			default:
-				break;
-		}
+		create_div(key,img)
+		// div[key] = createElement("tr");
+		// select("#param").child(div[key]);
+		// div[key].addClass("settings");
+		// div[key].span = createSpan(img + " " + key);
+		// div[key].child(div[key].span);
+		// create_text("name", key, "name");
+		// create_but("^", key, "^");
+		// create_but("x", key, "X");
+		// create_num("sX", key, "Size X");
+		// create_num("sY", key, "Size Y");
+		// create_num("mX_start", key, "Pos X");
+		// create_num("mY_start", key, "Pos X");
+		// create_color("color", key);
+		// switch (mss[key].type) {
+		// 	case "rect":
+		// 		create_num("LU", key, "0", "corner");
+		// 		create_num("RU", key, "0", "corner");
+		// 		create_num("RD", key, "0", "corner");
+		// 		create_num("LD", key, "0", "corner");
+		// 		break;
+		// 	default:
+		// 		break;
+		// }
 	}
 	if ($("textarea").is("#html_editor")) {
 		$("#html_editor").detach();
@@ -508,6 +509,30 @@ function myInputEvent() {
 	let key = this.key;
 	let set = this.set;
 	let val = this.value();
+	switch (type) {
+		case "name":
+		case "color":
+			mss[key][type] = val;
+			break;
+		default:
+			if (set) {
+				mss[key].settings[set][type] = Number(val);
+			} else {
+				mss[key][type] = Number(val);
+			}
+			break;
+	}
+	recalc(key, type);
+	if (!opty) {
+		create();
+	}
+}
+function chlenInputEvent(slef) {
+
+	let type = $(slef).attr('data-type');
+	let key = parseInt($(slef).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
+	let set = $(slef).attr('data-set');
+	let val = $(slef).val();
 	switch (type) {
 		case "name":
 		case "color":

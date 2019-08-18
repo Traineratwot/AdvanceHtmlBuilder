@@ -264,7 +264,7 @@ function create_color(type, key, help = false) {
 	o.td.child(u);
 	u.type = type;
 	u.size(40, 15);
-	u.attribute("oncontextmenu", "this.value = '#ffffff'; thisInputEvent($(this),'" + type + "'," + key + "); return false;");
+	u.attribute("oncontextmenu", "this.value = `+#ffffff`+; thisInputEvent($(this),`" + type + "`+," + key + "); return false;");
 	u.key = key;
 	u.input(myInputEvent);
 }
@@ -275,9 +275,39 @@ function create_td(type, key) {
 	return div[key]
 }
 
-function create_div(key = -1) {
-	kommunism_array = ['x','y','px','py'];
+function create_div(key = -1, img ='') {
 	if (key >= 0) {
-		o = $('<tr class="settings" id="tr' + key + '">').appendTo('#param');
+		let tools = `<tr class="settings" id="#` + key + `">
+		<span>`+img+` `+ key + `</span>
+		<td><input data-type="name" type="text" placeholder="name" value="`+ mss[key].name + `"/></td>
+	
+		<td><button data-type="^">^</button></td>
+		<td><button data-type="X">X</button></td>
+		<td><input data-type="sX" type="Number" min="0" placeholder="Size X" value="`+ mss[key].sX + `" /></td>
+	
+		<td><input data-type="sY" type="Number" min="0" placeholder="Size Y" value="`+ mss[key].sY + `" /></td>
+	
+		<td><input data-type="mX_start" type="Number" min="0" placeholder="Pos X" value="`+ mss[key].mX_start + `" /></td>
+	
+		<td><input data-type="mY_start" type="Number" min="0" placeholder="Pos Y" value="`+ mss[key].mY_start + `" /></td>
+
+		<td><input data-type="color" type="color" value="`+ mss[key].settings.color + `"/></td>`;
+		if (mss[key].type == "rect") {
+			tools += `<td><input data-type="LU" data-set="corner" type="Number" min="0" placeholder="0" value="` + mss[key].settings.LU + `" /></td>
+		
+			<td><input data-type="RU" data-set="corner" type="Number" min="0" placeholder="0" value="`+ mss[key].settings.RU + `" /></td>
+		
+			<td><input data-type="RD" data-set="corner" type="Number" min="0" placeholder="0" value="`+ mss[key].settings.RD + `" /></td>
+		
+			<td><input data-type="LD" data-set="corner" type="Number" min="0" placeholder="0" value="`+ mss[key].settings.LD + `" /></td>
+			</tr>`;
+		}
+		$('#param').append(tools);
 	}
+	$('tr.settings td input[type="color"]').on('contextmenu', function () { this.value = '#ffffff'; return false })
+	$('tr.settings td input[type="Number"]').on('keydown', function () { kd(this, 1) })
+	$('tr.settings td input[type="Number"]').on('keyup', function () { kd(this, 0) })
+	$('tr.settings td input').on('keydown', function () { $(this).focus() })
+	$('tr.settings td input').on('keyup', function () { $(this).blur() })
+	$('tr.settings td input').on('input', function () { chlenInputEvent(this) })
 }
