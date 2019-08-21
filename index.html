@@ -243,7 +243,7 @@
 								.placeholder);
 							if (q) {
 								$(this).val(q);
-								$(this).trigger('change')
+								$(this).trigger('change');
 							}
 							break;
 					}
@@ -298,7 +298,7 @@
 		let observer = new MutationObserver(mutationRecords => {
 			help();
 		});
-		observer.observe(ctrpanel, {
+		observer.observe(document.getElementById('param'), {
 			childList: true,
 			subtree: true,
 			characterDataOldValue: true,
@@ -359,7 +359,7 @@
 			NewCss();
 			$("input[type='color']").on("contextmenu", function(event) {
 				$(this).val("#ffffff");
-				$(this).trigger('change');
+				help(this);
 				return false;
 			});
 			var userLang = navigator.language || navigator.userLanguage;
