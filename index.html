@@ -75,21 +75,18 @@
 					<td id="fps"></td>
 					<td><input type="color" name="color" id="color" class="help" onchange="bg_c(this.value);$('.raw').css({'background-color': this.value})" /></td>
 					<td>
-						<button onclick="clian()"><i
-								class="fas fa-trash-alt"></i></button>
+						<button onclick="clian()"><i class="fas fa-trash-alt"></i></button>
 					</td>
 					<td>
 						<button onclick="update_div(true)"><i class="fas fa-sync"></i></button>
 					</td>
 					<td>
-						<button onclick="undo()"><i
-								class="fas fa-undo"></i></button>
+						<button onclick="undo()"><i class="fas fa-undo"></i></button>
 					</td>
 					<td>
-						<button onclick="redo()"><i
-								class="fas fa-redo"></i></button>
+						<button onclick="redo()"><i class="fas fa-redo"></i></button>
 					</td>
-					<td><input id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number" title="Grid" min="0" max="100" onmousemove="$(this).focus()" onmouseout="draw();$(this).blur()" value="20" />px</td>
+					<td><input class="help" id="gird_input" onkeydown="kd(this,1)" onkeyup="kd(this,0)" type="number" title="Grid" min="0" max="100" onmousemove="$(this).focus()" onmouseout="draw();$(this).blur()" value="20" />px</td>
 					<td>
 						<div class='switcher'>
 							<label class='switcher-label switcher-off' for='off1'>px</label>
@@ -123,7 +120,7 @@
 					</td>
 					<td>
 						<div class="button b20" id="button-70">
-							<input type="checkbox" class="checkbox" onchange="pp(this)" id="pp" />
+							<input type="checkbox" class="checkbox help" onchange="pp(this)" id="pp" />
 							<div class="knobs fas pp">
 								<span><i class="fas fa-play "></i></span>
 							</div>
@@ -131,8 +128,8 @@
 						</div>
 					</td>
 					<td>
-						<div class="button b20" id="button-70">
-							<input type="checkbox" class="checkbox" id="smooth-grid" />
+						<div class="button b20 " id="button-70">
+							<input type="checkbox" class="checkbox help"  id="smooth-grid" />
 							<div class="knobs fas smooth-grid">
 								<span><i class="fas fa-water"></i></span>
 							</div>
