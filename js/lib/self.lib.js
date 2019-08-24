@@ -52,7 +52,7 @@ function tool_change(value) {
 	if (tool != value) {
 		tool = value;
 		set_cur();
-		update_div();
+		// update_div();
 		$(".tool_active").removeClass("tool_active");
 		$("#" + value).addClass("tool_active");
 		if (value == "hand") {
@@ -309,5 +309,6 @@ function create_div(key = -1, img ='') {
 	$('tr.settings td input[type="Number"]').on('keyup', function () { kd(this, 0) })
 	$('tr.settings td input').on('keydown', function () { $(this).focus() })
 	$('tr.settings td input').on('keyup', function () { $(this).blur() })
-	$('tr.settings td input').on('input', function () { chlenInputEvent(this) })
+	$('tr.settings td button').on('input', function () { chlenInputEvent(this) })
+	$('tr.settings td button').on('click', function () { Pressed_button(this) })
 }

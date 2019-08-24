@@ -40,16 +40,16 @@ function setup() {
 // }
 let fps;
 async function draw() {
-	if (opty) {
-		fps = 60;
-	} else {
-		if (mss.length > 25) {
-			fps = map(mss.length, 25, 50, 20, 5, true);
-		} else {
-			fps = map(mss.length, 2, 20, 120, 20, true);
-		}
-	}
-	frameRate(fps);
+	// if (opty) {
+	// 	fps = 60;
+	// } else {
+	// 	if (mss.length > 25) {
+	// 		fps = map(mss.length, 25, 50, 20, 5, true);
+	// 	} else {
+	// 		fps = map(mss.length, 2, 20, 120, 20, true);
+	// 	}
+	// }
+	// frameRate(fps);
 	if (Number($("#gird_input").val()) <= 0) {
 		gird_size = 1;
 	} else {
@@ -441,7 +441,7 @@ function windowResized() {
 	resizeCanvas(windowWidth / 2, windowHeight / 2);
 }
 
-function update_div(t = false) {
+function update_div(t = false,update = -1) {
 	if (mss.length == 0) {
 		$("#settings").fadeOut(0);
 	} else {
@@ -527,12 +527,12 @@ function myInputEvent() {
 		create();
 	}
 }
-function chlenInputEvent(slef) {
+function chlenInputEvent(self) {
 
-	let type = $(slef).attr('data-type');
-	let key = parseInt($(slef).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
-	let set = $(slef).attr('data-set');
-	let val = $(slef).val();
+	let type = $(self).attr('data-type');
+	let key = parseInt($(self).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
+	let set = $(self).attr('data-set');
+	let val = $(self).val();
 	switch (type) {
 		case "name":
 		case "color":
@@ -589,9 +589,9 @@ function recalc(key, type) {
 	}
 }
 
-function Pressed_button() {
-	let type = this.type;
-	let key = this.key;
+function Pressed_button(self) {
+	let type = $(self).attr('data-type');
+	let key = parseInt($(self).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
 	switch (type) {
 		case "^":
 			if (key > 0) {
@@ -601,6 +601,7 @@ function Pressed_button() {
 			}
 			break;
 		case "x":
+		case "X":
 			mcc.push(mss[key]);
 			mss.splice(key, 1);
 			break;
