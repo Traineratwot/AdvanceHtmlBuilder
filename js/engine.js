@@ -4,6 +4,7 @@ let mouseX_start = 0;
 let mouseY_start = 0;
 let mss = [];
 let mcc = [];
+let mii = [];
 let div = [];
 let msd = [];
 let stop = false;
