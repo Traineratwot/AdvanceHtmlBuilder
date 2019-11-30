@@ -346,9 +346,25 @@ function set_cur() {
 // }
 // генрация блока управления элементом
 function create_div(key = -1, img = '') {
+    if (key == 0) {
+       var head = `
+        <tr class="settings" id="settings" style="">
+            <th>#</th>
+            <th>name</th>
+            <th>!</th>
+            <th>del</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>PX</th>
+            <th>PY</th>
+            <th>Color</th>
+		</tr>
+        `;
+        $('#param').append(head);
+    }
     if (key >= 0) {
         var tools = `<tr class="settings" id="#` + key + `">
-		<span>` + img + ` ` + key + `</span>
+		<td>` + img + ` ` + key + `</td>
 		<td><input data-key="` + key + `" data-type="name" type="text" placeholder="name" value="` + mss[key].name + `"/></td>
 	
 		<td><button data-type="^">^</button></td>
