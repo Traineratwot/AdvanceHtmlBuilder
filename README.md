@@ -1,5 +1,5 @@
 # AdvanceHtmlBuilder
-[Ссылка](https://aidancraft.000webhostapp.com/AdvanceHtmlBuilder/)
+[Ссылка](http://angar18.beget.tech/AdvanceHtmlBuilder)
 <html xmlns:v="urn:schemas-microsoft-com:vml"
 xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:w="urn:schemas-microsoft-com:office:word"
