@@ -1,16 +1,16 @@
-let bg_color = 0;
-let dra = false;
-let mouseX_start = 0;
-let mouseY_start = 0;
-let mss = [];
-let mcc = [];
-let mii = [];
-let div = [];
-let msd = [];
-let stop = false;
-let lp = 0;
-let opty = false;
-let selWH, sideWH;
+var bg_color = 0;
+var dra = false;
+var mouseX_start = 0;
+var mouseY_start = 0;
+var mss = [];
+var mcc = [];
+var mii = [];
+var div = [];
+var msd = [];
+var stop = false;
+var lp = 0;
+var opty = false;
+var selWH, sideWH;
 const DZPX = 5;
 
 function preload() {
@@ -40,8 +40,8 @@ function setup() {
 // if($.cookie('mss')){
 // 	mss = $.cookie('mss');
 // }
-let fps;
-async function draw() {
+var fps;
+ function draw() {
     // if (opty) {
     // 	fps = 60;
     // } else {
@@ -70,18 +70,18 @@ async function draw() {
             line(width, i, 0, i);
         }
     }
-    let rxf, ryf, rw, rh
-    let Gmode = ""
-    let sg = $("#smooth-grid").prop("checked");
+    var rxf, ryf, rw, rh
+    var Gmode = ""
+    var sg = $("#smooth-grid").prop("checked");
     mss.forEach(function(item, key, arr) {
         fill(mss[key].color);
         if (key == selWH) {
-            let mx = sg ? round((mouseX + mouseX_start) / gird_size) * gird_size : mouseX + mouseX_start;
-            let my = sg ? round((mouseY + mouseY_start) / gird_size) * gird_size : mouseY + mouseY_start;
-            let mx2 = sg ? round(mouseX / gird_size) * gird_size : mouseX;
-            let my2 = sg ? round(mouseY / gird_size) * gird_size : mouseY;
-            let rx = mss[key].mX_start;
-            let ry = mss[key].mY_start;
+            var mx = sg ? round((mouseX + mouseX_start) / gird_size) * gird_size : mouseX + mouseX_start;
+            var my = sg ? round((mouseY + mouseY_start) / gird_size) * gird_size : mouseY + mouseY_start;
+            var mx2 = sg ? round(mouseX / gird_size) * gird_size : mouseX;
+            var my2 = sg ? round(mouseY / gird_size) * gird_size : mouseY;
+            var rx = mss[key].mX_start;
+            var ry = mss[key].mY_start;
             rw = mss[key].sX;
             rh = mss[key].sY;
             rxf = round(rx / gird_size) * gird_size
@@ -160,7 +160,7 @@ async function draw() {
     });
     if (dra) {
         fill(settings.color);
-        let x1, x2, y1, y2;
+        var x1, x2, y1, y2;
         if (mouseX_start < mouseX) {
             x1 = mouseX_start;
             x2 = round(mouseX / gird_size) * gird_size;
@@ -234,11 +234,11 @@ async function draw() {
 }
 
 function hand() {
-    let i = mss.length - 1;
+    var i = mss.length - 1;
     for (; i >= 0; i--) {
         const element = mss[i];
-        let res;
-        let side = "";
+        var res;
+        var side = "";
         // console.log(element)
         if (mouseX >= element.mX_start && mouseX <= element.mX_end && mouseY >= element.mY_start && mouseY <= element.mY_end) {
             if (element.type == "circle") {
@@ -291,7 +291,7 @@ function mousePressed() {
     if (mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height) {
         dra = true;
         if (tool == "hand") {
-            let mae = hand();
+            var mae = hand();
             selWH = mae.res;
             sideWH = mae.side;
             if (selWH !== undefined) {
@@ -399,7 +399,7 @@ function mouseReleased() {
                 }
             }
         } else {
-            let m = [];
+            var m = [];
             if (mouseX_start < mouseX) {
                 m.mX_start = mouseX_start;
                 m.mX_end = round(mouseX / gird_size) * gird_size;
@@ -450,12 +450,12 @@ function update_div(t = false, update = -1) {
     } else {
         $("#settings").fadeIn(0);
     }
-    removeElements();
+    // removeElements();
     create_tool();
     msd = {};
     $('#param').html('');
     for (key in mss) {
-        let e = mss[key];
+        var e = mss[key];
         switch (e.type) {
             case "rect":
                 img = '<i class="far fa-square"></i>';
@@ -470,29 +470,6 @@ function update_div(t = false, update = -1) {
                 break;
         }
         create_div(key, img)
-            // div[key] = createElement("tr");
-            // select("#param").child(div[key]);
-            // div[key].addClass("settings");
-            // div[key].span = createSpan(img + " " + key);
-            // div[key].child(div[key].span);
-            // create_text("name", key, "name");
-            // create_but("^", key, "^");
-            // create_but("x", key, "X");
-            // create_num("sX", key, "Size X");
-            // create_num("sY", key, "Size Y");
-            // create_num("mX_start", key, "Pos X");
-            // create_num("mY_start", key, "Pos X");
-            // create_color("color", key);
-            // switch (mss[key].type) {
-            // 	case "rect":
-            // 		create_num("LU", key, "0", "corner");
-            // 		create_num("RU", key, "0", "corner");
-            // 		create_num("RD", key, "0", "corner");
-            // 		create_num("LD", key, "0", "corner");
-            // 		break;
-            // 	default:
-            // 		break;
-            // }
     }
     if ($("textarea").is("#html_editor")) {
         $("#html_editor").detach();
@@ -508,10 +485,10 @@ function update_div(t = false, update = -1) {
 }
 
 function myInputEvent() {
-    let type = this.type;
-    let key = this.key;
-    let set = this.set;
-    let val = this.value();
+    var type = this.type;
+    var key = this.key;
+    var set = this.set;
+    var val = this.value();
     switch (type) {
         case "name":
         case "color":
@@ -533,10 +510,10 @@ function myInputEvent() {
 
 function chlenInputEvent(self) {
 
-    let type = $(self).attr('data-type');
-    let key = parseInt($(self).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
-    let set = $(self).attr('data-set');
-    let val = $(self).val();
+    var type = $(self).attr('data-type');
+    var key = parseInt($(self).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
+    var set = $(self).attr('data-set');
+    var val = $(self).val();
     switch (type) {
         case "name":
         case "color":
@@ -557,7 +534,7 @@ function chlenInputEvent(self) {
 }
 
 function thisInputEvent(t, type, key, set = false) {
-    let val = t.val();
+    var val = t.val();
     switch (type) {
         case "name":
         case "color":
@@ -594,12 +571,12 @@ function recalc(key, type) {
 }
 
 function Pressed_button(self) {
-    let type = $(self).attr('data-type');
-    let key = parseInt($(self).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
+    var type = $(self).attr('data-type');
+    var key = parseInt($(self).parent('td').parent('tr')[0].id.replace(/[^\d]/g, ''))
     switch (type) {
         case "^":
             if (key > 0) {
-                let s = mss[key];
+                var s = mss[key];
                 mss[key] = mss[key - 1];
                 mss[key - 1] = s;
             }
@@ -631,20 +608,21 @@ function redo() {
     update_div();
 }
 var last_mss = [];
-async function create() {
+ function create() {
     if (opty) {
         draw();
     }
-    let type = $(".create_type:checked").val();
+    var type = $(".create_type:checked").val();
     $(".raw").html("");
     $("#prew_html").html("");
     $("#prew_css").html("");
     $(".style").html("");
-    let child_DOM = $("#child_DOM").prop("checked");
-    let use_vars = !$("#use_vars").prop("checked");
-    let style = "";
-    let first = [];
-    let style_data = "";
+    var child_DOM = $("#child_DOM").prop("checked");
+    var use_vars = !$("#use_vars").prop("checked");
+    var style = "";
+    var first = [];
+    var div0
+    var style_data = "";
     if (use_vars) {
         var vars_str = ":root{";
         var vars = {};
@@ -688,12 +666,12 @@ async function create() {
                             class: "test " + val.name
                         }).appendTo("." + first.name);
                     }
-                    let left2 = val.mX_start - first.mX_start;
-                    let top2 = val.mY_start - first.mY_start;
-                    let left = (left2 / first.sX) * 100;
-                    let top = (top2 / first.sY) * 100;
-                    let w = (val.sX / first.sX) * 100;
-                    let h = (val.sY / first.sY) * 100;
+                    var left2 = val.mX_start - first.mX_start;
+                    var top2 = val.mY_start - first.mY_start;
+                    var left = (left2 / first.sX) * 100;
+                    var top = (top2 / first.sY) * 100;
+                    var w = (val.sX / first.sX) * 100;
+                    var h = (val.sY / first.sY) * 100;
                     if (child_DOM) {
                         style = "." + arr[0].name + " :nth-child(" + i + "){";
                     } else {
@@ -739,8 +717,8 @@ async function create() {
                             class: "test " + val.name
                         }).appendTo("." + first.name);
                     }
-                    let left = val.mX_start - first.mX_start;
-                    let top = val.mY_start - first.mY_start;
+                    var left = val.mX_start - first.mX_start;
+                    var top = val.mY_start - first.mY_start;
                     if (use_vars) {
                         w = val.sX.toFixed();
                         h = val.sY.toFixed();
@@ -781,8 +759,8 @@ async function create() {
                             class: "test " + val.name
                         }).appendTo("." + first.name);
                     }
-                    let left = val.mX_start - first.mX_start;
-                    let top = val.mY_start - first.mY_start;
+                    var left = val.mX_start - first.mX_start;
+                    var top = val.mY_start - first.mY_start;
                     if (use_vars) {
                         vars["width" + val.sX] = val.sX + "px";
                         vars["height" + val.sY] = val.sY + "px";
@@ -859,6 +837,7 @@ async function create() {
     $(".hljs-attr").each(function(index, element) {
         $(this).text(" " + $(this).text());
     });
+    localStorage.setItem("mss", arr2obj2json(mss, true));
     return true;
 }
 if (localStorage.mss) {
