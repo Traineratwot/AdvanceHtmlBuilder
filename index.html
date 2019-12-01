@@ -12,9 +12,6 @@
     <script src="js/lib/p5.min.js"></script>
     <script src="js/lib/p5.dom.js"></script>
     <script type="text/javascript" src="js/lib/NewCssOOP.js"></script>
-    <!-- <script src="js/lib/addons/p5.sound.js"></script>  -->
-    <!-- <script type="text/javascript" src="js/lib/url.min.js"></script> -->
-    <!-- <script type="text/javascript" src="js/lib/md5.js"></script> -->
     <script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
     <script type="text/javascript" src="js/lib/self.lib.js"></script>
     <script type="text/javascript" src="js/lib/zclip.min.js"></script>
@@ -474,8 +471,13 @@
                 var reader = new FileReader();
                 reader.readAsDataURL(input.files[0]);
                 reader.onload = function(e) {
+                    var index = mii.length;
                     $('#image_prew').attr('src', e.target.result);
-                    mii[input.files[0].name] = e.target.result;
+                    $('#image_prew').attr('onclick', 'select_image(' + index + ');$("#image").click()');
+                    mii[index] = [];
+                    mii[index].name = input.files[0].name;
+                    mii[index].url = e.target.result;
+                    mii[index].img = loadImage(e.target.result);
                 };
             }
         }

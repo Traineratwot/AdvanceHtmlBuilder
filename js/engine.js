@@ -10,13 +10,15 @@ var msd = [];
 var stop = false;
 var lp = 0;
 var opty = false;
+var tool_index = 0;
 var selWH, sideWH;
 const DZPX = 5;
-
+//загрузка курсоров
 function preload() {
     fullscreen_img = loadImage('js/lib/fullscreen.png');
     circle_cur = "css/cursor/O.cur";
     rect_cur = "css/cursor/cube.cur";
+    image_cur = "css/cursor/image.cur";
     text_cur = "css/cursor/text.cur";
     handUP = "css/cursor/handUp.cur";
     handDown = "css/cursor/handDown.cur";
@@ -41,17 +43,8 @@ function setup() {
 // 	mss = $.cookie('mss');
 // }
 var fps;
- function draw() {
-    // if (opty) {
-    // 	fps = 60;
-    // } else {
-    // 	if (mss.length > 25) {
-    // 		fps = map(mss.length, 25, 50, 20, 5, true);
-    // 	} else {
-    // 		fps = map(mss.length, 2, 20, 120, 20, true);
-    // 	}
-    // }
-    // frameRate(fps);
+
+function draw() {
     if (Number($("#gird_input").val()) <= 0) {
         gird_size = 1;
     } else {
@@ -73,6 +66,7 @@ var fps;
     var rxf, ryf, rw, rh
     var Gmode = ""
     var sg = $("#smooth-grid").prop("checked");
+    //отрисовка mss 
     mss.forEach(function(item, key, arr) {
         fill(mss[key].color);
         if (key == selWH) {
@@ -141,6 +135,12 @@ var fps;
                     ryf = round(my / gird_size) * gird_size
                     Gmode = "ellipse"
                     break;
+                case "image":
+                    image(mii[mss[key].index].img, mx, my, mss[key].sX, mss[key].sY);
+                    rxf = round(mx / gird_size) * gird_size
+                    ryf = round(my / gird_size) * gird_size
+                    Gmode = "image"
+                    break;
                 default:
                     break;
             }
@@ -152,12 +152,15 @@ var fps;
                 case "circle":
                     ellipse(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
                     break;
+                case "image":
+                    image(mii[mss[key].index].img, mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
+                    break;
                 default:
                     break;
             }
         }
-
     });
+    // отрисовка в real time
     if (dra) {
         fill(settings.color);
         var x1, x2, y1, y2;
@@ -181,6 +184,9 @@ var fps;
                 break;
             case "circle":
                 ellipse(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size);
+                break;
+            case "image":
+                image(mii[tool_index].img, x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size);
                 break;
             case "text":
                 textSize(32);
@@ -217,10 +223,16 @@ var fps;
             fill(0, 0)
             stroke(255)
             strokeWeight(1)
-            if (Gmode == "rect") {
-                rect(rxf, ryf, rw, rh)
-            } else {
-                ellipse(rxf, ryf, rw, rh)
+            switch (Gmode) {
+                case "rect":
+                case "image":
+                    rect(rxf, ryf, rw, rh)
+                    break;
+                case "ellipse":
+                    ellipse(rxf, ryf, rw, rh)
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -417,6 +429,9 @@ function mouseReleased() {
             m.sX = m.mX_end - m.mX_start;
             m.sY = m.mY_end - m.mY_start;
             m.type = tool;
+            if (tool == "image") {
+                m.index = tool_index;
+            }
             m.settings = DeepCopy(settings);
             if (mss.length == 0) {
                 m.name = "div";
@@ -458,6 +473,7 @@ function update_div(t = false, update = -1) {
         var e = mss[key];
         switch (e.type) {
             case "rect":
+            case "image":
                 img = '<i class="far fa-square"></i>';
                 break;
             case "circle":
@@ -608,7 +624,8 @@ function redo() {
     update_div();
 }
 var last_mss = [];
- function create() {
+
+function create() {
     if (opty) {
         draw();
     }
@@ -785,6 +802,11 @@ var last_mss = [];
                 break;
             case "circle":
                 style += "border-radius: 50%;";
+                break;
+            case "image":
+                if (mii[val.index]) {
+                    style += "background-image: url(" + mii[val.index].url + ");background-repeat: no-repeat;background-size: contain;";
+                }
                 break;
             default:
                 break;

@@ -55,7 +55,6 @@ function json2obj2arr(obj, js = false) {
 //создание панели настроек инструмента
 function create_tool() {
     switch (tool) {
-
         case 'rect':
             if (!settings['corner']) {
                 settings['corner'] = [];
@@ -69,11 +68,11 @@ function create_tool() {
             }
             tool_bar = `
 		<td>
-			<input value="`+settings['color']+`" type="color" data-type="color" width="50" height="14" style="width: 50px; height: 14px;" min="0" id="set0" class="help">
-			<input value="`+settings['corner']['LD']+`" type="number" data-type="LD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
-			<input value="`+settings['corner']['LU']+`" type="number" data-type="LU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
-			<input value="`+settings['corner']['RD']+`" type="number" data-type="RD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
-			<input value="`+settings['corner']['RU']+`" type="number" data-type="RU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+			<input value="` + settings['color'] + `" type="color" data-type="color" width="50" height="14" style="width: 50px; height: 14px;" min="0" id="set0" class="help">
+			<input value="` + settings['corner']['LD'] + `" type="number" data-type="LD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+			<input value="` + settings['corner']['LU'] + `" type="number" data-type="LU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+			<input value="` + settings['corner']['RD'] + `" type="number" data-type="RD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+			<input value="` + settings['corner']['RU'] + `" type="number" data-type="RU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
 		</td>
 		`;
             break;
@@ -83,7 +82,7 @@ function create_tool() {
             }
             tool_bar = `
 		<td>
-			<input value="`+settings['color']+`" type="color" data-type="color" width="50" height="14" style="width: 50px; height: 14px;" min="0" id="set0" class="help">
+			<input value="` + settings['color'] + `" type="color" data-type="color" width="50" height="14" style="width: 50px; height: 14px;" min="0" id="set0" class="help">
 		</td>
 		`;
             break;
@@ -103,11 +102,11 @@ function create_tool() {
             }
             tool_bar = `
 		<td>
-        <input value="`+settings['color']+`" type="color" data-type="color" width="50" height="14" style="width: 50px; height: 14px;" min="0" id="set0" class="help">
-        <input value="`+settings['corner']['LD']+`" type="number" data-type="LD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
-        <input value="`+settings['corner']['LU']+`" type="number" data-type="LU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
-        <input value="`+settings['corner']['RD']+`" type="number" data-type="RD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
-        <input value="`+settings['corner']['RU']+`" type="number" data-type="RU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+        <input value="` + settings['color'] + `" type="color" data-type="color" width="50" height="14" style="width: 50px; height: 14px;" min="0" id="set0" class="help">
+        <input value="` + settings['corner']['LD'] + `" type="number" data-type="LD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+        <input value="` + settings['corner']['LU'] + `" type="number" data-type="LU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+        <input value="` + settings['corner']['RD'] + `" type="number" data-type="RD" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
+        <input value="` + settings['corner']['RU'] + `" type="number" data-type="RU" width="50" height="14" style="width: 50px; height: 14px;" min="0" placeholder="0">
 		</td>
 		`;
             break;
@@ -153,6 +152,11 @@ function tool_change(value) {
     create_tool()
 }
 
+function select_image(index) {
+    tool_change("image");
+    tool_index = index
+}
+
 function tool_param_edit() {
     var val = 0;
     if (this.value() != "") {
@@ -164,7 +168,7 @@ function tool_param_edit() {
         settings[this.type] = val;
     }
 }
-//TODO переписать на jquery ## complete
+
 // function create_param(d) { // генерация инструмента
 
 //     create_col(d, 0, "color", "#ffffff");
@@ -285,6 +289,7 @@ function handcheck() {
 function set_cur() {
     switch (tool) {
         case "rect":
+        case "image":
             cursor(rect_cur);
             break;
         case "circle":
@@ -298,6 +303,7 @@ function set_cur() {
             return false;
     }
 }
+
 
 // function create_but(type, key, text) {
 //     o = create_td(type, key);
@@ -347,7 +353,7 @@ function set_cur() {
 // генрация блока управления элементом
 function create_div(key = -1, img = '') {
     if (key == 0) {
-       var head = `
+        var head = `
         <tr class="settings" id="settings" style="">
             <th>#</th>
             <th>name</th>
@@ -363,35 +369,42 @@ function create_div(key = -1, img = '') {
         $('#param').append(head);
     }
     if (key >= 0) {
-        var tools = `<tr class="settings" id="#` + key + `">
-		<td>` + img + ` ` + key + `</td>
-		<td><input data-key="` + key + `" data-type="name" type="text" placeholder="name" value="` + mss[key].name + `"/></td>
+        var tools = `<tr class="settings" id="#${key}">
+		<td>` + img + ` ${key}</td>
+		<td><input data-key="${key}" data-type="name" type="text" placeholder="name" value="` + mss[key].name + `"/></td>
 	
 		<td><button data-type="^">^</button></td>
 		<td><button data-type="X">X</button></td>
-		<td><input data-key="` + key + `" data-obj="mss" data-type="sX" type="number" min="0" placeholder="Size X" value="` + mss[key].sX + `" /></td>
+		<td><input data-key="${key}" data-obj="mss" data-type="sX" type="number" min="0" placeholder="Size X" value="` + mss[key].sX + `" /></td>
 	
-		<td><input data-key="` + key + `" data-obj="mss" data-type="sY" type="number" min="0" placeholder="Size Y" value="` + mss[key].sY + `" /></td>
+		<td><input data-key="${key}" data-obj="mss" data-type="sY" type="number" min="0" placeholder="Size Y" value="` + mss[key].sY + `" /></td>
 	
-		<td><input data-key="` + key + `" data-obj="mss" data-type="mX_start" type="number" min="0" placeholder="Pos X" value="` + mss[key].mX_start + `" /></td>
+		<td><input data-key="${key}" data-obj="mss" data-type="mX_start" type="number" min="0" placeholder="Pos X" value="` + mss[key].mX_start + `" /></td>
 	
-		<td><input data-key="` + key + `" data-obj="mss" data-type="mY_start" type="number" min="0" placeholder="Pos Y" value="` + mss[key].mY_start + `" /></td>
-
-		<td><input data-key="` + key + `" data-type="color" data-set="color" data-obj="settings" type="color" value="` + mss[key].settings.color + `"/></td>`;
+        <td><input data-key="${key}" data-obj="mss" data-type="mY_start" type="number" min="0" placeholder="Pos Y" value="` + mss[key].mY_start + `" /></td>`
+        if (mss[key].type != "image") {
+            tools += `
+        <td><input data-key="${key}" data-type="color" data-set="color" data-obj="settings" type="color" value="` + mss[key].settings.color + `"/></td>`;
+        }
         if (mss[key].type == "rect") {
             tools += `
-            <td><input data-key="` + key + `" data-type="LU" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.LU + `" /></td>
+            <td><input data-key="${key}" data-type="LU" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.LU + `" /></td>
 		
-			<td><input data-key="` + key + `" data-type="RU" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.RU + `" /></td>
+			<td><input data-key="${key}" data-type="RU" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.RU + `" /></td>
 		
-			<td><input data-key="` + key + `" data-type="RD" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.RD + `" /></td>
+			<td><input data-key="${key}" data-type="RD" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.RD + `" /></td>
 		
-			<td><input data-key="` + key + `" data-type="LD" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.LD + `" /></td>
+			<td><input data-key="${key}" data-type="LD" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.LD + `" /></td>
 			</tr>`;
         }
         $('#param').append(tools);
     }
-    $('tr.settings td input[type="color"], #tool_settings td input[type="color"]').on('contextmenu', function() { this.value = '#ffffff'; $(this).trigger('input');help(this); return false; })
+    $('tr.settings td input[type="color"], #tool_settings td input[type="color"]').on('contextmenu', function() {
+        this.value = '#ffffff';
+        $(this).trigger('input');
+        help(this);
+        return false;
+    })
     $('tr.settings td input[type="number"], #tool_settings td input[type="number"]').on('keydown', function() { kd(this, 1) })
     $('tr.settings td input[type="number"], #tool_settings td input[type="number"]').on('keyup', function() { kd(this, 0) })
     $('tr.settings td input, #tool_settings td input').on('keydown', function() { $(this).focus() })
@@ -423,7 +436,7 @@ function create_div(key = -1, img = '') {
                     mss[$key][$type] = $(this).val()
                     break;
             }
-            
+
         }
         create()
     })
