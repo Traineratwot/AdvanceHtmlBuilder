@@ -13,9 +13,13 @@ var opty = false;
 var tool_index = 0;
 var selWH, sideWH;
 const DZPX = 5;
-//загрузка курсоров
+
 function preload() {
     fullscreen_img = loadImage('js/lib/fullscreen.png');
+    for (let i = 0; i < mii.length; i++) {
+        mii[i].img = loadImage(mii[i].url)
+    }
+    //загрузка курсоров
     circle_cur = "css/cursor/O.cur";
     rect_cur = "css/cursor/cube.cur";
     image_cur = "css/cursor/image.cur";
@@ -153,7 +157,11 @@ function draw() {
                     ellipse(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
                     break;
                 case "image":
-                    image(mii[mss[key].index].img, mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
+                    if (mii[mss[key].index]) {
+                        image(mii[mss[key].index].img, mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
+                    } else {
+                        rect(mss[key].mX_start, mss[key].mY_start, mss[key].sX, mss[key].sY);
+                    }
                     break;
                 default:
                     break;
@@ -261,7 +269,7 @@ function hand() {
                 res = i;
             }
         }
-        if (element.type == "rect") {
+        if (element.type == "rect" || element.type == "image") {
             if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_start - mouseY) <= DZPX) {
                 res = i;
                 side += "up";
@@ -472,8 +480,10 @@ function update_div(t = false, update = -1) {
     for (key in mss) {
         var e = mss[key];
         switch (e.type) {
-            case "rect":
             case "image":
+                img = '<i class="far fa-image"></i>';
+                break;
+            case "rect":
                 img = '<i class="far fa-square"></i>';
                 break;
             case "circle":
@@ -494,6 +504,13 @@ function update_div(t = false, update = -1) {
         $("#css_editor").detach();
     }
     localStorage.setItem("mss", arr2obj2json(mss, true));
+    var mii_ex = [];
+    for (let i = 0; i < mii.length; i++) {
+        mii_ex[i] = []
+        mii_ex[i].url = mii[i].url;
+    }
+    localStorage.setItem("mii", arr2obj2json(mii_ex, true));
+    delete mii_ex;
 
     if (!opty || t) {
         create();
@@ -860,9 +877,17 @@ function create() {
         $(this).text(" " + $(this).text());
     });
     localStorage.setItem("mss", arr2obj2json(mss, true));
+    var mii_ex = [];
+    for (let i = 0; i < mii.length; i++) {
+        mii_ex[i] = []
+        mii_ex[i].url = mii[i].url;
+    }
+    localStorage.setItem("mii", arr2obj2json(mii_ex, true));
+    delete mii_ex
     return true;
 }
 if (localStorage.mss) {
     mss = json2obj2arr(localStorage.mss, true);
+    mii = json2obj2arr(localStorage.mii, true);
     update_div();
 }

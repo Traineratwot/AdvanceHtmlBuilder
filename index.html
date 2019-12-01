@@ -322,7 +322,7 @@
         });
         var ttt;
 
-        function import_mss(params) {
+        function import_mss() {
             navigator.clipboard
                 .readText()
                 .then(text => {
@@ -330,7 +330,13 @@
                     if (typeof ttt == "object") {
                         if (typeof ttt[0] !== "undefined" && typeof ttt[0].mX_start !== "undefined" && typeof ttt[0]
                             .settings !== "undefined" && typeof ttt[0].type !== "undefined") {
-                            mss = ttt;
+                            if (ttt.mss) {
+                                mss = ttt.mss;
+                                mii = ttt.mii;
+                            } else {
+                                mss = ttt
+                            }
+
                             update_div();
                         } else {
                             console.warn("invalid clipboard");
@@ -353,8 +359,12 @@
                 });
         }
 
-        function export_mss(params) {
-            const inputValue = arr2obj2json(mss, true);
+        function export_mss() {
+            var mmm = []
+            mmm.mss = mss;
+            mmm.mii = mii;
+            const inputValue = arr2obj2json(mmm, true);
+            delete mmm;
             if (inputValue) {
                 navigator.clipboard
                     .writeText(inputValue)
@@ -392,6 +402,7 @@
             mouseY_start = 0;
             mss = [];
             mcc = [];
+            mii = [];
             div = [];
             lp = 0;
             update_div(true)

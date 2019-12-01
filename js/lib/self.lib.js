@@ -3,22 +3,25 @@ var tool = "rect";
 var settings = [];
 
 function DeepCopy(x) {
-    var y = [];
-    for (key in x) {
-        if (typeof x[key] == "object" || typeof x[key] == "array") {
-            y[key] = DeepCopy(x[key]);
-        } else {
-            y[key] = x[key];
-        }
-    }
-    return y;
+    // var y = [];
+    // for (key in x) {
+    //     if (typeof x[key] == "object" || typeof x[key] == "array") {
+    //         y[key] = DeepCopy(x[key]);
+    //     } else {
+    //         y[key] = x[key];
+    //     }
+    // }
+    var y = Object.assign([], x)
+    return y
 }
 
 function arr2obj2json(arr, js = false) {
     var obj = {};
     for (key in arr) {
         if (typeof arr[key] == "object" || typeof arr[key] == "array") {
-            obj[key] = arr2obj2json(arr[key]);
+            if (key != "img") {
+                obj[key] = arr2obj2json(arr[key]);
+            }
         } else {
             obj[key] = arr[key];
         }
@@ -289,8 +292,10 @@ function handcheck() {
 function set_cur() {
     switch (tool) {
         case "rect":
-        case "image":
             cursor(rect_cur);
+            break;
+        case "image":
+            cursor(image_cur);
             break;
         case "circle":
             cursor(circle_cur);
