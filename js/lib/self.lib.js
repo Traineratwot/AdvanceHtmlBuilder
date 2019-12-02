@@ -446,3 +446,14 @@ function create_div(key = -1, img = '') {
         create()
     })
 }
+
+function log(x) {
+    switch (typeof x) {
+        case 'object':
+            console.table(x)
+            break;
+        default:
+            console.log(x)
+            break;
+    }
+}
