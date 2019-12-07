@@ -4,6 +4,7 @@ var mouseX_start = 0;
 var mouseY_start = 0;
 var mss = [];
 var mcc = [];
+var mci = [];
 var mii = [];
 var div = [];
 var msd = [];
@@ -617,6 +618,10 @@ function Pressed_button(self) {
         case "x":
         case "X":
             mcc.push(mss[key]);
+            if (mss[key].type == "image") {
+                mci[mss.index] = mii[mss.index];
+                mii.splice(mss.index, 1)
+            }
             mss.splice(key, 1);
             break;
         default:
@@ -628,6 +633,10 @@ function Pressed_button(self) {
 function undo() {
     if (mss.length > 0) {
         mcc.push(mss[mss.length - 1]);
+        if (mss[mss.length - 1].type == "image") {
+            mci[mss[mss.length - 1].index] = mii[mss[mss.length - 1].index]
+            mii.pop()
+        }
         mss.pop();
     }
     update_div();
@@ -636,6 +645,10 @@ function undo() {
 function redo() {
     if (mcc.length > 0) {
         mss.push(mcc[mcc.length - 1]);
+        if (mcc[mcc.length - 1].type == "image") {
+            mii[mcc[mcc.length - 1].index] = mci[mcc[mcc.length - 1].index];
+            mci.pop()
+        }
         mcc.pop();
     }
     update_div();
