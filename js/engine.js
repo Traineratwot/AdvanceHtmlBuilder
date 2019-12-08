@@ -72,7 +72,7 @@ function draw() {
     var Gmode = ""
     var sg = $("#smooth-grid").prop("checked");
     //отрисовка mss 
-    mss.forEach(function(item, key, arr) {
+    mss.forEach(function (item, key, arr) {
         fill(mss[key].color);
         if (key == selWH) {
             var mx = sg ? round((mouseX + mouseX_start) / gird_size) * gird_size : mouseX + mouseX_start;
@@ -674,7 +674,7 @@ function create() {
         var vars_str = ":root{";
         var vars = {};
     }
-    mss.forEach(function(val, i, arr) {
+    mss.forEach(function (val, i, arr) {
         switch (child_DOM) {
             case true:
                 if (i == 0) {
@@ -826,7 +826,7 @@ function create() {
         switch (val.type) {
             case "rect":
                 o = val.settings.corner;
-                if (o.LU == 0 && o.RU == 0 && o.RD == 0 && o.LD == 0) {} else {
+                if (o.LU == 0 && o.RU == 0 && o.RD == 0 && o.LD == 0) { } else {
                     style += "border-radius: " + o.LU + "px " + o.RU + "px " + o.RD + "px " + o.LD + "px;";
                 }
                 break;
@@ -856,7 +856,7 @@ function create() {
         style = "";
     });
     if (use_vars) {
-        jQuery.each(vars, function(i, val) {
+        jQuery.each(vars, function (i, val) {
             vars_str += "\n--" + i + ":" + val + ";";
         });
         vars_str += "}";
@@ -866,27 +866,27 @@ function create() {
     $(".style").html(style_data);
     $("#prew_html").text($(".raw").html());
     $("#prew_css").text($(".style").html());
-    $("pre code").each(function(index, element) {
+    $("pre code").each(function (index, element) {
         hljs.highlightBlock(element);
     });
-    $(".hljs-tag").each(function(index, element) {
+    $(".hljs-tag").each(function (index, element) {
         this.after("\n");
     });
-    $(".hljs-attribute").each(function(index, element) {
+    $(".hljs-attribute").each(function (index, element) {
         this.before("\n");
     });
-    $(".hljs-selector-class").each(function(index, element) {
-        if (index == 0) {} else {
+    $(".hljs-selector-class").each(function (index, element) {
+        if (index == 0) { } else {
             this.before("\n\n");
         }
     });
     $("#prew_html")
         .children(".hljs-tag")
         .not(":first-child,:last-child")
-        .each(function(index, element) {
+        .each(function (index, element) {
             this.before("  ");
         });
-    $(".hljs-attr").each(function(index, element) {
+    $(".hljs-attr").each(function (index, element) {
         $(this).text(" " + $(this).text());
     });
     localStorage.setItem("mss", arr2obj2json(mss, true));
