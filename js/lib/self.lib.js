@@ -1,14 +1,12 @@
 var gird_size = 20;
 var TOOLS = {};
 var settings = [];
-
+var tool = 'rect'
 
 
 class abstractTool {
-	Fields = [];
 	constructor() {
-		this.tool = this.constructor.name.replace('Tool', '')
-		this.displayField();
+		this.name = this.constructor.name.replace('Tool', '')
 	}
 	// createField(type, settings, value = 0, attrs = []) {
 	// 	this.Fields.push({ type, settings, value, attrs });
@@ -17,55 +15,187 @@ class abstractTool {
 	// 	this.Button.push({ icon, tool: this.tool, attrs });
 	// }
 	static displayButtons() {
-		string = "";
+		var string = "";
 		for (const key in TOOLS) {
 			const e = TOOLS[key];
-			string += `<button id="${key}" class="tool_active" onclick="tool_change("${key}")">${e.button.icon}</i></button>`
+			if (tool == key) {
+				var cls = "tool_active"
+			} else {
+				var cls = ""
+			}
+			string += `<li class="tooltip top" data-title="${e.attrs.hotkey}"><button class="${cls}" id="${key}"onclick="tool_change('${key}')">${e.attrs.button.icon}</button></li>`
 		}
-		$('#tool_settings').html(string);
+		$('#lool_list').html(string);
 	}
-	static displayField() {
-		string = "";
-		for (let i = 0; i < this.Fields.length; i++) {
-			const e = this.Fields[i];
-			e.button
+	explode(string, obj = settings) {
+		var set = string.split('|');
+		var value = obj
+		for (const j of set) {
+			value = value[j]
 		}
+		return value;
+	}
+	displayField() {
+		var string = "<td>";
+		for (const e of this.Fields) {
+			var value = this.explode(e.settings)
+			if (typeof value == "undefined") {
+				value = e.value
+			}
+			string += `<input value="${value}" type="${e.type}" data-settings="${e.settings}"`
+			for (const key in e.attrs) {
+				string += `${key}="${e.attrs[key]}"`
+			}
+			string += ">"
+		}
+		string += "</td>";
 		$('#tool_settings').html(string);
+		$('#tool_settings td input').on('input', function () {
+			var $settings = $(this).attr('data-settings');
+			var set = $settings.split('|');
+			var value = settings
+			var adr
+			for (let i = 0; i < set.length; i++) {
+				if (i == set.length - 1) {
+					adr = set[i];
+					break;
+				}
+				value = value[set[i]]
+			}
+			switch ($(this).attr('type')) {
+				case 'number':
+					value[adr] = parseInt($(this).val())
+					break;
+				default:
+					value[adr] = $(this).val()
+					break;
+			}
+		})
 	}
 
-	static regTool(name, button, obj) {
-		TOOLS[name] = { button, obj }
+	create_div(msk, key) {
+		var string = "";
+		var index = 0;
+		for (const e of this.Configs) {
+			var value = this.explode(e.settings, msk.settings)
+			if (typeof value == "undefined") {
+				value = e.value
+			}
+
+			string += `<td><input value="${value}" id="${key + index}" data-key="${key}" type="${e.type}" data-settings="${e.settings}"`
+			for (const key in e.attrs) {
+				string += `${key}="${e.attrs[key]}"`
+			}
+			string += "></td>"
+			index++;
+		}
+		return string;
+	}
+
+	dra() {
+		fill(settings.color);
+		var x1, x2, y1, y2;
+		if (mouseX_start < mouseX) {
+			x1 = mouseX_start;
+			x2 = round(mouseX / gird_size) * gird_size;
+		} else {
+			x1 = round(mouseX / gird_size) * gird_size;
+			x2 = mouseX_start;
+		}
+		if (mouseY_start < mouseY) {
+			y1 = mouseY_start;
+			y2 = round(mouseY / gird_size) * gird_size;
+		} else {
+			y1 = round(mouseY / gird_size) * gird_size;
+			y2 = mouseY_start;
+		}
+		this.draTool(x1, x2, y1, y2)
+	}
+
+	switchTool() {
+		this.displayField();
+		var { icon, x, y } = this.attrs.cursor
+		cursor(icon, x, y)
+		$(".tool_active").removeClass("tool_active");
+		$("#" + tool).addClass("tool_active");
+	}
+
+	static regTool(name, obj) {
+		TOOLS[name] = obj
 	}
 }
+
 class rectTool extends abstractTool {
+	attrs = {
+		cursor: { icon: 'css/cursor/cube.cur', x: 0, y: 0 },
+		hotkey: 'r',
+		button: { icon: '<i class="far fa-square"></i>' }
+	}
 	Fields = [
-		{ type: 'color', settings: 'color', value: '#ffffff', attrs =[] },
-		{ type: 'number', settings: 'corner|LD', value: '0', attrs =[] },
-		{ type: 'number', settings: 'corner|LU', value: '0', attrs =[] },
-		{ type: 'number', settings: 'corner|RD', value: '0', attrs =[] },
-		{ type: 'number', settings: 'corner|RU', value: '0', attrs =[] },
+		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color help" } },
+		{ type: 'number', settings: 'corner|LD', value: '0', title: "LD corner", attrs: { class: "field-number", min: "0" } },
+		{ type: 'number', settings: 'corner|LU', value: '0', title: "LU corner", attrs: { class: "field-number", min: "0" } },
+		{ type: 'number', settings: 'corner|RD', value: '0', title: "RD corner", attrs: { class: "field-number", min: "0" } },
+		{ type: 'number', settings: 'corner|RU', value: '0', title: "RU corner", attrs: { class: "field-number", min: "0" } },
 	]
+	Configs = [
+		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color" } },
+		{ type: 'number', settings: 'corner|LD', value: '0', title: "LD corner", attrs: { class: "field-number", min: "0" } },
+		{ type: 'number', settings: 'corner|LU', value: '0', title: "LU corner", attrs: { class: "field-number", min: "0" } },
+		{ type: 'number', settings: 'corner|RD', value: '0', title: "RD corner", attrs: { class: "field-number", min: "0" } },
+		{ type: 'number', settings: 'corner|RU', value: '0', title: "RU corner", attrs: { class: "field-number", min: "0" } },
+	]
+	draw(e) {
+		rect(e.mX_start, e.mY_start, e.sX, e.sY, e.settings.corner.LU, e.settings.corner.RU, e.settings.corner.RD, e.settings.corner.LD);
+	}
+	draTool(x1, x2, y1, y2) {
+		rect(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size, settings.corner.LU, settings.corner.RU, settings.corner.RD, settings.corner.LD);
+	}
+
+}
+class circleTool extends abstractTool {
+	attrs = {
+		cursor: { icon: 'css/cursor/O.cur', x: 0, y: 0 },
+		hotkey: 'c',
+		button: { icon: '<i class="far fa-circle"></i>' }
+	}
+	Fields = [
+		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color help" } },
+	]
+	Configs = [
+		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color" } },
+	]
+	draw(e) {
+		ellipse(e.mX_start, e.mY_start, e.sX, e.sY);
+	}
+	draTool(x1, x2, y1, y2) {
+		ellipse(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size);
+	}
+
 }
 
-abstractTool.regTool('rect', { icon: '<i class="far fa-square"></i>' }, new rectTool())
+abstractTool.regTool('rect', new rectTool())
+abstractTool.regTool('circle', new circleTool())
+abstractTool.displayButtons()
 
-tool = new rectTool()
-tool = new circleTool()
+// tool = new rectTool()
+// tool = new circleTool()
 
 
-tool.Fields
-
+// tool.Fields
 function DeepCopy(x) {
-	// var y = [];
-	// for (key in x) {
-	//     if (typeof x[key] == "object" || typeof x[key] == "array") {
-	//         y[key] = DeepCopy(x[key]);
-	//     } else {
-	//         y[key] = x[key];
-	//     }
-	// }
-	var y = Object.assign([], x)
-	return y
+	let y = [];
+	for (key in x) {
+		if (typeof x[key] == "object" || typeof x[key] == "array") {
+			y[key] = DeepCopy(x[key]);
+		} else {
+			y[key] = x[key];
+		}
+	}
+	return y;
+}
+function DeepCopy2(x) {
+	return Object.assign({}, x)
 }
 
 function arr2obj2json(arr, js = false) {
@@ -188,11 +318,11 @@ function create_tool() {
 function tool_change(value) {
 	var handcheckinterval;
 	if (tool != value) {
+
 		tool = value;
-		set_cur();
+		// set_cur();
 		// update_div();
-		$(".tool_active").removeClass("tool_active");
-		$("#" + value).addClass("tool_active");
+		TOOLS[value].switchTool();
 		if (value == "hand") {
 			if (!opty) {
 				handcheckinterval = setInterval(() => {
@@ -205,8 +335,6 @@ function tool_change(value) {
 			}
 		}
 	}
-
-	tool = TOOLS[value].obj
 	// create_tool()
 }
 
@@ -411,7 +539,7 @@ function set_cur() {
 //     return div[key]
 // }
 // генрация блока управления элементом
-function create_div(key = -1, img = '') {
+function create_div(key = -1, ) {
 	if (key == 0) {
 		var head = `
 		<tr class="settings" id="settings" style="">
@@ -423,41 +551,22 @@ function create_div(key = -1, img = '') {
 			<th>Y</th>
 			<th>PX</th>
 			<th>PY</th>
-			<th>Color</th>
 		</tr>
 		`;
 		$('#param').append(head);
 	}
 	if (key >= 0) {
-		var tools = `<tr class="settings" id="#${key}">
-		<td>` + img + ` ${key}</td>
+		var config = `<tr class="settings" id="#${key}">
+		<td>${TOOLS[mss[key].type].attrs.button.icon}${key}</td>
 		<td><input data-key="${key}" data-type="name" type="text" placeholder="name" value="` + mss[key].name + `"/></td>
-	
 		<td><button data-type="^">^</button></td>
 		<td><button data-type="X">X</button></td>
 		<td><input data-key="${key}" data-obj="mss" data-type="sX" type="number" min="0" placeholder="Size X" value="` + mss[key].sX + `" /></td>
-	
 		<td><input data-key="${key}" data-obj="mss" data-type="sY" type="number" min="0" placeholder="Size Y" value="` + mss[key].sY + `" /></td>
-	
 		<td><input data-key="${key}" data-obj="mss" data-type="mX_start" type="number" min="0" placeholder="Pos X" value="` + mss[key].mX_start + `" /></td>
-	
 		<td><input data-key="${key}" data-obj="mss" data-type="mY_start" type="number" min="0" placeholder="Pos Y" value="` + mss[key].mY_start + `" /></td>`
-		if (mss[key].type != "image") {
-			tools += `
-		<td><input data-key="${key}" data-type="color" data-set="color" data-obj="settings" type="color" value="` + mss[key].settings.color + `"/></td>`;
-		}
-		if (mss[key].type == "rect") {
-			tools += `
-			<td><input data-key="${key}" data-type="LU" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.LU + `" /></td>
-		
-			<td><input data-key="${key}" data-type="RU" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.RU + `" /></td>
-		
-			<td><input data-key="${key}" data-type="RD" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.RD + `" /></td>
-		
-			<td><input data-key="${key}" data-type="LD" data-set="corner" data-obj="settings" type="number" min="0" placeholder="0" value="` + mss[key].settings.corner.LD + `" /></td>
-			</tr>`;
-		}
-		$('#param').append(tools);
+		config += TOOLS[mss[key].type].create_div(mss[key], key);
+		$('#param').append(config);
 	}
 	$('tr.settings td input[type="color"], #tool_settings td input[type="color"]').on('contextmenu', function () {
 		this.value = '#ffffff';
@@ -473,31 +582,47 @@ function create_div(key = -1, img = '') {
 	$('tr.settings td button').on('click', function () { Pressed_button(this) })
 
 	$('tr.settings td input').on('input', function () {
-		$key = $(this).attr('data-key');
-		$type = $(this).attr('data-type');
-		$set = $(this).attr('data-set');
-		$obj = $(this).attr('data-obj');
-		if ($obj == 'settings') {
-			switch ($(this).attr('type')) {
-				case 'number':
-					mss[$key][$obj][$set][$type] = parseInt($(this).val())
-					break;
-				case 'color':
-					mss[$key][$obj][$type] = $(this).val()
-					mss[$key][$type] = $(this).val()
-					break;
+		var $key = $(this).attr('data-key');
+		var $settings = $(this).attr('data-settings');
+		var set = $settings.split('|');
+		var value = mss[$key].settings
+		var adr
+		for (let i = 0; i < set.length; i++) {
+			if (i == set.length - 1) {
+				adr = set[i];
+				break;
 			}
-		} else {
-			switch ($(this).attr('type')) {
-				case 'number':
-					mss[$key][$type] = parseInt($(this).val())
-					break;
-				default:
-					mss[$key][$type] = $(this).val()
-					break;
-			}
-
+			value = value[set[i]]
 		}
+		switch ($(this).attr('type')) {
+			case 'number':
+				value[adr] = parseInt($(this).val())
+				break;
+			default:
+				value[adr] = $(this).val()
+				break;
+		}
+		// if ($obj == 'settings') {
+		// 	switch ($(this).attr('type')) {
+		// 		case 'number':
+		// 			mss[$key][$obj][$set][$type] = parseInt($(this).val())
+		// 			break;
+		// 		case 'color':
+		// 			mss[$key][$obj][$type] = $(this).val()
+		// 			mss[$key][$type] = $(this).val()
+		// 			break;
+		// 	}
+		// } else {
+		// 	switch ($(this).attr('type')) {
+		// 		case 'number':
+		// 			mss[$key][$type] = parseInt($(this).val())
+		// 			break;
+		// 		default:
+		// 			mss[$key][$type] = $(this).val()
+		// 			break;
+		// 	}
+
+		// }
 		create()
 	})
 }
