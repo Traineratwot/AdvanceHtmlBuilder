@@ -242,7 +242,7 @@
         function help(el = false) {
             var q;
             if (el == false) {
-                $(".help").each(function (i, elem) {
+                $(".help, [data-help]").each(function (i, elem) {
 
                     var u = $(this).attr("onchange");
                     if (!u) {

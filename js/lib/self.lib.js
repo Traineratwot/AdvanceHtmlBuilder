@@ -42,7 +42,7 @@ class abstractTool {
 			if (typeof value == "undefined") {
 				value = e.value
 			}
-			string += `<input value="${value}" type="${e.type}" data-settings="${e.settings}"`
+			string += `<input value="${value}" type="${e.type}" data-help data-settings="${e.settings}"`
 			for (const key in e.attrs) {
 				string += `${key}="${e.attrs[key]}"`
 			}
@@ -76,7 +76,7 @@ class abstractTool {
 	create_div(msk, key) {
 		var string = "";
 		var index = 0;
-		for (const e of this.Configs) {
+		for (const e of this.Fields) {
 			var value = this.explode(e.settings, msk.settings)
 			if (typeof value == "undefined") {
 				value = e.value
@@ -132,13 +132,6 @@ class rectTool extends abstractTool {
 		button: { icon: '<i class="far fa-square"></i>' }
 	}
 	Fields = [
-		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color help" } },
-		{ type: 'number', settings: 'corner|LD', value: '0', title: "LD corner", attrs: { class: "field-number", min: "0" } },
-		{ type: 'number', settings: 'corner|LU', value: '0', title: "LU corner", attrs: { class: "field-number", min: "0" } },
-		{ type: 'number', settings: 'corner|RD', value: '0', title: "RD corner", attrs: { class: "field-number", min: "0" } },
-		{ type: 'number', settings: 'corner|RU', value: '0', title: "RU corner", attrs: { class: "field-number", min: "0" } },
-	]
-	Configs = [
 		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color" } },
 		{ type: 'number', settings: 'corner|LD', value: '0', title: "LD corner", attrs: { class: "field-number", min: "0" } },
 		{ type: 'number', settings: 'corner|LU', value: '0', title: "LU corner", attrs: { class: "field-number", min: "0" } },
@@ -160,9 +153,6 @@ class circleTool extends abstractTool {
 		button: { icon: '<i class="far fa-circle"></i>' }
 	}
 	Fields = [
-		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color help" } },
-	]
-	Configs = [
 		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color" } },
 	]
 	draw(e) {
