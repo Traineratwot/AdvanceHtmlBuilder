@@ -4,174 +4,6 @@ var settings = [];
 var tool = 'rect'
 
 
-class abstractTool {
-	constructor() {
-		this.name = this.constructor.name.replace('Tool', '')
-	}
-	// createField(type, settings, value = 0, attrs = []) {
-	// 	this.Fields.push({ type, settings, value, attrs });
-	// }
-	// createButton(icon, attrs = []) {
-	// 	this.Button.push({ icon, tool: this.tool, attrs });
-	// }
-	static displayButtons() {
-		var string = "";
-		for (const key in TOOLS) {
-			const e = TOOLS[key];
-			if (tool == key) {
-				var cls = "tool_active"
-			} else {
-				var cls = ""
-			}
-			string += `<li class="tooltip top" data-title="${e.attrs.hotkey}"><button class="${cls}" id="${key}"onclick="tool_change('${key}')">${e.attrs.button.icon}</button></li>`
-		}
-		$('#lool_list').html(string);
-	}
-	explode(string, obj = settings) {
-		var set = string.split('|');
-		var value = obj
-		for (const j of set) {
-			value = value[j]
-		}
-		return value;
-	}
-	displayField() {
-		var string = "<td>";
-		for (const e of this.Fields) {
-			var value = this.explode(e.settings)
-			if (typeof value == "undefined") {
-				value = e.value
-			}
-			string += `<input value="${value}" type="${e.type}" data-help data-settings="${e.settings}"`
-			for (const key in e.attrs) {
-				string += `${key}="${e.attrs[key]}"`
-			}
-			string += ">"
-		}
-		string += "</td>";
-		$('#tool_settings').html(string);
-		$('#tool_settings td input').on('input', function () {
-			var $settings = $(this).attr('data-settings');
-			var set = $settings.split('|');
-			var value = settings
-			var adr
-			for (let i = 0; i < set.length; i++) {
-				if (i == set.length - 1) {
-					adr = set[i];
-					break;
-				}
-				value = value[set[i]]
-			}
-			switch ($(this).attr('type')) {
-				case 'number':
-					value[adr] = parseInt($(this).val())
-					break;
-				default:
-					value[adr] = $(this).val()
-					break;
-			}
-		})
-	}
-
-	create_div(msk, key) {
-		var string = "";
-		var index = 0;
-		for (const e of this.Fields) {
-			var value = this.explode(e.settings, msk.settings)
-			if (typeof value == "undefined") {
-				value = e.value
-			}
-
-			string += `<td><input value="${value}" id="${key + index}" data-key="${key}" type="${e.type}" data-settings="${e.settings}"`
-			for (const key in e.attrs) {
-				string += `${key}="${e.attrs[key]}"`
-			}
-			string += "></td>"
-			index++;
-		}
-		return string;
-	}
-
-	dra() {
-		fill(settings.color);
-		var x1, x2, y1, y2;
-		if (mouseX_start < mouseX) {
-			x1 = mouseX_start;
-			x2 = round(mouseX / gird_size) * gird_size;
-		} else {
-			x1 = round(mouseX / gird_size) * gird_size;
-			x2 = mouseX_start;
-		}
-		if (mouseY_start < mouseY) {
-			y1 = mouseY_start;
-			y2 = round(mouseY / gird_size) * gird_size;
-		} else {
-			y1 = round(mouseY / gird_size) * gird_size;
-			y2 = mouseY_start;
-		}
-		this.draTool(x1, x2, y1, y2)
-	}
-
-	switchTool() {
-		this.displayField();
-		var { icon, x, y } = this.attrs.cursor
-		cursor(icon, x, y)
-		$(".tool_active").removeClass("tool_active");
-		$("#" + tool).addClass("tool_active");
-	}
-
-	static regTool(name, obj) {
-		TOOLS[name] = obj
-	}
-}
-
-class rectTool extends abstractTool {
-	attrs = {
-		cursor: { icon: 'css/cursor/cube.cur', x: 0, y: 0 },
-		hotkey: 'r',
-		button: { icon: '<i class="far fa-square"></i>' }
-	}
-	Fields = [
-		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color" } },
-		{ type: 'number', settings: 'corner|LD', value: '0', title: "LD corner", attrs: { class: "field-number", min: "0" } },
-		{ type: 'number', settings: 'corner|LU', value: '0', title: "LU corner", attrs: { class: "field-number", min: "0" } },
-		{ type: 'number', settings: 'corner|RD', value: '0', title: "RD corner", attrs: { class: "field-number", min: "0" } },
-		{ type: 'number', settings: 'corner|RU', value: '0', title: "RU corner", attrs: { class: "field-number", min: "0" } },
-	]
-	draw(e) {
-		rect(e.mX_start, e.mY_start, e.sX, e.sY, e.settings.corner.LU, e.settings.corner.RU, e.settings.corner.RD, e.settings.corner.LD);
-	}
-	draTool(x1, x2, y1, y2) {
-		rect(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size, settings.corner.LU, settings.corner.RU, settings.corner.RD, settings.corner.LD);
-	}
-
-}
-class circleTool extends abstractTool {
-	attrs = {
-		cursor: { icon: 'css/cursor/O.cur', x: 0, y: 0 },
-		hotkey: 'c',
-		button: { icon: '<i class="far fa-circle"></i>' }
-	}
-	Fields = [
-		{ type: 'color', settings: 'color', value: '#ffffff', title: "Color", attrs: { class: "field-color" } },
-	]
-	draw(e) {
-		ellipse(e.mX_start, e.mY_start, e.sX, e.sY);
-	}
-	draTool(x1, x2, y1, y2) {
-		ellipse(x1, y1, round((x2 - x1) / gird_size) * gird_size, round((y2 - y1) / gird_size) * gird_size);
-	}
-
-}
-
-abstractTool.regTool('rect', new rectTool())
-abstractTool.regTool('circle', new circleTool())
-abstractTool.displayButtons()
-
-// tool = new rectTool()
-// tool = new circleTool()
-
-
 // tool.Fields
 function DeepCopy(x) {
 	let y = [];
@@ -184,6 +16,7 @@ function DeepCopy(x) {
 	}
 	return y;
 }
+
 function DeepCopy2(x) {
 	return Object.assign({}, x)
 }
@@ -221,14 +54,6 @@ function json2obj2arr(obj, js = false) {
 	return arr;
 }
 
-// function create_tool_() {
-//     div.tool = createDiv();
-//     select("#tool").child(div.tool);
-//     div.tool.addClass("settings");
-//     create_td("", "tool");
-//     create_param(div.tool.td);
-// }
-//создание панели настроек инструмента
 function create_tool() {
 	switch (tool) {
 		case 'rect':
@@ -308,10 +133,7 @@ function create_tool() {
 function tool_change(value) {
 	var handcheckinterval;
 	if (tool != value) {
-
 		tool = value;
-		// set_cur();
-		// update_div();
 		TOOLS[value].switchTool();
 		if (value == "hand") {
 			if (!opty) {

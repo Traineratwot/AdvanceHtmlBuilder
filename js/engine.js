@@ -42,6 +42,11 @@ function setup() {
 	setInterval(() => {
 		$("#fps").text(round(frameRate()));
 	}, 200);
+
+	abstractTool.regTool('rect', new rectTool())
+	abstractTool.regTool('circle', new circleTool())
+	abstractTool.regTool('hand', new handTool())
+	abstractTool.displayButtons()
 }
 
 // if($.cookie('mss')){
@@ -234,102 +239,17 @@ function draw() {
 	image(fullscreen_img, (width - 40), (height - 40));
 }
 
-function hand() {
-	var i = mss.length - 1;
-	for (; i >= 0; i--) {
-		const element = mss[i];
-		var res;
-		var side = "";
-		// console.log(element)
-		if (mouseX >= element.mX_start && mouseX <= element.mX_end && mouseY >= element.mY_start && mouseY <= element.mY_end) {
-			if (element.type == "circle") {
-				if (!collidePointEllipse(mouseX, mouseY, element.mX_start, element.mY_start, element.sX, element.sY)) {
-					res = i;
-				}
-			} else {
-				res = i;
-			}
-		}
-		if (element.type == "rect" || element.type == "image") {
-			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_start - mouseY) <= DZPX) {
-				res = i;
-				side += "up";
-			}
-			if (mouseX >= element.mX_start - DZPX && mouseX <= element.mX_end + DZPX && abs(element.mY_end - mouseY) <= DZPX) {
-				res = i;
-				side += "down";
-			}
-			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_start - mouseX) <= DZPX) {
-				res = i;
-				side += "left";
-			}
-			if (mouseY >= element.mY_start - DZPX && mouseY <= element.mY_end + DZPX && abs(element.mX_end - mouseX) <= DZPX) {
-				res = i;
-				side += "right";
-			}
-		}
-		if (res !== undefined) {
-			return {
-				res,
-				side
-			};
-		}
-	}
-	return {
-		res: undefined,
-		side: ""
-	};
-}
-
 //"/09f4e9a096142be8.png"
 function bg_c(x) {
 	bg_color = x;
 }
 
 function mousePressed() {
-	mouseX_start = round(mouseX / gird_size) * gird_size;
-	mouseY_start = round(mouseY / gird_size) * gird_size;
 	if (mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height) {
-		dra = true;
-		if (tool == "hand") {
-			var mae = hand();
-			selWH = mae.res;
-			sideWH = mae.side;
-			if (selWH !== undefined) {
-				switch (sideWH) {
-					case "up":
-					case "down":
-						stop = true;
-						cursor(UD, 5, 11);
-						break;
-					case "right":
-					case "left":
-						stop = true;
-						cursor(RL, 11, 5);
-						break;
-					case "upright":
-					case "downleft":
-						stop = true;
-						cursor(DLUR, 8, 8);
-						break;
-					case "downright":
-					case "upleft":
-						stop = true;
-						cursor(URDL, 8, 8);
-						break;
-
-					default:
-						stop = true;
-						cursor(handDown, 12, 12);
-						break;
-				}
-				mouseX_start = mss[selWH].mX_start - mouseX;
-				mouseY_start = mss[selWH].mY_start - mouseY;
-			} else {
-				dra = false
-			}
-			// console.log(selWH)
+		if (TOOLS[tool]){
+			TOOLS[tool].mousePressed(mouseX, mouseY)
 		}
+		dra = true;
 		if (opty) {
 			loop();
 		}
@@ -863,8 +783,8 @@ function create() {
 	delete mii_ex
 	return true;
 }
-if (localStorage.mss) {
-	mss = json2obj2arr(localStorage.mss, true);
-	mii = json2obj2arr(localStorage.mii, true);
-	update_div();
-}
+// if (localStorage.mss) {
+// 	mss = json2obj2arr(localStorage.mss, true);
+// 	mii = json2obj2arr(localStorage.mii, true);
+// 	update_div();
+// }
